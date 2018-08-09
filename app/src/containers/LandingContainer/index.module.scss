@@ -7,6 +7,16 @@
   }
 }
 
+.work_experience {
+  width: 768px;
+  background-color: #f7f7f7;
+  max-width: 100vw;
+  padding: 40px 0;
+  @media screen and (max-width: 768px) {
+    padding: 0;
+  }
+}
+
 .avatar {
   width: 200px;
   height: 200px;
@@ -20,9 +30,13 @@
 }
 
 .seperator {
-  border-color: #ff590a !important;
+  border-color: #525a76 !important;
   width: 90px;
   border-top-width: 2px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.about {
+  width: 200%
 }

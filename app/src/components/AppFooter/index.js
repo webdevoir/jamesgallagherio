@@ -16,7 +16,6 @@ import { StyledFooter, StyledSection, ButtonWithSeperator } from './styles';
 
 const AppFooter = () => (
   <StyledFooter
-    primary
     pad="large"
     colorIndex="neutral-4"
     direction="column"
@@ -25,9 +24,6 @@ const AppFooter = () => (
       align="center"
       pad="medium"
     >
-      <Box pad="medium">
-        <LogoImage />
-      </Box>
       <Heading tag="h3">
         Made with 🎉 by{' '}
         <a href="https://github.com/jamesgallagher432">
