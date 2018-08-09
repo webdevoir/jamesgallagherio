@@ -16,8 +16,9 @@ import { StyledFooter, StyledSection, ButtonWithSeperator } from './styles';
 
 const AppFooter = () => (
   <StyledFooter
+    primary
     pad="large"
-    colorIndex="neutral-4"
+    colorIndex="neutral-1"
     direction="column"
   >
     <StyledSection
@@ -25,7 +26,7 @@ const AppFooter = () => (
       pad="medium"
     >
       <Heading tag="h3">
-        Made with 🎉 by{' '}
+        Made with ❤️ by{' '}
         <a href="https://github.com/jamesgallagher432">
           James Gallagher
         </a>
@@ -37,7 +38,7 @@ const AppFooter = () => (
         >
           MIT License.
         </a>
-        {' '}Take a peak at the{' '}
+        {' '}Take a look at the{' '}
         <br />
         <a href="https://github.com/jamesgallagher432/portfolio">
           source code.
