@@ -1,4 +1,9 @@
 /* GENERATOR: Assemble all components for export */
+export LandingPageMilestones from './LandingPageMilestones';
+export LandingPageSummary from './LandingPageSummary';
+export LandingPageLanguages from './LandingPageLanguages';
+export LandingPageHero from './LandingPageHero';
+export LandingPageWorkExperience from './LandingPageWorkExperience';
 export LogoImage from './LogoImage';
 export SocialIcon from './SocialIcon';
 export About from './About';
