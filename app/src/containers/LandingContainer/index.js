@@ -19,6 +19,7 @@ import Card from 'grommet-udacity/components/Card';
 import Meter from 'grommet-udacity/components/Meter';
 import Value from 'grommet-udacity/components/Value';
 import Button from 'grommet-udacity/components/Button';
+import Carousel from 'grommet-udacity/components/Carousel';
 import { createHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { graphql, compose } from 'react-apollo'
@@ -81,7 +82,7 @@ class LandingContainer extends Component {
 
   render() {
 
-    const currentReferences = this.props.getReferences.getReferences
+    const referencesToRender = this.props.getReferences.getReferences
 
     if (this.state.reposToRender == "") {
       this.handleLoadingOfRepositories();
@@ -96,6 +97,60 @@ class LandingContainer extends Component {
         <LandingPageLanguages />
         <LandingPageWorkExperience />
         <LandingPageMilestones />
+        <Section
+    id="references-section"
+    className="section"
+    colorIndex="light-2"
+    full="horizontal"
+    align="center"
+    justify="center"
+  >
+    <Headline align="center" className="heading">
+      References
+    </Headline>
+    <Divider />
+      <Box className={styles.box} pad="medium">
+        {referencesToRender && referencesToRender.length > 0 &&
+          <Carousel
+            persistentNav={true}
+            autoplay
+            className={styles.carousel}
+          >
+            {referencesToRender.map((reference, i) =>
+              <Box
+                className={`${styles.carouselItem}`}
+                key={i}
+              >
+              <Columns>
+                <Box>
+                  <img
+                    alt="Reference Image"
+                    src={reference.avatar}
+                    className={styles.avatar}
+                  />
+                    <Heading className="heading" align="center">
+                      {reference.name}
+                    </Heading>
+                    <Heading tag="h3" align="center" className={styles.labelText}>
+                      {reference.title}
+                    </Heading>
+                    <Heading tag="h3" align="center" className={styles.labelBottom}>
+                      {reference.company}
+                    </Heading>
+                </Box>
+                <Box align="center" className={styles.referenceText}>
+                  <Paragraph size="medium">
+                    {reference.body}
+                  </Paragraph>
+                </Box>
+                </Columns>
+              </Box>
+            )}
+          </Carousel>
+        }
+      </Box>
+  </Section>
+
       </div>
     );
   }

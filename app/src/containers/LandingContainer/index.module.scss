@@ -56,3 +56,52 @@
     }
   }
 }
+
+.carouselItem {
+  padding: 60px;
+  box-sizing: border-box;
+  width: 1200px;
+  max-width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  p {
+    line-height: 1.75;
+    max-width: 676px !important;
+    font-size: 24px !important;
+    text-align: justify;
+    font-weight: 400;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+.referenceText {
+  margin-bottom: 60px;
+}
+
+.labelText {
+  margin-top: 6px !important;
+  margin-bottom: 6px !important;
+}
+
+.labelBottom {
+  margin-top: 6px !important;
+}
+
+.carousel {
+  box-sizing: border-box;
+  width: 1200px;
+  max-width: 100vw;
+  polyline {
+    stroke: #666 !important;
+    &:hover {
+      stroke: white !important;
+    }
+  }
+}
+
+.box {
+  max-width: calc(100vw - 30px);
+  box-sizing: border-box;
+}

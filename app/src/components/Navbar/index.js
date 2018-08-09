@@ -49,13 +49,13 @@ class Navbar extends Component {
               responsive
               className={styles.leftMenu}
               >
-              <Anchor path="/dashboard">
+              <Anchor href="/projects">
                 Projects
               </Anchor>
-              <Anchor path="/about">
+              <Anchor href="/about">
                 About
               </Anchor>
-              <Anchor path="/contact">
+              <Anchor href="/contact">
                 Contact
               </Anchor>
             </Menu>
