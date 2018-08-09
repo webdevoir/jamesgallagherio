@@ -1,0 +1,28 @@
+.innerContainer {
+  width: 768px;
+  max-width: 100vw;
+  padding: 40px 0;
+  @media screen and (max-width: 768px) {
+    padding: 0;
+  }
+}
+
+.avatar {
+  width: 200px;
+  height: 200px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 50% !important;
+  padding: 4px;
+  line-height: 1.42857143;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.seperator {
+  border-color: #ff590a !important;
+  width: 90px;
+  border-top-width: 2px;
+  margin-left: auto;
+  margin-right: auto;
+}
