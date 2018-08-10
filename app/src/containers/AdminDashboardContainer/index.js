@@ -30,6 +30,9 @@ import { Divider, LoadingIndicator } from 'components';
 import regeneratorRuntime from "regenerator-runtime";
 
 class AdminDashboardContainer extends Component {
+  state = {
+    reference: ""
+  }
   toggleDeleteUserToast () {
     this.setState({
       deleteUserToast: !this.state.deleteUserToast
@@ -53,6 +56,16 @@ class AdminDashboardContainer extends Component {
   toggleCreateReferenceToast () {
     this.setState({
       createReferenceToast: !this.state.createReferenceToast
+    })
+  }
+  toggleUpdateReferenceModal () {
+    this.setState({
+      updateReferenceModal: !this.state.updateReferenceModal
+    })
+  }
+  toggleCreateReferenceToast () {
+    this.setState({
+      createReferenceModal: !this.state.createReferenceModal
     })
   }
   toggleShowReference () {
@@ -552,47 +565,208 @@ class AdminDashboardContainer extends Component {
                   </Box>
                 </Layer>
               }
-              {this.state.createReference == true &&
+              {this.state.createReferenceModal == true &&
                 <Layer overlayClose={true}
                   closer={true} onClose={() => {this.toggleCreateReference()}}>
 
-                <Heading>
-                  Create Reference
-                </Heading>
+                  <Heading>
+                    Create Reference
+                  </Heading>
                     <FormFields>
                     <FormField
-                      help="Email address"
-                      label="Collaborator Email *"
-                      htmlFor="email"
+                      help="Enter the name of the reference"
+                      label="Full Name *"
+                      htmlFor="name"
                       className={styles.formField}
-                      error={this.state.email_field ? this.state.email_field : ""}
+                      error={this.state.name_field ? this.state.name_field : ""}
                     >
                       <input
                         required
-                        id="email"
-                        name="email"
-                        placeholder="jeff@abc.com"
-                        type="email"
-                        onChange={e => this.setState({ email: e.target.value })}
+                        id="name"
+                        name="name"
+                        placeholder="Jeff Bezos"
+                        type="text"
+                        onChange={e => this.setState({ name: e.target.value })}
                         className={styles.input}
                       />
                     </FormField>
-                        <FormField label='Permissions *'
-                        help="Collaborator permissions"
-                        htmlFor="permissions"
-                        className={styles.formField}
-                        error={this.state.permissions_field ? this.state.permissions_field : ""}>
-                        <Select
+                    <FormField
+                      help="Enter the title of the reference"
+                      label="Job Title *"
+                      htmlFor="name"
+                      className={styles.formField}
+                      error={this.state.title_field ? this.state.title_field : ""}
+                    >
+                      <input
                         required
-                        options={["read", "write", "admin"]}
-                        value={this.state.permissions}
-                        onChange={event => this.setState({ permissions: event.option })}/>
-                      </FormField>
+                        id="title"
+                        name="title"
+                        placeholder="CEO"
+                        type="text"
+                        onChange={e => this.setState({ title: e.target.value })}
+                        className={styles.input}
+                      />
+                    </FormField>
+                    <FormField
+                      help="Enter the company of the reference"
+                      label="Company *"
+                      htmlFor="company"
+                      className={styles.formField}
+                      error={this.state.company_field ? this.state.company_field : ""}
+                    >
+                      <input
+                        required
+                        id="company"
+                        name="company"
+                        placeholder="Amazon"
+                        type="text"
+                        onChange={e => this.setState({ company: e.target.value })}
+                        className={styles.input}
+                      />
+                    </FormField>
+                    <FormField
+                      help="Enter the avatar of the reference"
+                      label="Avatar *"
+                      htmlFor="avatar"
+                      className={styles.formField}
+                      error={this.state.avatar_field ? this.state.avatar_field : ""}
+                    >
+                      <input
+                        required
+                        id="avatar"
+                        name="avatar"
+                        placeholder="https://github.com/octocat"
+                        type="text"
+                        onChange={e => this.setState({ avatar: e.target.value })}
+                        className={styles.input}
+                      />
+                    </FormField>
+                    <FormField
+                      help="Enter the body of the reference"
+                      label="Body *"
+                      htmlFor="body"
+                      className={styles.formField}
+                      error={this.state.body_field ? this.state.body_field : ""}
+                    >
+                      <textarea
+                        required
+                        id="body"
+                        name="body"
+                        type="text"
+                        onChange={e => this.setState({ body: e.target.value })}
+                        className={styles.input}
+                      />
+                    </FormField>
                     </FormFields>
                     <Footer pad={{"vertical": "medium"}}>
                     <Button icon={<AddIcon />}
                     label='Create'
-                    onClick={() => this._addCollaborator()}/>
+                    onClick={() => this._createReference()}/>
+                    </Footer>
+              </Layer>
+              }
+              {this.state.updateReferenceModal == true &&
+                <Layer overlayClose={true}
+                  closer={true} onClose={() => {this.toggleUpdateReference()}}>
+
+                  <Heading>
+                    Create Reference
+                  </Heading>
+                    <FormFields>
+                    <FormField
+                      help="Enter the name of the reference"
+                      label="Full Name *"
+                      htmlFor="name"
+                      className={styles.formField}
+                      error={this.state.name_field ? this.state.name_field : ""}
+                    >
+                      <input
+                        required
+                        id="name"
+                        name="name"
+                        placeholder="Jeff Bezos"
+                        defaultValue={this.state.reference.name}
+                        type="text"
+                        onChange={e => this.setState({ name: e.target.value })}
+                        className={styles.input}
+                      />
+                    </FormField>
+                    <FormField
+                      help="Enter the title of the reference"
+                      label="Job Title *"
+                      htmlFor="name"
+                      className={styles.formField}
+                      error={this.state.title_field ? this.state.title_field : ""}
+                    >
+                      <input
+                        required
+                        id="title"
+                        name="title"
+                        placeholder="CEO"
+                        defaultValue={this.state.reference.title}
+                        type="text"
+                        onChange={e => this.setState({ title: e.target.value })}
+                        className={styles.input}
+                      />
+                    </FormField>
+                    <FormField
+                      help="Enter the company of the reference"
+                      label="Company *"
+                      htmlFor="company"
+                      className={styles.formField}
+                      error={this.state.company_field ? this.state.company_field : ""}
+                    >
+                      <input
+                        required
+                        id="company"
+                        name="company"
+                        placeholder="Amazon"
+                        defaultValue={this.state.reference.company}
+                        type="text"
+                        onChange={e => this.setState({ company: e.target.value })}
+                        className={styles.input}
+                      />
+                    </FormField>
+                    <FormField
+                      help="Enter the avatar of the reference"
+                      label="Avatar *"
+                      htmlFor="avatar"
+                      className={styles.formField}
+                      error={this.state.avatar_field ? this.state.avatar_field : ""}
+                    >
+                      <input
+                        required
+                        id="avatar"
+                        name="avatar"
+                        placeholder="https://github.com/octocat"
+                        defaultValue={this.state.reference.avatar}
+                        type="text"
+                        onChange={e => this.setState({ avatar: e.target.value })}
+                        className={styles.input}
+                      />
+                    </FormField>
+                    <FormField
+                      help="Enter the body of the reference"
+                      label="Body *"
+                      htmlFor="body"
+                      className={styles.formField}
+                      error={this.state.body_field ? this.state.body_field : ""}
+                    >
+                      <textarea
+                        required
+                        id="body"
+                        name="body"
+                        defaultValue={this.state.reference.body}
+                        type="text"
+                        onChange={e => this.setState({ body: e.target.value })}
+                        className={styles.input}
+                      />
+                    </FormField>
+                    </FormFields>
+                    <Footer pad={{"vertical": "medium"}}>
+                    <Button icon={<AddIcon />}
+                    label='Create'
+                    onClick={() => this._updateReference()}/>
                     </Footer>
               </Layer>
               }
@@ -625,6 +799,45 @@ class AdminDashboardContainer extends Component {
     );
   }
 
+  _createReference = async function() {
+    const {
+      title,
+      name,
+      avatar,
+      body,
+      company } = this.state
+      this.setState({ reference_id_field: "",
+      title_field: "",
+      name_field: "",
+      avatar_field: "",
+      body_field: "",
+      company_field: "" })
+    await this.props.createReference({
+      variables: {
+        title,
+        name,
+        avatar,
+        body,
+        company
+      }
+    }).catch(res => {
+      const errors = res.graphQLErrors.map(error => error);
+      this.setState({ errors });
+    });
+    if (this.state.errors) {
+      {this.state.errors.map(error => this.setState({ [error.field]: error.message }))}
+    }
+    if (!this.state.errors) {
+      this.setState({ reference_id_field: "",
+      title_field: "",
+      name_field: "",
+      avatar_field: "",
+      body_field: "",
+      company_field: "" })
+      this.toggleCreateReferenceToast();
+    }
+  }
+
   _updateReference = async function() {
     const { reference_id,
       title,
@@ -632,7 +845,12 @@ class AdminDashboardContainer extends Component {
       avatar,
       body,
       company } = this.state
-    this.setState({ reference_id_field: "" })
+      this.setState({ reference_id_field: "",
+      title_field: "",
+      name_field: "",
+      avatar_field: "",
+      body_field: "",
+      company_field: "" })
     await this.props.updateReference({
       variables: {
         reference_id,
@@ -746,6 +964,19 @@ const DELETE_REFERENCE = gql`
   }
 `;
 
+const CREATE_REFERENCE = gql`
+  mutation CreateReference($title: String, $name: String, $avatar: String, $body: String, $company: String) {
+    createReference(title: $title, name: $name, avatar: $avatar, body: $body, company: $company) {
+      id
+      title
+      name
+      avatar
+      body
+      company
+    }
+  }
+`;
+
 const UPDATE_REFERENCE = gql`
   mutation UpdateReference($reference_id: Int!, $title: String, $name: String, $avatar: String, $body: String, $company: String) {
     updateReference(reference_id: $reference_id, title: $title, name: $name, avatar: $avatar, body: $body, company: $company) {
@@ -833,6 +1064,7 @@ export default compose(
   graphql(FEED_QUERY_INQUIRIES, { name: 'getInquiries' }),
   graphql(DELETE_PROJECT, { name: 'deleteProject' }),
   graphql(DELETE_USER, { name: 'deleteUser' }),
+  graphql(CREATE_REFERENCE, { name: 'createReference' }),
   graphql(DELETE_REFERENCE, { name: 'deleteReference' }),
   graphql(UPDATE_REFERENCE, { name: 'updateReference' }),
   graphql(CURRENT_USER, { name: 'getUser' })) (AdminDashboardContainer);
