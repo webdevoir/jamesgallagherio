@@ -47,8 +47,6 @@ class Comment extends Component {
   }
 
   render() {
-    const project = this.props.getProject.getProject[0]
-    const comments = project.comments
     return (
       <div>
       <Box direction="column" style={{ width: '100%' }}>
@@ -96,7 +94,7 @@ class Comment extends Component {
 
     _createUpvote = async function() {
       const comment_id = this.state.comment_id
-      const project_id = this.props.params.id
+      const project_id = this.state.project_id
       this.setState({ body_field: "" })
       await this.props.createUpvote({
         variables: {
@@ -117,7 +115,7 @@ class Comment extends Component {
 
     _deleteUpvote = async function() {
       const comment_id = this.state.comment_id
-      const project_id = this.props.params.id
+      const project_id = this.state.project_id
       this.setState({ body_field: "" })
       await this.props.deleteUpvote({
         variables: {
@@ -163,49 +161,6 @@ const DELETE_UPVOTE = gql`
   }
 `;
 
-const FEED_PROJECT = gql`
-  query GetProject($project_id: Int!) {
-    getProject(project_id: $project_id) {
-      id
-      title
-      slug
-      status
-      description
-      caption
-      milestones
-      repo_url
-      category
-      created_at
-      updated_at
-      feature_image
-      project_url
-      technical_information
-      comments {
-        body
-        project_id
-        upvote_count
-        created_at
-        user_id
-        user {
-          id
-          name
-          profile_picture
-        }
-      }
-      project_images {
-        image_url
-      }
-      upvotes {
-        id
-      }
-      tags {
-        title
-      }
-    }
-  }
-`;
-
 export default compose(
-graphql(FEED_PROJECT, { name: 'getProject', options: (props) => ({variables: { project_id: props.params.id } })}),
 graphql(CREATE_UPVOTE, { name: 'createUpvote' }),
 graphql(DELETE_UPVOTE, { name: 'deleteUpvote' })) (Comment);

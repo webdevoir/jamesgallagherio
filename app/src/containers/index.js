@@ -5,3 +5,6 @@ export ProjectsContainer from './ProjectsContainer';
 export AboutContainer from './AboutContainer';
 export LandingContainer from './LandingContainer';
 export AppContainer from './AppContainer';
+export RegisterContainer from './RegisterContainer';
+export LoginContainer from './LoginContainer';
+export ResetPasswordContainer from './ResetPasswordContainer';

@@ -8,8 +8,8 @@ import { AUTH_TOKEN } from './constants'
 import { ApolloLink } from 'apollo-client-preset'
 import { onError } from "apollo-link-error";
 
-const baseUrl = process.env.API_URL || 'https://jamesgallagherio-api.herokuapp.com/graphql';
-const httpLink = new HttpLink({ uri: 'https://jamesgallagherio-api.herokuapp.com/graphql', fetch: fetch })
+const baseUrl = process.env.API_URL || 'http://jamesgallagherio-api.herokuapp.com/graphql';
+const httpLink = new HttpLink({ uri: 'http://jamesgallagherio-api.herokuapp.com/graphql', fetch: fetch })
 
 const middlewareAuthLink = new ApolloLink((operation, forward) => {
   const token = sessionStorage.getItem(AUTH_TOKEN)
@@ -25,7 +25,7 @@ const middlewareAuthLink = new ApolloLink((operation, forward) => {
 const httpLinkWithAuthToken = middlewareAuthLink.concat(httpLink)
 
 const networkInterface = createNetworkInterface({
-  uri: 'https://jamesgallagherio-api.herokuapp.com/graphql',
+  uri: 'http://jamesgallagherio-api.herokuapp.com/graphql',
 });
 
 networkInterface.use([

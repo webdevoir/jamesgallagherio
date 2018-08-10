@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { withRouter } from 'react-router'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Section from 'grommet-udacity/components/Section';
@@ -72,8 +72,8 @@ class CommentComponent extends Component {
   }
 
   render() {
-    const project = this.props.getProject.getProject[0]
-    const comments = project.comments
+    const currentUser = sessionStorage.getItem(AUTH_TOKEN)
+    const comments = this.state.comments
     return (
       <div>
         <Heading align="center" className="heading">
@@ -127,6 +127,7 @@ class CommentComponent extends Component {
                         <Comment
                           onUpvote={onUpvote}
                           comment={comment}
+                          project_id={comment.project_id}
                         />
                       </ListItem>,
                   )}
@@ -156,7 +157,7 @@ class CommentComponent extends Component {
 
     _createComment = async function() {
       const { body } = this.state
-      const project_id = this.props.params.id
+      const project_id = this.state.project_Id
       this.setState({ body_field: "" })
       await this.props.createComment({
         variables: {
@@ -178,7 +179,7 @@ class CommentComponent extends Component {
 
     _updateComment = async function() {
       const { body, comment_id } = this.state
-      const project_id = this.props.params.id
+      const project_id = this.state.project_Id
       this.setState({ body_field: "" })
       await this.props.updateComment({
         variables: {
@@ -200,7 +201,7 @@ class CommentComponent extends Component {
     }
 
     _deleteComment = async function() {
-      const project_id = this.props.params.id
+      const project_id = this.state.project_Id
       this.setState({ body_field: "" })
       await this.props.deleteComment({
         variables: {
@@ -267,51 +268,11 @@ const DELETE_COMMENT = gql`
   }
 `;
 
-const FEED_PROJECT = gql`
-  query GetProject($project_id: Int!) {
-    getProject(project_id: $project_id) {
-      id
-      title
-      slug
-      status
-      description
-      caption
-      milestones
-      repo_url
-      category
-      created_at
-      updated_at
-      feature_image
-      project_url
-      technical_information
-      comments {
-        body
-        project_id
-        upvote_count
-        created_at
-        user_id
-        user {
-          id
-          name
-          profile_picture
-        }
-      }
-      project_images {
-        image_url
-      }
-      tags {
-        title
-      }
-    }
-  }
-`;
-
 CommentComponent.propTypes = {
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired // eslint-disable-line
 }
 
 export default compose(
-graphql(FEED_PROJECT, { name: 'getProject', options: (props) => ({variables: { project_id: props.params.id } })}),
 graphql(CREATE_COMMENT, { name: 'createComment' }),
 graphql(UPDATE_COMMENT, { name: 'updateComment' }),
 graphql(DELETE_COMMENT, { name: 'deleteComment' })) (CommentComponent);

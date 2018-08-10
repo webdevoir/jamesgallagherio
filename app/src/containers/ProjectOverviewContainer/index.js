@@ -178,15 +178,15 @@ class ProjectOverviewContainer extends Component {
           </Card>
         })}
         </Columns>
-        <CommentContainer />
+        <CommentContainer comments={project.comments} project_id={project.id}/>
       </Section>
     );
   }
 }
 
 const FEED_PROJECT = gql`
-  query GetProject($project_id: Int!) {
-    getProject(project_id: $project_id) {
+  query GetProject($slug: Int!) {
+    getProject(slug: $slug) {
       id
       title
       slug
@@ -224,4 +224,4 @@ const FEED_PROJECT = gql`
 `;
 
 export default compose(
-graphql(FEED_PROJECT, { name: 'getProject', options: (props) => ({variables: { project_id: props.params.id } })})) (ProjectOverviewContainer);
+graphql(FEED_PROJECT, { name: 'getProject', options: (props) => ({variables: { slug: "test" } })})) (ProjectOverviewContainer);

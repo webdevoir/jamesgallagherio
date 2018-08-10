@@ -62,7 +62,32 @@ export const routes = {
       },
     },
     {
-      path: '/projects/:id',
+      path: '/login',
+      getComponent(location, callback) {
+        System.import('./pages/LoginPage')  // eslint-disable-line block-scoped-var
+          .then(loadRoute(callback))
+          .catch(err => errorLoading(err));
+      },
+    },
+    {
+      path: '/register',
+      getComponent(location, callback) {
+        System.import('./pages/RegisterPage')  // eslint-disable-line block-scoped-var
+          .then(loadRoute(callback))
+          .catch(err => errorLoading(err));
+      },
+    },
+
+    {
+      path: '/reset',
+      getComponent(location, callback) {
+        System.import('./pages/ResetPassword')  // eslint-disable-line block-scoped-var
+          .then(loadRoute(callback))
+          .catch(err => errorLoading(err));
+      },
+    },
+    {
+      path: '/projects/:slug',
       getComponent(location, callback) {
         System.import('./pages/ProjectOverviewPage')  // eslint-disable-line block-scoped-var
           .then(loadRoute(callback))
