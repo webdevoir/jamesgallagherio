@@ -18,6 +18,7 @@ import ImageIcon from 'grommet-udacity/components/icons/base/Image';
 import UserSettingsIcon from 'grommet-udacity/components/icons/base/UserSettings';
 import DocumentIcon from 'grommet-udacity/components/icons/base/Document';
 import ArticleIcon from 'grommet-udacity/components/icons/base/Article';
+import AddIcon from 'grommet-udacity/components/icons/base/Add';
 import ViewIcon from 'grommet/components/icons/base/View';
 import Button from 'grommet-udacity/components/Button';
 import Menu from 'grommet-udacity/components/Menu';
@@ -260,6 +261,10 @@ class AdminDashboardContainer extends Component {
                 </Heading>
                 <Divider />
                 <Box>
+                  <Button icon={<AddIcon />}
+                  onClick={() => {this._createReference(); this.setState({ project_id: project.id })}}/>
+                  <Button icon={<AddIcon />}
+                  href="/admin/projects/new"/>
                   <Tabs responsive={false}>
                     <Tab title='Projects'>
                     <Box

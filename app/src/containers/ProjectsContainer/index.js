@@ -35,39 +35,70 @@ import fetch from "unfetch";
 
 class ProjectsContainer extends Component {
   render() {
+    if (this.props.getProjects && this.props.getProjects.loading) {
+      return (<div>
+        <MainBox
+        alignContent="center"
+        fill="horizontal"
+        align="center"
+        >
+          <FullSection primary direction="row">
+            <Section
+            align="center"
+            justify="center"
+            className="loading__box"
+            >
+             <LoadingIndicator isLoading />
+           </Section>
+          </FullSection>
+        </MainBox>
+        </div> )
+    }
+
+    if (this.props.getProjects && this.props.getProjects.error) {
+      return <div>Error</div>
+    }
 
     const projectsToRender = this.props.getProjects.getProjects
 
     return (
       <div>
-        {projectsToRender && projectsToRender.length > 1 &&
-        <Box className={styles.box} pad="medium" align="center">
-          <Heading align="center" tag="h2">
-            Portfolio
-          </Heading>
-          <Divider />
-          <Tiles basis="1/2">
-            {projectsToRender.map(project =>
-              <Tile>
-                <Box className={styles.wrapper} key={project.id}>
-                  <Box className={styles.card}>
-                    <Anchor path={`/projects/${project.slug}`}>
-                      <Image
-                        src={project.feature_image}
-                        className={styles.image}
-                      />
-                      <div className={styles.overlay}>
-                        <p>{project.title}</p>
-                      </div>
-                    </Anchor>
-                  </Box>
-                </Box>
-              </Tile>,
-            )
-          }
-        </Tiles>
-        </Box>
+      <br />
+      <br />
+      <Heading align="center" tag="h2">
+        Portfolio
+      </Heading>
+      <Divider />
+      <Section className={styles.innerBox}>
+          {projectsToRender && projectsToRender.length > 0 &&
+            <Columns
+              className={styles.masonry}
+              masonry
+              justify="center"
+              size="small"
+              maxCount={3}
+            >
+            <Box className={styles.box} pad="medium" align="center">
+                {projectsToRender.map(project =>
+                    <Box className={styles.wrapper} key={project.id}>
+                      <Box className={styles.card}>
+                        <Anchor path={`/projects/${project.slug}`}>
+                          <Image
+                            src={project.feature_image}
+                            className={styles.image}
+                          />
+                          <div className={styles.overlay}>
+                            <p>{project.title}</p>
+                          </div>
+                          </Anchor>
+                        </Box>
+                      </Box>
+                    )
+                  }
+            </Box>
+        </Columns>
       }
+      </Section>
       {!projectsToRender &&
         <Box className={styles.box} pad="medium">
           <Heading align="center" tag="h2">
