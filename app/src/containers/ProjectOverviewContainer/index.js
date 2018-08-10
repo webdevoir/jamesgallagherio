@@ -12,7 +12,9 @@ import Image from 'grommet/components/Image';
 import Headline from 'grommet/components/Headline';
 import Tiles from 'grommet/components/Tiles';
 import Tile from 'grommet/components/Tile';
+import Article from 'grommet/components/Article';
 import Accordion from 'grommet/components/Accordion';
+import Footer from 'grommet/components/Footer';
 import AccordionPanel from 'grommet/components/AccordionPanel';
 import Paragraph from 'grommet/components/Paragraph';
 import Card from 'grommet-udacity/components/Card';
@@ -30,7 +32,7 @@ import gql from 'graphql-tag'
 import styles from './index.module.scss';
 import { FullSection, MainContent, MainBox } from './styles';
 import cssModules from 'react-css-modules';
-import { Divider, LoadingIndicator, CommentContainer } from 'components';
+import { Divider, LoadingIndicator, CommentComponent } from 'components';
 import regeneratorRuntime from "regenerator-runtime";
 import axios from 'axios';
 import fetch from "unfetch";
@@ -123,100 +125,97 @@ class ProjectOverviewContainer extends Component {
         justify="center"
         className={styles.login}
       >
-        <Heading align="center" className="heading">
+        <br />
+        <br />
+        <Heading align="center">
           {project.title}
         </Heading>
-        <Heading align="center" tag="h2" className="heading">
-          {project.category}
+        <Heading align="center" tag="h4">
+          {project.caption}
         </Heading>
         <Divider />
-        <Image src='/img/carousel-1.png'
+        <Image src='https://github.com/RyanCCollins/cdn/blob/master/portfolio-image-gallery-images/ryancollins-io/project-page-full.png?raw=true'
         size='large'
-        align="center"
-        caption={project.caption} />
-        <Menu inline direction="row" responsive={false}>
-          {project.repo_url &&
-            <Button icon={<SocialGithubIcon />}
-            label='View Repo'
-            href={project.repo_url} />
-          }
-          {project.project_url &&
-            <Button icon={<OverviewIcon />}
-            label='View Project'
-            href={project.project_url} />
-          }
-        </Menu>
-        <Heading align="center" className="heading">
-          Project Description
-        </Heading>
-        <Box
-            size="large"
-            className={styles.loginFormWrapper}
-            align="center"
-            pad={{ horizontal: 'small', vertical: 'small' }}
-          >
-            <Box
-              className={styles.loginForm}
-              pad={{ horizontal: 'large' }}
-            >
-            <Markdown content={project.description} />
-          </Box>
-        </Box>
-        <Heading align="center" className="heading">
-          Milestones
-        </Heading>
-        <Box
-            size="large"
-            className={styles.loginFormWrapper}
-            align="center"
-            pad={{ horizontal: 'small', vertical: 'small' }}
-          >
-            <Box
-              className={styles.loginForm}
-              pad={{ horizontal: 'large' }}
-            >
-            <Markdown content={project.milestones} />
-          </Box>
-        </Box>
-        <Heading align="center" className="heading">
-          Technical Info
-        </Heading>
-        <Box
-            size="large"
-            className={styles.loginFormWrapper}
-            align="center"
-            pad={{ horizontal: 'small', vertical: 'small' }}
-          >
-            <Box
-              className={styles.loginForm}
-              pad={{ horizontal: 'large' }}
-            >
-            <Markdown content={project.technical_information} />
-          </Box>
-        </Box>
-        <Heading align="center" className="heading">
-          Tags
-        </Heading>
-        <Box
-            size="large"
-            className={styles.loginFormWrapper}
-            align="center"
-            pad={{ horizontal: 'small', vertical: 'small' }}
-          >
-            <Box
-              className={styles.loginForm}
-              pad={{ horizontal: 'large' }}
-            >
+        align="center"/>
+        <Section
+          primary
+          className={styles.container}
+        >
+          <Article className={styles.panel}>
+            <Heading align="center" className="heading">
+              Project Description
+            </Heading>
+            <Divider />
+            <Box pad="medium" align="center" className="main-text markdown-body">
+              <Markdown content={project.description} />
+            </Box>
+            <Footer align="center" justify="center">
+              <Menu inline direction="row" responsive={false}>
+                {project.repo_url &&
+                  <Button icon={<SocialGithubIcon />}
+                  label='View Repo'
+                  href={project.repo_url} />
+                }
+                {project.project_url &&
+                  <Button icon={<OverviewIcon />}
+                  label='View Project'
+                  href={project.project_url}
+                  className={styles.button} />
+                }
+              </Menu>
+            </Footer>
+          </Article>
+        </Section>
+        <Section
+          primary
+          className={styles.container}
+        >
+          <Article className={styles.panel}>
+            <Heading align="center" className="heading">
+              Milestones
+            </Heading>
+            <Divider />
+            <Box pad="medium" align="center" className="main-text markdown-body">
+              <Markdown content={project.milestones} />
+            </Box>
+          </Article>
+        </Section>
+        <Section
+          primary
+          className={styles.container}
+        >
+          <Article className={styles.panel}>
+            <Heading align="center" className="heading">
+              Technical Info
+            </Heading>
+            <Divider />
+            <Box pad="medium" align="center" className="main-text markdown-body">
+              <Markdown content={project.description} />
+            </Box>
+          </Article>
+        </Section>
+        <Section
+          primary
+          className={styles.container}
+        >
+          <Article className={styles.panel}>
+            <Heading align="center" className="heading">
+              Tags
+            </Heading>
+            <Divider />
+            <Box pad="medium" align="center" className="main-text markdown-body">
             {tagsToRender.map(tag => {
               <Button
               label={tag.title}
               href='#' />
             })}
-          </Box>
-        </Box>
+            </Box>
+          </Article>
+        </Section>
         <Heading align="center" className="heading">
           Project Images
         </Heading>
+        <Divider />
         <Columns
           maxCount={4}
           align="center"
@@ -230,7 +229,7 @@ class ProjectOverviewContainer extends Component {
           </Card>
         })}
         </Columns>
-        <CommentContainer comments={project.comments} project_id={project.id}/>
+        <CommentComponent />
       </Section>
     );
   }
@@ -278,4 +277,4 @@ const FEED_PROJECT_TAGS = gql`
 export default compose(
   graphql(FEED_PROJECT, { name: 'getProject', options: (props) => ( {variables: { slug: props.params.slug } })}),
   graphql(FEED_PROJECT_IMAGES, { name: 'getProjectImages', options: (props) => ( {variables: { slug: props.params.slug } })}),
-  graphql(FEED_PROJECT_TAGS, { name: 'getProjectTags', options: (props) => ( {variables: { slug: props.params.slug } })})) (ProjectOverviewContainer);
+  graphql(FEED_PROJECT_TAGS, { name: 'getProjectTags', options: (props) => ( {variables: { slug: props.params.slug } })}))(ProjectOverviewContainer);
