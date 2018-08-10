@@ -29,7 +29,7 @@ import gql from 'graphql-tag'
 import styles from './index.module.scss';
 import { FullSection, MainContent, MainBox } from './styles';
 import cssModules from 'react-css-modules';
-import { Divider, LoadingIndicator } from 'components';
+import { Divider, LoadingIndicator, CommentContainer } from 'components';
 import regeneratorRuntime from "regenerator-runtime";
 import axios from 'axios';
 import fetch from "unfetch";
@@ -143,7 +143,7 @@ class ProjectOverviewContainer extends Component {
           </Box>
         </Box>
         <Heading align="center" className="heading">
-          Technical Info
+          Tags
         </Heading>
         <Box
             size="large"
@@ -177,14 +177,15 @@ class ProjectOverviewContainer extends Component {
             </Box>
           </Card>
         })}
+        </Columns>
+        <CommentContainer />
       </Section>
     );
   }
-
 }
 
 const FEED_PROJECT = gql`
-  query GetProject(project_id: Int!) {
+  query GetProject($project_id: Int!) {
     getProject(project_id: $project_id) {
       id
       title
@@ -223,4 +224,4 @@ const FEED_PROJECT = gql`
 `;
 
 export default compose(
-graphql(FEED_PROJECT, { name: 'getProject', options: (props) => ({variables: { project_id: this.props.id } })})) (TeamOverviewContainer);
+graphql(FEED_PROJECT, { name: 'getProject', options: (props) => ({variables: { project_id: props.params.id } })})) (ProjectOverviewContainer);

@@ -1,4 +1,6 @@
 /* GENERATOR: Assemble all components for export */
+export Comment from './Comment';
+export CommentComponent from './CommentComponent';
 export LandingPageMilestones from './LandingPageMilestones';
 export LandingPageSummary from './LandingPageSummary';
 export LandingPageLanguages from './LandingPageLanguages';

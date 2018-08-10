@@ -194,7 +194,7 @@ class ContactContainer extends Component {
 
 const SUBMIT_CONTACT_FORM = gql`
   mutation SubmitContact($name: String!, $email: String!, $message: String!, $category: String!) {
-    submitContact(email: $name, email: $email, email: $message, email: $category) {
+    submitContact(name: $name, email: $email, email: $message, email: $category) {
       id
       name
       email
