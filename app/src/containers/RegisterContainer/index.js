@@ -36,10 +36,6 @@ import regeneratorRuntime from "regenerator-runtime";
 import messageData from './messageData';
 import AUTH_TOKEN from '../../constants.js'
 
-global.window = {}
-import 'mock-local-storage'
-window.sessionStorage = global.sessionStorage
-
 // eslint-disable-next-line react/prefer-stateless-function
 class RegisterContainer extends Component {
   state = {
@@ -96,7 +92,7 @@ class RegisterContainer extends Component {
             />
           </Box>
           <Heading strong align="center">
-            Open Commit
+            JamesGallagher.io
           </Heading>
           <Heading align="center" tag="h5">
             Register

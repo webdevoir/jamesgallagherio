@@ -124,7 +124,7 @@ class ResetPasswordContainer extends Component {
             />
           </Box>
           <Heading strong align="center">
-            Open Commit
+            JamesGallagher.io
           </Heading>
           <Heading align="center" tag="h5">
             Reset Password

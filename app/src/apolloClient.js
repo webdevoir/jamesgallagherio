@@ -8,12 +8,12 @@ import { AUTH_TOKEN } from './constants'
 import { ApolloLink } from 'apollo-client-preset'
 import { onError } from "apollo-link-error";
 
-const baseUrl = process.env.API_URL || 'http://jamesgallagherio-api.herokuapp.com/graphql';
-const httpLink = new HttpLink({ uri: 'http://jamesgallagherio-api.herokuapp.com/graphql', fetch: fetch })
+const baseUrl = process.env.API_URL || 'http://localhost:3000/graphql';
+const httpLink = new HttpLink({ uri: 'http://localhost:3000/graphql', fetch: fetch })
 
 const middlewareAuthLink = new ApolloLink((operation, forward) => {
   const token = sessionStorage.getItem(AUTH_TOKEN)
-  const authorizationHeader = token ? `Bearer ${token}` : null
+  const authorizationHeader = token ? `Bearer ${token}` : "None"
   operation.setContext({
     headers: {
       authorization: authorizationHeader
@@ -25,7 +25,7 @@ const middlewareAuthLink = new ApolloLink((operation, forward) => {
 const httpLinkWithAuthToken = middlewareAuthLink.concat(httpLink)
 
 const networkInterface = createNetworkInterface({
-  uri: 'http://jamesgallagherio-api.herokuapp.com/graphql',
+  uri: 'http://localhost:3000/graphql',
 });
 
 networkInterface.use([
@@ -35,7 +35,7 @@ networkInterface.use([
         req.options.headers = {}; // Create the header object if needed.
       }
 
-      req.options.headers.authorization = sessionStorage.getItem(AUTH_TOKEN) ? `Bearer ${sessionStorage.getItem(AUTH_TOKEN)}` : null;
+      req.options.headers.authorization = sessionStorage.getItem(AUTH_TOKEN) ? `Bearer ${sessionStorage.getItem(AUTH_TOKEN)}` : "None";
       req.options.headers['content-type'] = 'application/graphql';
       req.options.headers['accept-language'] = 'en_US';
       next();

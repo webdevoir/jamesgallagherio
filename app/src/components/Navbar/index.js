@@ -112,15 +112,12 @@ class Navbar extends Component {
     );
   }
 }
+
 const CURRENT_USER = gql`
   query GetCurrentUser {
     getCurrentUser {
       id
       name
-      admin
-      reviewer
-      confirmed
-      github_username
     }
   }
 `;

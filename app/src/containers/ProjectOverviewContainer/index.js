@@ -38,7 +38,7 @@ import RichTextEditor from 'react-rte';
 // eslint-disable-next-line react/prefer-stateless-function
 class ProjectOverviewContainer extends Component {
   render() {
-    if (this.props.getProjects && this.props.getProjects.loading) {
+    if (this.props.getProject && this.props.getProject.loading) {
       return (<div>
         <MainBox
         alignContent="center"
@@ -58,7 +58,7 @@ class ProjectOverviewContainer extends Component {
         </div> )
     }
 
-    if (this.props.getProjects && this.props.getProjects.error) {
+    if (this.props.getProject && this.props.getProject.error) {
       return <div>Error</div>
     }
     const project = this.props.getProject.getProject[0]
@@ -185,7 +185,7 @@ class ProjectOverviewContainer extends Component {
 }
 
 const FEED_PROJECT = gql`
-  query GetProject($slug: Int!) {
+  query GetProject($slug: String) {
     getProject(slug: $slug) {
       id
       title
@@ -224,4 +224,4 @@ const FEED_PROJECT = gql`
 `;
 
 export default compose(
-graphql(FEED_PROJECT, { name: 'getProject', options: (props) => ({variables: { slug: "test" } })})) (ProjectOverviewContainer);
+  graphql(FEED_PROJECT, { name: 'getProject', options: (props) => ( {variables: { slug: props.params.slug } })}))(ProjectOverviewContainer);
