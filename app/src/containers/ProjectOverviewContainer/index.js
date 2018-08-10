@@ -16,6 +16,7 @@ import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
 import Paragraph from 'grommet/components/Paragraph';
 import Card from 'grommet-udacity/components/Card';
+import Menu from 'grommet-udacity/components/Menu';
 import Meter from 'grommet-udacity/components/Meter';
 import Value from 'grommet-udacity/components/Value';
 import Button from 'grommet-udacity/components/Button';
@@ -61,7 +62,58 @@ class ProjectOverviewContainer extends Component {
     if (this.props.getProject && this.props.getProject.error) {
       return <div>Error</div>
     }
+
+    if (this.props.getProjectImages && this.props.getProjectImages.loading) {
+      return (<div>
+        <MainBox
+        alignContent="center"
+        fill="horizontal"
+        align="center"
+        >
+          <FullSection primary direction="row">
+            <Section
+            align="center"
+            justify="center"
+            className="loading__box"
+            >
+             <LoadingIndicator isLoading />
+           </Section>
+          </FullSection>
+        </MainBox>
+        </div> )
+    }
+
+    if (this.props.getProjectImages && this.props.getProjectImages.error) {
+      return <div>Error</div>
+    }
+
+    if (this.props.getProjectTags && this.props.getProjectTags.loading) {
+      return (<div>
+        <MainBox
+        alignContent="center"
+        fill="horizontal"
+        align="center"
+        >
+          <FullSection primary direction="row">
+            <Section
+            align="center"
+            justify="center"
+            className="loading__box"
+            >
+             <LoadingIndicator isLoading />
+           </Section>
+          </FullSection>
+        </MainBox>
+        </div> )
+    }
+
+    if (this.props.getProjectTags && this.props.getProjectTags.error) {
+      return <div>Error</div>
+    }
+
     const project = this.props.getProject.getProject[0]
+    const projectimagesToRender = this.props.getProjectImages.getProjectImages
+    const tagsToRender = this.props.getProjectTags.getProjectTags
 
     return (
       <Section
@@ -155,7 +207,7 @@ class ProjectOverviewContainer extends Component {
               className={styles.loginForm}
               pad={{ horizontal: 'large' }}
             >
-            {project.tags.map(tag => {
+            {tagsToRender.map(tag => {
               <Button
               label={tag.title}
               href='#' />
@@ -170,7 +222,7 @@ class ProjectOverviewContainer extends Component {
           align="center"
           justify="center"
         >
-        {project.project_images.map((image) => {
+        {projectimagesToRender.map((image) => {
           <Card>
             <Box align="center" justify="center">
               <Image src={image.image_url}/>
@@ -201,27 +253,29 @@ const FEED_PROJECT = gql`
       feature_image
       project_url
       technical_information
-      comments {
-        body
-        project_id
-        upvote_count
-        created_at
-        user_id
-        user {
-          id
-          name
-          profile_picture
-        }
-      }
-      project_images {
-        image_url
-      }
-      tags {
-        title
-      }
+    }
+  }
+`;
+
+const FEED_PROJECT_IMAGES = gql`
+  query GetProjectImages($slug: String) {
+    getProjectImages(slug: $slug) {
+      id
+      image_url
+    }
+  }
+`;
+
+const FEED_PROJECT_TAGS = gql`
+  query GetProjectTags($slug: String) {
+    getProjectTags(slug: $slug) {
+      id
+      title
     }
   }
 `;
 
 export default compose(
-  graphql(FEED_PROJECT, { name: 'getProject', options: (props) => ( {variables: { slug: props.params.slug } })}))(ProjectOverviewContainer);
+  graphql(FEED_PROJECT, { name: 'getProject', options: (props) => ( {variables: { slug: props.params.slug } })}),
+  graphql(FEED_PROJECT_IMAGES, { name: 'getProjectImages', options: (props) => ( {variables: { slug: props.params.slug } })}),
+  graphql(FEED_PROJECT_TAGS, { name: 'getProjectTags', options: (props) => ( {variables: { slug: props.params.slug } })})) (ProjectOverviewContainer);

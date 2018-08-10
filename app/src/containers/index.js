@@ -1,4 +1,5 @@
 /* GENERATOR: Assemble all containers for export */
+export CreateProjectContainer from './CreateProjectContainer';
 export ProjectOverviewContainer from './ProjectOverviewContainer';
 export ContactContainer from './ContactContainer';
 export ProjectsContainer from './ProjectsContainer';

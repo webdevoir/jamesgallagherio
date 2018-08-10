@@ -106,6 +106,7 @@
   },
   "homepage": "https://github.com/RyanCCollins/scalable-react-boilerplate#readme",
   "dependencies": {
+    "antd": "^3.8.0",
     "apollo-cache-inmemory": "^1.2.5",
     "apollo-client": "0.5.26",
     "apollo-client-preset": "^1.0.8",

@@ -94,6 +94,14 @@ export const routes = {
           .catch(err => errorLoading(err));
       },
     },
+    {
+      path: '/admin/projects/new',
+      getComponent(location, callback) {
+        System.import('./pages/CreateProject')  // eslint-disable-line block-scoped-var
+          .then(loadRoute(callback))
+          .catch(err => errorLoading(err));
+      },
+    },
 /* GENERATOR: Newly generated Routes go here */
     {
       path: '*',

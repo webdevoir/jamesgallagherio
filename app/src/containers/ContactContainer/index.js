@@ -147,7 +147,7 @@ class ContactContainer extends Component {
                 required
                 id="messageInput"
                 name="message"
-                type="email"
+                type="text"
                 onChange={e => this.setState({ message: e.target.value })}
                 className={styles.input}
               />
