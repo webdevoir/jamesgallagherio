@@ -204,11 +204,11 @@ class ProjectOverviewContainer extends Component {
             </Heading>
             <Divider />
             <Box pad="medium" align="center" className="main-text markdown-body">
-            {tagsToRender.map(tag => {
+            {tagsToRender.map(tag =>
               <Button
               label={tag.title}
               href='#' />
-            })}
+            )}
             </Box>
           </Article>
         </Section>
@@ -229,7 +229,6 @@ class ProjectOverviewContainer extends Component {
           </Card>
         })}
         </Columns>
-        <CommentComponent />
       </Section>
     );
   }

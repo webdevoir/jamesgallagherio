@@ -16,6 +16,7 @@ import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
 import Paragraph from 'grommet/components/Paragraph';
 import Card from 'grommet-udacity/components/Card';
+import Footer from 'grommet-udacity/components/Footer';
 import Meter from 'grommet-udacity/components/Meter';
 import Value from 'grommet-udacity/components/Value';
 import Button from 'grommet-udacity/components/Button';
@@ -31,6 +32,7 @@ import cssModules from 'react-css-modules';
 import { Divider, LoadingIndicator, CommentContainer } from 'components';
 import regeneratorRuntime from "regenerator-runtime";
 import axios from 'axios';
+import styles from './index.module.scss'
 import fetch from "unfetch";
 
 class Comment extends Component {

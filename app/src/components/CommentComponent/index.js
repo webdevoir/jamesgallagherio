@@ -16,6 +16,7 @@ import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
 import Paragraph from 'grommet/components/Paragraph';
 import Card from 'grommet-udacity/components/Card';
+import Footer from 'grommet-udacity/components/Footer';
 import Meter from 'grommet-udacity/components/Meter';
 import Value from 'grommet-udacity/components/Value';
 import Button from 'grommet-udacity/components/Button';
@@ -32,6 +33,7 @@ import regeneratorRuntime from "regenerator-runtime";
 import axios from 'axios';
 import fetch from "unfetch";
 import RichTextEditor from 'react-rte';
+import styles from './index.module.scss'
 import AUTH_TOKEN from '../../constants.js'
 
 class CommentComponent extends Component {
@@ -269,10 +271,6 @@ const DELETE_COMMENT = gql`
     }
   }
 `;
-
-CommentComponent.propTypes = {
-  onChange: PropTypes.func.isRequired // eslint-disable-line
-}
 
 export default compose(
 graphql(CREATE_COMMENT, { name: 'createComment' }),
