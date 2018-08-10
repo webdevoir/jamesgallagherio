@@ -20,6 +20,7 @@ import Meter from 'grommet-udacity/components/Meter';
 import Value from 'grommet-udacity/components/Value';
 import Button from 'grommet-udacity/components/Button';
 import Carousel from 'grommet-udacity/components/Carousel';
+import Anchor from 'grommet-udacity/components/Anchor';
 import { createHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { graphql, compose } from 'react-apollo'
@@ -40,27 +41,31 @@ class ProjectsContainer extends Component {
     return (
       <div>
         {projectsToRender && projectsToRender.length > 1 &&
-        <Box className={styles.box} pad="medium">
+        <Box className={styles.box} pad="medium" align="center">
           <Heading align="center" tag="h2">
             Portfolio
           </Heading>
           <Divider />
-          {projectsToRender.map(project =>
-            <Box className={styles.wrapper} key={project.id}>
-              <Box className={styles.card}>
-                <Anchor path={`/projects/${project.slug}`}>
-                  <Image
-                    src={project.feature_image}
-                    className={styles.image}
-                  />
-                  <div className={styles.overlay}>
-                    <p>{project.title}</p>
-                  </div>
-                </Anchor>
-              </Box>
-            </Box>,
-          )
-        }
+          <Tiles basis="1/2">
+            {projectsToRender.map(project =>
+              <Tile>
+                <Box className={styles.wrapper} key={project.id}>
+                  <Box className={styles.card}>
+                    <Anchor path={`/projects/${project.slug}`}>
+                      <Image
+                        src={project.feature_image}
+                        className={styles.image}
+                      />
+                      <div className={styles.overlay}>
+                        <p>{project.title}</p>
+                      </div>
+                    </Anchor>
+                  </Box>
+                </Box>
+              </Tile>,
+            )
+          }
+        </Tiles>
         </Box>
       }
       {!projectsToRender &&

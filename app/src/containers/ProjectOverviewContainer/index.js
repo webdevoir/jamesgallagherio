@@ -134,7 +134,7 @@ class ProjectOverviewContainer extends Component {
           {project.caption}
         </Heading>
         <Divider />
-        <Image src='https://github.com/RyanCCollins/cdn/blob/master/portfolio-image-gallery-images/ryancollins-io/project-page-full.png?raw=true'
+        <Image src={project.feature_image}
         size='large'
         align="center"/>
         <Section

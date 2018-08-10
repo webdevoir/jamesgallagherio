@@ -32,7 +32,7 @@ import regeneratorRuntime from "regenerator-runtime";
 import axios from 'axios';
 import fetch from "unfetch";
 import RichTextEditor from 'react-rte';
-import AUTH_TOKEN from '../../../constants.js'
+import AUTH_TOKEN from '../../constants.js'
 
 class CommentComponent extends Component {
   static propTypes = {
