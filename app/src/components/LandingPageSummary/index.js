@@ -17,6 +17,7 @@ import Card from 'grommet-udacity/components/Card';
 import Meter from 'grommet-udacity/components/Meter';
 import Value from 'grommet-udacity/components/Value';
 import Button from 'grommet-udacity/components/Button';
+import Footer from 'grommet-udacity/components/Footer';
 import styles from './index.module.scss';
 import { FullSection, MainContent, MainBox } from './styles';
 import cssModules from 'react-css-modules';
@@ -55,6 +56,12 @@ class LandingPageSummary extends Component {
             <Markdown content={summary} />
           </Box>
         </Box>
+        <Footer align="center" justify="center" pad="large">
+          <Button
+            href="https://github.com/jamesgallagher432/cdn/blob/master/brand/James%20Gallagher%20-%20Resume.pdf?raw=true"
+            label="View Resume"
+          />
+        </Footer>
       </Section>
     );
   }

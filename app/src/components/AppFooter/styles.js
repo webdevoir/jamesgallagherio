@@ -22,5 +22,6 @@ export const ButtonWithSeperator = styled(Button)`
     padding: 0 .5em;
     font-size: 1.5rem;
     font-weight: 300;
+    color: #666;
   }
 `;

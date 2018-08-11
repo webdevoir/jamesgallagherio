@@ -13,13 +13,12 @@ import Tile from 'grommet-udacity/components/Tile';
 import Accordion from 'grommet-udacity/components/Accordion';
 import AccordionPanel from 'grommet-udacity/components/AccordionPanel';
 import Paragraph from 'grommet-udacity/components/Paragraph';
-import Card from 'grommet-udacity/components/Card';
 import Meter from 'grommet-udacity/components/Meter';
 import Value from 'grommet-udacity/components/Value';
 import Button from 'grommet-udacity/components/Button';
 import Footer from 'grommet-udacity/components/Footer';
 import styles from './index.module.scss';
-import { FullSection, MainContent, MainBox } from './styles';
+import { Card } from './styles';
 import cssModules from 'react-css-modules';
 import { Divider, LoadingIndicator } from 'components';
 import regeneratorRuntime from "regenerator-runtime";
@@ -43,6 +42,7 @@ function LandingPageLanguages() {
         align="center"
         justify="center"
       >
+      <Card>
         <Box className={styles.language} align="center" justify="center">
           <Meter
             type="arc"
@@ -55,6 +55,8 @@ function LandingPageLanguages() {
             </Heading>
           </Box>
         </Box>
+        </Card>
+      <Card>
         <Box className={styles.language} align="center" justify="center">
           <Meter
             type="arc"
@@ -70,6 +72,8 @@ function LandingPageLanguages() {
             }
           />
         </Box>
+        </Card>
+        <Card>
         <Box className={styles.language} align="center" justify="center">
           <Meter
             type="arc"
@@ -85,6 +89,8 @@ function LandingPageLanguages() {
             }
           />
         </Box>
+        </Card>
+        <Card>
         <Box className={styles.language} align="center" justify="center">
           <Meter
             type="arc"
@@ -100,6 +106,8 @@ function LandingPageLanguages() {
             }
           />
         </Box>
+        </Card>
+        <Card>
         <Box className={styles.language} align="center" justify="center">
           <Meter
             type="arc"
@@ -115,6 +123,24 @@ function LandingPageLanguages() {
             }
           />
         </Box>
+        </Card>
+        <Card>
+        <Box className={styles.language} align="center" justify="center">
+          <Meter
+            type="arc"
+            colorIndex="brand"
+            value={80}
+            label={
+              <Box align="center" direction="column">
+                <Value value="80%" size="medium" />
+                <Heading align="center" tag="h2" strong>
+                  HTML/CSS
+                </Heading>
+              </Box>
+            }
+          />
+        </Box>
+        </Card>
       </Columns>
       <Footer align="center" justify="center" pad="large">
         <Button
