@@ -45,7 +45,7 @@ export default function WelcomeModal(props: {
                 {...nameInput}
                 required
                 autoFocus
-                placeholder="Ryan Collins"
+                placeholder="James Gallagher"
                 id="nameInput"
                 autoComplete="on"
                 name="name"

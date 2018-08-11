@@ -5,18 +5,19 @@ import Columns from 'grommet-udacity/components/Columns';
 import Markdown from 'grommet-udacity/components/Markdown';
 import Heading from 'grommet-udacity/components/Heading';
 import Label from 'grommet-udacity/components/Label';
-import Hero from 'grommet/components/Hero';
-import Image from 'grommet/components/Image';
-import Headline from 'grommet/components/Headline';
-import Tiles from 'grommet/components/Tiles';
-import Tile from 'grommet/components/Tile';
-import Accordion from 'grommet/components/Accordion';
-import AccordionPanel from 'grommet/components/AccordionPanel';
-import Paragraph from 'grommet/components/Paragraph';
+import Hero from 'grommet-udacity/components/Hero';
+import Image from 'grommet-udacity/components/Image';
+import Headline from 'grommet-udacity/components/Headline';
+import Tiles from 'grommet-udacity/components/Tiles';
+import Tile from 'grommet-udacity/components/Tile';
+import Accordion from 'grommet-udacity/components/Accordion';
+import AccordionPanel from 'grommet-udacity/components/AccordionPanel';
+import Paragraph from 'grommet-udacity/components/Paragraph';
 import Card from 'grommet-udacity/components/Card';
 import Meter from 'grommet-udacity/components/Meter';
 import Value from 'grommet-udacity/components/Value';
 import Button from 'grommet-udacity/components/Button';
+import Footer from 'grommet-udacity/components/Footer';
 import styles from './index.module.scss';
 import { FullSection, MainContent, MainBox } from './styles';
 import cssModules from 'react-css-modules';
@@ -42,8 +43,7 @@ function LandingPageLanguages() {
         align="center"
         justify="center"
       >
-      <Card>
-        <Box align="center" justify="center">
+        <Box className={styles.language} align="center" justify="center">
           <Meter
             type="arc"
             colorIndex="brand"
@@ -55,9 +55,7 @@ function LandingPageLanguages() {
             </Heading>
           </Box>
         </Box>
-      </Card>
-      <Card>
-        <Box align="center" justify="center">
+        <Box className={styles.language} align="center" justify="center">
           <Meter
             type="arc"
             colorIndex="brand"
@@ -72,9 +70,7 @@ function LandingPageLanguages() {
             }
           />
         </Box>
-      </Card>
-      <Card>
-        <Box align="center" justify="center">
+        <Box className={styles.language} align="center" justify="center">
           <Meter
             type="arc"
             colorIndex="brand"
@@ -89,9 +85,22 @@ function LandingPageLanguages() {
             }
           />
         </Box>
-      </Card>
-      <Card>
-        <Box align="center" justify="center">
+        <Box className={styles.language} align="center" justify="center">
+          <Meter
+            type="arc"
+            colorIndex="brand"
+            value={80}
+            label={
+              <Box align="center" direction="column">
+                <Value value="80%" size="medium" />
+                <Heading align="center" tag="h2" strong>
+                  Python
+                </Heading>
+              </Box>
+            }
+          />
+        </Box>
+        <Box className={styles.language} align="center" justify="center">
           <Meter
             type="arc"
             colorIndex="brand"
@@ -106,25 +115,13 @@ function LandingPageLanguages() {
             }
           />
         </Box>
-      </Card>
-      <Card>
-        <Box align="center" justify="center">
-          <Meter
-            type="arc"
-            colorIndex="brand"
-            value={75}
-            label={
-              <Box align="center" direction="column">
-                <Value value="75%" size="medium" />
-                <Heading align="center" tag="h2" strong>
-                  Python
-                </Heading>
-              </Box>
-            }
-          />
-        </Box>
-      </Card>
       </Columns>
+      <Footer align="center" justify="center" pad="large">
+        <Button
+          href="/portfolio"
+          label="View Projects"
+        />
+      </Footer>
     </Section>
   );
 }

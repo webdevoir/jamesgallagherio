@@ -36,9 +36,11 @@ function LandingPageWorkExperience() {
       <Heading align="center" tag="h2" className="heading">
         Work & Education Experience
       </Heading>
-      <Paragraph>
-        Despite only being 15 years old, I have extensive experience in programming and developed a set of key interpersonal skills, including communication and leadership.
-      </Paragraph>
+      <Box className={styles.main_text}>
+        <Paragraph>
+          Despite only being 15 years old, I have extensive experience in programming and developed a set of key interpersonal skills, including communication and leadership.
+        </Paragraph>
+      </Box>
       <Divider />
       <Box size="xlarge">
         <Accordion>

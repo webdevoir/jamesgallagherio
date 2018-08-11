@@ -1,6 +1,6 @@
 .innerContainer {
   width: 768px;
-  max-width: 100vw;
+  max-width: 150vw;
   padding: 40px 0;
   @media screen and (max-width: 768px) {
     padding: 0;
@@ -45,14 +45,16 @@
   background: linear-gradient(90deg,rgba(247,247,247,0) 0,#edf9fd 100%),linear-gradient(45deg,#f7f7f7 0,#eafaff 100%)
 }
 
-.main-text {
+.main_text {
   p {
-    font-size: 26px !important;
-    padding: 10px 40px;
+    font-size: 22px !important;
     line-height: 1.75rem;
     letter-spacing: 1.3px;
-    @media screen and (max-width: 600px) {
-      padding: 10px 10px;
-    }
   }
+}
+
+.box {
+  width: 768px;
+  max-width: 100vw;
+  align-content: center;
 }

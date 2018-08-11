@@ -55,15 +55,24 @@ const sizeMap = (size) => {
 };
 
 export const Wrapper = styled(Box)`
-  width: 200px;
-`;
-
-export const ThumbnailImage = styled(Image)`
-  border: solid 4px #FFFFFF;
+  width: ${props => sizeMap(props.imageSize)}px;
+  border: solid 8px #f7f7f7;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
   display: inline-block;
   line-height: 0;
   max-width: 100%;
   height: auto;
+  background-color: white;
+  transition: all 200ms ease-out;
+`;
+
+export const ThumbnailImage = styled(Image)`
+  border: solid 0px #f7f7f7;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  line-height: 0;
+  max-width: 100%;
+  height: auto;
+  background-color: white;
   transition: all 200ms ease-out;
 `;

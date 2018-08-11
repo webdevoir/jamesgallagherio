@@ -66,7 +66,7 @@ function LandingPageMilestones() {
       </Tiles>
     </Box>
     <Box align="center" justify="center">
-      <Box className="main-text">
+      <Box className={styles.main_text}>
         <Markdown content={`
 Developed dozens of applications with React and cutting-edge JS libraries, focusing on state management, progressive web technologies, performance, and scalability. Designed and developed interfaces using a wide variety of libraries including Grommet and Semantic UI.<br>
 Managed infrastructure in order to host web applications on a number of platforms, including Heroku, AWS, and DigitalOcean.<br>

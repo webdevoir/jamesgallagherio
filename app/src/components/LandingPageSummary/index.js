@@ -29,11 +29,8 @@ class LandingPageSummary extends Component {
     return (
       <Section
         id="summary-section"
-        full="horizontal"
-        className="half-section gradient-green"
         align="center"
-        justify="center"
-      >
+        justify="center">
         <br />
         <Heading align="center" tag="h2" className="heading">
           About Me
@@ -54,8 +51,8 @@ class LandingPageSummary extends Component {
           <hr className={styles.seperator} />
         </Box>
         <Box align="center" justify="center" className={styles.innerContainer}>
-          <Box className="main-text">
-            <Markdown content={summary} className="paragraph" />
+          <Box className={styles.main_text}>
+            <Markdown content={summary} />
           </Box>
         </Box>
       </Section>
@@ -64,4 +61,4 @@ class LandingPageSummary extends Component {
 }
 
 
-export default LandingPageSummary;
+export default cssModules(LandingPageSummary);

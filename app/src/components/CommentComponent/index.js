@@ -21,6 +21,8 @@ import Meter from 'grommet-udacity/components/Meter';
 import Value from 'grommet-udacity/components/Value';
 import Button from 'grommet-udacity/components/Button';
 import Carousel from 'grommet-udacity/components/Carousel';
+import Anchor from 'grommet-udacity/components/Anchor';
+import Article from 'grommet-udacity/components/Article';
 import OverviewIcon from 'grommet/components/icons/base/Overview';
 import SocialGithubIcon from 'grommet/components/icons/base/SocialGithub';
 import { createHistory } from 'history';
@@ -80,28 +82,19 @@ class CommentComponent extends Component {
     const comments = this.state.comments
     return (
       <div>
-        <Heading align="center" className="heading">
-          Comments
-        </Heading>
-        <Box
-            size="large"
-            className={styles.loginFormWrapper}
-            align="center"
-            pad={{ horizontal: 'small', vertical: 'small' }}
-          >
-            <Box
-              className={styles.loginForm}
-              pad={{ horizontal: 'large' }}
-            >
-              <RichTextEditor
-                value={this.state.value}
-                onChange={this.onChange}
-              />
-          </Box>
-          <Box
-            className={styles.loginForm}
-            pad={{ horizontal: 'large' }}
-          >
+        <Section
+          primary
+          className={styles.container}
+        >
+          <Article className={styles.panel}>
+            <Heading align="center" className="heading">
+              Comments
+            </Heading>
+            <Divider />
+            <RichTextEditor
+              value={this.state.value}
+              onChange={(val) => this.onChange(val)}
+            />
           <Footer
             align="center"
             justify="center"
@@ -110,12 +103,12 @@ class CommentComponent extends Component {
           >
             <Button
               label="Submit Comment"
-              onClick={currentUser ? onSubmit : null}
+              onClick={() => this._createComment()}
             />
             {!currentUser &&
               <Label>
                 <span style={{ marginLeft: 10 }}>
-                  Please <Link to="/login">log in</Link> to comment.
+                  Please <Anchor href="/login" label="log in" /> to comment.
                 </span>
               </Label>
             }
@@ -139,8 +132,8 @@ class CommentComponent extends Component {
               </Columns>
             </Article>
           }
-          </Box>
-        </Box>
+          </Article>
+        </Section>
         {this.state.commentCreated == true &&
           <Toast status='ok' onClose={() => this.toggleCommentCreated()}>
             Your comment has been created.
@@ -160,8 +153,8 @@ class CommentComponent extends Component {
     );
 
     _createComment = async function() {
-      const { body } = this.state
-      const project_id = this.state.project_Id
+      const body = this.state.value
+      const project_id = this.state.project_id
       this.setState({ body_field: "" })
       await this.props.createComment({
         variables: {
@@ -183,7 +176,7 @@ class CommentComponent extends Component {
 
     _updateComment = async function() {
       const { body, comment_id } = this.state
-      const project_id = this.state.project_Id
+      const project_id = this.state.project_id
       this.setState({ body_field: "" })
       await this.props.updateComment({
         variables: {
@@ -205,11 +198,10 @@ class CommentComponent extends Component {
     }
 
     _deleteComment = async function() {
-      const project_id = this.state.project_Id
+      const project_id = this.state.project_id
       this.setState({ body_field: "" })
       await this.props.deleteComment({
         variables: {
-          body,
           project_id
         }
       }).catch(res => {
