@@ -25,30 +25,9 @@ export default function About(props: {
       <Article align="center" className="panel" pad="large">
         <Section align="center" justify="center">
           <Heading>
-            Scalable React Boilerplate
+            About Me
           </Heading>
           <Divider />
-        </Section>
-        <Section align="center" justify="center">
-          <Paragraph>
-            This project was created to give the Udacity Alumni development team an
-            incredibly optimized and easy to use React starter project.  Included
-            below is the documentation for the project.
-          </Paragraph>
-          <Heading tag="h4" align="center">
-            Since making this boilerplate, it has been used in dozens of projects.
-          </Heading>
-          <Box align="center" pad="medium">
-            <List>
-              {props.links && props.links.map(link =>
-                <ListItem key={link.url}>
-                  <Anchor href={link.url}>
-                    {link.name}
-                  </Anchor>
-                </ListItem>,
-              )}
-            </List>
-          </Box>
         </Section>
         {typeof readme === 'string' &&
           <Markdown content={readme} />

@@ -11,7 +11,7 @@ class AboutContainer extends Component { // eslint-disable-line react/prefer-sta
       <Box colorIndex="light-2">
         <Section align="center" justify="center">
           <Headline align="center">
-            About the App
+            About Me
           </Headline>
           <Divider />
         </Section>
