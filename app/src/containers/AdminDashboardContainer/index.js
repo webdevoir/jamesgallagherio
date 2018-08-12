@@ -17,6 +17,7 @@ import DashboardIcon from 'grommet-udacity/components/icons/base/Dashboard';
 import ImageIcon from 'grommet-udacity/components/icons/base/Image';
 import UserSettingsIcon from 'grommet-udacity/components/icons/base/UserSettings';
 import DocumentIcon from 'grommet-udacity/components/icons/base/Document';
+import TrashIcon from 'grommet-udacity/components/icons/base/Trash';
 import ArticleIcon from 'grommet-udacity/components/icons/base/Article';
 import AddIcon from 'grommet-udacity/components/icons/base/Add';
 import ViewIcon from 'grommet/components/icons/base/View';
@@ -197,12 +198,15 @@ class AdminDashboardContainer extends Component {
                   <Box direction="row">
                     <Button icon={<AddIcon />}
                     label="Create Reference"
+                    className={styles.buttonComponent}
                     onClick={() => {this._createReference(); this.setState({ project_id: project.id })}}/>
                     <Button icon={<AddIcon />}
                     label="Create Project"
+                    className={styles.buttonComponent}
                     href="/admin/projects/new"/>
                     <Button icon={<AddIcon />}
                     label="Create Post"
+                    className={styles.buttonComponent}
                     href="/admin/posts/new"/>
                   </Box>
                   <Tabs responsive={false}>
@@ -1081,6 +1085,9 @@ const FEED_QUERY_POSTS = gql`
       description
       category
       feature_image
+      user {
+        name
+      }
     }
   }
 `;
