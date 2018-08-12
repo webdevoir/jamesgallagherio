@@ -229,7 +229,7 @@ class ProjectOverviewContainer extends Component {
           </Card>
         })}
         </Columns>
-        <CommentComponent project_id={this.props.params.slug} />
+        <CommentComponent slug={this.props.params.slug} status={`Project`} />
       </Section>
     );
   }

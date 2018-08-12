@@ -92,6 +92,7 @@ class BlogPostContainer extends Component {
     const post = this.props.getPost.getPost[0]
     const tagsToRender = this.props.getPostTags.getPostTags
     return (
+      <div>
       <Hero background={<Image src={post.feature_image}
         fit='cover'
         full={true} />}
@@ -118,6 +119,26 @@ class BlogPostContainer extends Component {
           }
         </Article>
       </Box>
+      <Section
+        primary
+        className={styles.container}
+      >
+        <Article className={styles.panel}>
+          <Heading align="center" className="heading">
+            Tags
+          </Heading>
+          <Divider />
+          <Box pad="medium" align="center" className="main-text markdown-body">
+          {tagsToRender.map(tag =>
+            <Button
+            label={tag.title}
+            href='#' />
+          )}
+          </Box>
+        </Article>
+      </Section>
+      <CommentComponent slug={this.props.params.slug} status={`Project`} />
+      </div>
     );
   }
 }
@@ -143,8 +164,8 @@ const FEED_POST = gql`
 `;
 
 const FEED_POST_TAGS = gql`
-  query GetPostTags($slug: String) {
-    getPostTags(slug: $slug) {
+  query GetPostTags($slug: String, $status: String) {
+    getPostTags(slug: $slug, status: $status) {
       id
       title
     }
@@ -152,5 +173,5 @@ const FEED_POST_TAGS = gql`
 `;
 
 export default compose(
-  graphql(FEED_POST, { name: 'getProject', options: (props) => ( {variables: { slug: props.params.slug } })}),
-  graphql(FEED_POST_TAGS, { name: 'getProjectTags', options: (props) => ( {variables: { slug: props.params.slug } })}))(BlogPostContainer);
+  graphql(FEED_POST, { name: 'getProject', options: (props) => ( {variables: { slug: props.params.slug, status: "Post" } })}),
+  graphql(FEED_POST_TAGS, { name: 'getProjectTags', options: (props) => ( {variables: { slug: props.params.slug, status: "Post" } })}))(BlogPostContainer);

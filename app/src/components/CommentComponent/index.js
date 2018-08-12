@@ -124,7 +124,8 @@ class CommentComponent extends Component {
                         <Comment
                           onUpvote={onUpvote}
                           comment={comment}
-                          project_id={comment.project_id}
+                          slug={comment.slug}
+                          status={comment.status}
                         />
                       </ListItem>,
                   )}
@@ -154,12 +155,14 @@ class CommentComponent extends Component {
 
     _createComment = async function() {
       const body = this.state.value
-      const project_id = this.state.project_id
+      const slug = this.state.slug
+      const status = this.state.status
       this.setState({ body_field: "" })
       await this.props.createComment({
         variables: {
           body,
-          project_id
+          slug,
+          status
         }
       }).catch(res => {
         const errors = res.graphQLErrors.map(error => error);
@@ -175,14 +178,17 @@ class CommentComponent extends Component {
     }
 
     _updateComment = async function() {
-      const { body, comment_id } = this.state
-      const project_id = this.state.project_id
+      const body = this.state.value
+      const comment_id = this.state.comment_id
+      const slug = this.state.slug
+      const status = this.state.status
       this.setState({ body_field: "" })
       await this.props.updateComment({
         variables: {
           body,
           project_id,
-          comment_id
+          comment_id,
+          status
         }
       }).catch(res => {
         const errors = res.graphQLErrors.map(error => error);
@@ -198,11 +204,15 @@ class CommentComponent extends Component {
     }
 
     _deleteComment = async function() {
-      const project_id = this.state.project_id
+      const comment_id = this.state.comment_id
+      const slug = this.state.slug
+      const status = this.state.status
       this.setState({ body_field: "" })
       await this.props.deleteComment({
         variables: {
-          project_id
+          slug,
+          status,
+          comment_id
         }
       }).catch(res => {
         const errors = res.graphQLErrors.map(error => error);
@@ -229,8 +239,8 @@ class CommentComponent extends Component {
 }
 
 const CREATE_COMMENT = gql`
-  mutation CreateComment($body: String!, $project_id: Int!) {
-    createComment(body: $body, project_id: $project_id) {
+  mutation CreateComment($body: String!, $slug: String!, status: $Status) {
+    createComment(body: $body, slug: $slug, status: $status) {
       id
       body
       project_id
@@ -243,8 +253,8 @@ const CREATE_COMMENT = gql`
 `;
 
 const UPDATE_COMMENT = gql`
-  mutation UpdateComment($body: String!, $project_id: Int!, $comment_id: Int!) {
-    updateComment(body: $body, project_id: $project_id, comment_id: $comment_id) {
+  mutation UpdateComment($body: String!, $slug: String!, comment_id: Int!, status: $Status) {
+    updateComment(body: $body, slug: $slug, comment_id: $comment_id, status: $status) {
       id
       body
       project_id
@@ -257,8 +267,8 @@ const UPDATE_COMMENT = gql`
 `;
 
 const DELETE_COMMENT = gql`
-  mutation DeleteComment($body: String!, $project_id: Int!) {
-    deleteComment(body: $body, project_id: $project_id) {
+  mutation DeleteComment($body: String!, $slug: String!, comment_id: Int!, status: $Status) {
+    deleteComment(body: $body, slug: $slug, comment_id: $comment_id, status: $status) {
       id
     }
   }

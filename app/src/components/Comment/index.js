@@ -96,12 +96,13 @@ class Comment extends Component {
 
     _createUpvote = async function() {
       const comment_id = this.state.comment_id
-      const project_id = this.state.project_id
+      const slug = this.state.slug
       this.setState({ body_field: "" })
       await this.props.createUpvote({
         variables: {
-          project_id,
-          comment_id
+          comment_id,
+          slug,
+          status
         }
       }).catch(res => {
         const errors = res.graphQLErrors.map(error => error);
@@ -117,12 +118,14 @@ class Comment extends Component {
 
     _deleteUpvote = async function() {
       const comment_id = this.state.comment_id
-      const project_id = this.state.project_id
+      const slug = this.state.slug
+      const status = this.state.status
       this.setState({ body_field: "" })
       await this.props.deleteUpvote({
         variables: {
-          project_id,
-          comment_id
+          comment_id,
+          slug,
+          status
         }
       }).catch(res => {
         const errors = res.graphQLErrors.map(error => error);
@@ -148,16 +151,16 @@ class Comment extends Component {
 }
 
 const CREATE_UPVOTE = gql`
-  mutation CreateUpvote($project_id: Int!, $comment_id: Int!) {
-    createUpvote(project_id: $project_id, comment_id: $comment_id) {
+  mutation CreateUpvote($slug: String!, comment_id: Int!, status: $Status) {
+    createUpvote(slug: $slug, comment_id: $comment_id, status: $status) {
       id
     }
   }
 `;
 
 const DELETE_UPVOTE = gql`
-  mutation DeleteUpvote($project_id: Int!, $comment_id: Int!) {
-    deleteUpvote(project_id: $project_id, comment_id: $comment_id) {
+  mutation DeleteUpvote($slug: String!, comment_id: Int!, status: $Status) {
+    deleteUpvote(slug: $slug, comment_id: $comment_id, status: $status) {
       id
     }
   }
