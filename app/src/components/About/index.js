@@ -23,12 +23,6 @@ export default function About(props: {
   return (
     <Box align="center">
       <Article align="center" className="panel" pad="large">
-        <Section align="center" justify="center">
-          <Heading>
-            About Me
-          </Heading>
-          <Divider />
-        </Section>
         {typeof readme === 'string' &&
           <Markdown content={readme} />
         }

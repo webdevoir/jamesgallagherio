@@ -10,6 +10,8 @@ Currently I work as a freelance React Web Developer, working on many open-source
 
 Previously, I was a Udacity mentor where I got the opportunity to help teach hundreds of students about programming in React, and share my acquired knowledge and best practices. This position allowed me to not only refine my skills, but also better develop my intrapersonal skills including communication and teamwork. This position also gave me the ability to review projects of dozens of students, from resumes, to React websites, allowing me to learn more about code reviewing and best practices in React.
 
+Moreover, I am also very educated about startups and growth, taking the time to read publications like TechCrunch and comment on startup advice on my [blog](https://www.jamesgallagherio.com/blog). My range of knowledge expands from community and marketing, to engineering practices and starting a business.
+
 In my spare time I like to keep up to date with the current goings on in the world, from politics to technological advancements, and love to discuss and share my knowledge with anyone who will listen. I am also very active in a variety of communities, including the GraphQL and Ruby Slack group, as well as the ProductHunt community.
 
 #### Mentoring
