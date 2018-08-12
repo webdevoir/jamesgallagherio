@@ -33,6 +33,7 @@ import { Divider, LoadingIndicator } from "components";
 import regeneratorRuntime from "regenerator-runtime";
 import axios from "axios";
 import fetch from "unfetch";
+import AUTH_TOKEN from '../../constants'
 
 class BlogContainer extends Component {
   render() {

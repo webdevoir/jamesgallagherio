@@ -37,7 +37,7 @@ const qs = require('query-string');
 
 class BlogPostArchiveContainer extends Component {
   render() {
-    if (!qs.parse(location.search).slug) {
+    if (!qs.parse(location.search).tag) {
       window.location.replace('/blog');
     }
 
@@ -62,7 +62,7 @@ class BlogPostArchiveContainer extends Component {
           Blog Archive
         </Headline>
         <Heading>
-          Tag: {qs.parse(location.search).slug}
+          Tag: {qs.parse(location.search).tag}
         </Heading>
         <Divider />
         {postsToRender && postsToRender.length > 0 ? (
@@ -135,5 +135,5 @@ const FEED_POSTS = gql`
 `;
 
 export default withRouter(
-  compose(graphql(FEED_POSTS, { name: "getPosts" , options: () => ( {variables: { tag: qs.parse(location.search).slug } })}))(BlogPostArchiveContainer)
+  compose(graphql(FEED_POSTS, { name: "getPosts" , options: () => ( {variables: { tag: qs.parse(location.search).tag } })}))(BlogPostArchiveContainer)
 );

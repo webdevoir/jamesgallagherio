@@ -10,17 +10,16 @@ import Box from 'grommet-udacity/components/Box';
 import Heading from 'grommet-udacity/components/Heading';
 import AddIcon from 'grommet-udacity/components/icons/base/Add';
 import Notification from 'grommet-udacity/components/Notification';
-import LogoImage from './logo.png';
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import styles from './index.module.scss';
-import { StyledLogo, LogoPlaceholder } from './styles';
+import { StyledLogo, LogoPlaceholder, Logo } from './styles';
 import AUTH_TOKEN from '../../constants'
 
 class Navbar extends Component {
   render() {
     if (this.props.getUser.getCurrentUser) {
-      const currentUser = this.props.getUser.getCurrentUser[0]
+      var currentUser = this.props.getUser.getCurrentUser[0]
     } else {
       var currentUser = null
     }
@@ -29,11 +28,11 @@ class Navbar extends Component {
       <div className={styles.navbar}>
         <Header justify="between" className="component">
           <Title className={styles.title}>
-            {typeof window !== 'undefined' ?
-              <StyledLogo src={LogoImage} alt="logo" />
-            :
-              <LogoPlaceholder />
-            }
+            <Logo
+              size="large"
+              animation="fadeIn 1.5s ease-out 0.2s"
+              url="https://github.com/jamesgallagher432/cdn/blob/master/brand/linkedin_banner_image_1.png?raw=true"
+            />
           </Title>
           {currentUser != null &&
             <div>
@@ -79,7 +78,7 @@ class Navbar extends Component {
                   Profile
                 </Anchor>
                 {currentUser.admin == true &&
-                  <Anchor href="/admin">
+                  <Anchor href="/admin/dashboard">
                     Administration
                   </Anchor>
                 }
@@ -121,6 +120,7 @@ const CURRENT_USER = gql`
     getCurrentUser {
       id
       name
+      admin
     }
   }
 `;

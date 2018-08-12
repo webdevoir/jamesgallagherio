@@ -108,7 +108,7 @@ class BlogPostContainer extends Component {
                 {tagsToRender.map(tag =>
                   <Button
                   label={tag.title}
-                  href='#' />
+                  href={`/blog/archive?tag=${tag.title}`} />
                 )}
               </Tags>
             </Article>
