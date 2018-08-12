@@ -39,6 +39,11 @@ class AdminDashboardContainer extends Component {
       deleteUserToast: !this.state.deleteUserToast
     })
   }
+  toggleDeletePostToast () {
+    this.setState({
+      deletePostToast: !this.state.deletePostToast
+    })
+  }
   toggleDeleteProjectToast () {
     this.setState({
       deleteProjectToast: !this.state.deleteProjectToast
@@ -239,10 +244,35 @@ class AdminDashboardContainer extends Component {
       return <div>Error</div>
     }
 
+    if (this.props.getAdminPosts && this.props.getAdminPosts.loading) {
+      return (<div>
+        <MainBox
+        alignContent="center"
+        fill="horizontal"
+        align="center"
+        >
+          <FullSection primary direction="row">
+            <Section
+            align="center"
+            justify="center"
+            className="loading__box"
+            >
+             <LoadingIndicator isLoading />
+           </Section>
+          </FullSection>
+        </MainBox>
+        </div> )
+    }
+
+    if (this.props.getAdminPosts && this.props.getAdminPosts.error) {
+      return <div>Error</div>
+    }
+
     const projectsToRender = this.props.getProjects.getProjects
     const usersToRender = this.props.getUsers.getUsers
     const inquiriesToRender = this.props.getInquiries.getInquiries
     const referencesToRender = this.props.getReferences.getReferences
+    const postsToRender = this.props.getAdminPosts.getAdminPosts
 
     return (
       <MainBox
@@ -261,10 +291,17 @@ class AdminDashboardContainer extends Component {
                 </Heading>
                 <Divider />
                 <Box>
-                  <Button icon={<AddIcon />}
-                  onClick={() => {this._createReference(); this.setState({ project_id: project.id })}}/>
-                  <Button icon={<AddIcon />}
-                  href="/admin/projects/new"/>
+                  <Box direction="row">
+                    <Button icon={<AddIcon />}
+                    label="Create Reference"
+                    onClick={() => {this._createReference(); this.setState({ project_id: project.id })}}/>
+                    <Button icon={<AddIcon />}
+                    label="Create Project"
+                    href="/admin/projects/new"/>
+                    <Button icon={<AddIcon />}
+                    label="Create Post"
+                    href="/admin/posts/new"/>
+                  </Box>
                   <Tabs responsive={false}>
                     <Tab title='Projects'>
                     <Box
@@ -308,6 +345,55 @@ class AdminDashboardContainer extends Component {
                           onClick={() => {this._deleteProject(); this.setState({ project_id: project.id })}}/>
                           <Button icon={<ViewIcon />}
                           href={`/projects/${project.slug}`}/>
+                        </td>
+                        </TableRow>
+                        )}
+                      </tbody>
+                    </Table>
+                      </Box>
+                    </Tab>
+                    <Tab title='Blog Posts'>
+                    <Box
+                      pad="large"
+                      className={styles.listWrapper}
+                      color="light-2"
+                    >
+                    <Table>
+                      <thead>
+                      <tr>
+                        <th>
+                          Title
+                        </th>
+                        <th>
+                          Status
+                        </th>
+                        <th>
+                          Author
+                        </th>
+                        <th>
+                          Actions
+                        </th>
+                      </tr>
+                  </thead>
+                    <tbody>
+                    {postsToRender.map(post =>
+                      <TableRow>
+                        <td>
+                          {post.title}
+                        </td>
+                        <td>
+                          {post.status}
+                        </td>
+                        <td>
+                          {post.user.name}
+                        </td>
+                        <td>
+                          <Button icon={<EditIcon />}
+                          href={`/admin/posts/new?slug=${post.slug}`}/>
+                          <Button icon={<TrashIcon />}
+                          onClick={() => {this._deletePost(); this.setState({ post_id: post.id })}}/>
+                          <Button icon={<ViewIcon />}
+                          href={`/blog/${post.slug}`}/>
                         </td>
                         </TableRow>
                         )}
@@ -923,6 +1009,26 @@ class AdminDashboardContainer extends Component {
     }
   }
 
+  _deletePost = async function() {
+    const { post_id } = this.state
+    this.setState({ post_id_field: "" })
+    await this.props.deletePost({
+      variables: {
+        post_id
+      }
+    }).catch(res => {
+      const errors = res.graphQLErrors.map(error => error);
+      this.setState({ errors });
+    });
+    if (this.state.errors) {
+      {this.state.errors.map(error => this.setState({ [error.field]: error.message }))}
+    }
+    if (!this.state.errors) {
+      this.setState({ post_id_field: "" })
+      this.toggleDeletePostToast();
+    }
+  }
+
   _deleteUser = async function() {
     const { user_id } = this.state
     this.setState({ user_id_field: "" })
@@ -1051,6 +1157,21 @@ const FEED_QUERY_PROJECTS = gql`
   }
 `;
 
+const FEED_QUERY_POSTS = gql`
+  query GetAdminPosts {
+    getAdminPosts {
+      id
+      title
+      slug
+      status
+      body
+      description
+      category
+      feature_image
+    }
+  }
+`;
+
 const CURRENT_USER = gql`
   query GetCurrentUser {
     getCurrentUser {
@@ -1066,6 +1187,7 @@ export default compose(
   graphql(FEED_QUERY_USERS, { name: 'getUsers' }),
   graphql(FEED_QUERY_REFERENCES, { name: 'getReferences' }),
   graphql(FEED_QUERY_PROJECTS, { name: 'getProjects' }),
+  graphql(FEED_QUERY_POSTS, { name: 'getAdminPosts' }),
   graphql(FEED_QUERY_INQUIRIES, { name: 'getInquiries' }),
   graphql(DELETE_PROJECT, { name: 'deleteProject' }),
   graphql(DELETE_USER, { name: 'deleteUser' }),
