@@ -239,7 +239,7 @@ class CommentComponent extends Component {
 }
 
 const CREATE_COMMENT = gql`
-  mutation CreateComment($body: String!, $slug: String!, status: $Status) {
+  mutation CreateComment($body: String!, $slug: String!, $status: String!) {
     createComment(body: $body, slug: $slug, status: $status) {
       id
       body
@@ -253,7 +253,7 @@ const CREATE_COMMENT = gql`
 `;
 
 const UPDATE_COMMENT = gql`
-  mutation UpdateComment($body: String!, $slug: String!, comment_id: Int!, status: $Status) {
+  mutation UpdateComment($body: String!, $slug: String!, $comment_id: Int!, $status: String!) {
     updateComment(body: $body, slug: $slug, comment_id: $comment_id, status: $status) {
       id
       body
@@ -267,7 +267,7 @@ const UPDATE_COMMENT = gql`
 `;
 
 const DELETE_COMMENT = gql`
-  mutation DeleteComment($body: String!, $slug: String!, comment_id: Int!, status: $Status) {
+  mutation DeleteComment($body: String!, $slug: String!, $comment_id: Int!, $status: String!) {
     deleteComment(body: $body, slug: $slug, comment_id: $comment_id, status: $status) {
       id
     }

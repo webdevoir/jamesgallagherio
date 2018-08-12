@@ -404,7 +404,7 @@ const UPDATE_POST = gql`
   }
 `;
 
-const FEED_PROJECT = gql`
+const FEED_POST = gql`
   query GetPost($slug: String!) {
     getPost(slug: $slug) {
       id

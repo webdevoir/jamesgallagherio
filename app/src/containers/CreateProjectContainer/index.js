@@ -689,6 +689,16 @@ const DELETE_PROJECT_IMAGE = gql`
   }
 `;
 
+const FEED_PROJECT_IMAGES = gql`
+  query GetProjectImages($slug: String!) {
+    getProjectImages(slug: $slug) {
+      id
+      project_id
+      image_url
+    }
+  }
+`;
+
 const FEED_PROJECT = gql`
   query GetProject($slug: String!) {
     getProject(slug: $slug) {
@@ -715,4 +725,5 @@ export default compose(
   graphql(UPDATE_PROJECT, { name: 'updateProject' }),
   graphql(CREATE_PROJECT_IMAGE, { name: 'createProjectImage' }),
   graphql(DELETE_PROJECT_IMAGE, { name: 'deleteProjectImage' }),
-  graphql(FEED_PROJECT, { name: 'getProject', options: (props) => ( {variables: { slug: qs.parse(location.search).slug } })})) (CreateProjectContainer);
+  graphql(FEED_PROJECT, { name: 'getProject', options: (props) => ( {variables: { slug: qs.parse(location.search).slug } })}),
+  graphql(FEED_PROJECT_IMAGES, { name: 'getProjectImages', options: (props) => ( {variables: { slug: qs.parse(location.search).slug } })})) (CreateProjectContainer);
