@@ -134,6 +134,14 @@ export const routes = {
           .catch(err => errorLoading(err));
       },
     },
+    {
+      path: '/account/profile',
+      getComponent(location, callback) {
+        System.import('./pages/ProfilePage')  // eslint-disable-line block-scoped-var
+          .then(loadRoute(callback))
+          .catch(err => errorLoading(err));
+      },
+    },
 /* GENERATOR: Newly generated Routes go here */
     {
       path: '*',

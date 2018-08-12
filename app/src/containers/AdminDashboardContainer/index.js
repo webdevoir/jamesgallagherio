@@ -535,6 +535,14 @@ class AdminDashboardContainer extends Component {
                     </BoxWrapper>
                     <BoxWrapper>
                       <Label style={{ flex: 1 }}>
+                        Bio:
+                      </Label>
+                      <Heading align="center" tag="h4">
+                        {this.state.user.bio}
+                      </Heading>
+                    </BoxWrapper>
+                    <BoxWrapper>
+                      <Label style={{ flex: 1 }}>
                         Role:
                       </Label>
                       {this.state.user.admin == true &&
@@ -1011,6 +1019,8 @@ const FEED_QUERY_USERS = gql`
       name
       email
       admin
+      bio
+      profile_picture
     }
   }
 `;

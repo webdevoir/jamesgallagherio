@@ -30,8 +30,19 @@
   min-height: calc(100vh - 100px);
 }
 
+.card {
+  background-color: #fff;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
+}
+
 .innerBox {
   max-width: 1400px;
+}
+
+.page {
+  background-color: #f7f7f7;
 }
 
 .columns {
