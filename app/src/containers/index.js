@@ -1,4 +1,6 @@
 /* GENERATOR: Assemble all containers for export */
+export BlogPostContainer from './BlogPostContainer';
+export BlogContainer from './BlogContainer';
 export AdminDashboardContainer from './AdminDashboardContainer';
 export CreateProjectContainer from './CreateProjectContainer';
 export ProjectOverviewContainer from './ProjectOverviewContainer';
