@@ -28,7 +28,7 @@ function LandingPageWorkExperience() {
     <Section
       id="work_experience-section"
       full="horizontal"
-      className="half-section work_experience"
+      className="work_experience"
       align="center"
       justify="center"
     >
@@ -42,7 +42,6 @@ function LandingPageWorkExperience() {
         </Paragraph>
       </Box>
       <Divider />
-      <Box size="xlarge">
         <Accordion>
           <AccordionPanel heading='React Web Developer - Freelance'>
             <Paragraph>
@@ -94,7 +93,6 @@ The skills acquired during this Nanodegree were reinforced in four portfolio pro
               </Paragraph>
             </AccordionPanel>
           </Accordion>
-          </Box>
             <br />
     </Section>
   );

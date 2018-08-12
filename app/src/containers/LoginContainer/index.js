@@ -40,7 +40,7 @@ import gql from 'graphql-tag';
 import regeneratorRuntime from "regenerator-runtime";
 import createHistory from "history"
 import messageData from './messageData';
-import AUTH_TOKEN from '../../constants'
+import AUTH_TOKEN from '../../constants';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class LoginContainer extends Component {
