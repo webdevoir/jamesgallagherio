@@ -37,21 +37,7 @@ class ProjectsContainer extends Component {
   render() {
     if (this.props.getProjects && this.props.getProjects.loading) {
       return (<div>
-        <MainBox
-        alignContent="center"
-        fill="horizontal"
-        align="center"
-        >
-          <FullSection primary direction="row">
-            <Section
-            align="center"
-            justify="center"
-            className="loading__box"
-            >
-             <LoadingIndicator isLoading />
-           </Section>
-          </FullSection>
-        </MainBox>
+        <LoadingIndicator isLoading />
         </div> )
     }
 

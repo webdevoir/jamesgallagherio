@@ -38,21 +38,7 @@ class BlogContainer extends Component {
   render() {
     if (this.props.getPosts && this.props.getPosts.loading) {
       return (<div>
-        <MainBox
-        alignContent="center"
-        fill="horizontal"
-        align="center"
-        >
-          <FullSection primary direction="row">
-            <Section
-            align="center"
-            justify="center"
-            className="loading__box"
-            >
-             <LoadingIndicator isLoading />
-           </Section>
-          </FullSection>
-        </MainBox>
+        <LoadingIndicator isLoading />
         </div> )
     }
 
