@@ -713,7 +713,6 @@ const FEED_PROJECT = gql`
 export default compose(
   graphql(CREATE_PROJECT, { name: 'createProject' }),
   graphql(UPDATE_PROJECT, { name: 'updateProject' }),
-  graphql(UPDATE_PROJECT, { name: 'updateProject' }),
   graphql(CREATE_PROJECT_IMAGE, { name: 'createProjectImage' }),
   graphql(DELETE_PROJECT_IMAGE, { name: 'deleteProjectImage' }),
   graphql(FEED_PROJECT, { name: 'getProject', options: (props) => ( {variables: { slug: qs.parse(location.search).slug } })})) (CreateProjectContainer);

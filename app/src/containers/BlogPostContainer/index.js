@@ -164,8 +164,8 @@ const FEED_POST = gql`
 `;
 
 const FEED_POST_TAGS = gql`
-  query GetPostTags($slug: String, $status: String) {
-    getPostTags(slug: $slug, status: $status) {
+  query GetPostTags($slug: String) {
+    getPostTags(slug: $slug) {
       id
       title
     }
@@ -173,5 +173,5 @@ const FEED_POST_TAGS = gql`
 `;
 
 export default compose(
-  graphql(FEED_POST, { name: 'getProject', options: (props) => ( {variables: { slug: props.params.slug, status: "Post" } })}),
-  graphql(FEED_POST_TAGS, { name: 'getProjectTags', options: (props) => ( {variables: { slug: props.params.slug, status: "Post" } })}))(BlogPostContainer);
+  graphql(FEED_POST, { name: 'getProject', options: (props) => ( {variables: { slug: props.params.slug } })}),
+  graphql(FEED_POST_TAGS, { name: 'getProjectTags', options: (props) => ( {variables: { slug: props.params.slug } })}))(BlogPostContainer);

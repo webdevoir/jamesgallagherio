@@ -1,4 +1,5 @@
 /* GENERATOR: Assemble all pages for export */
+export CreateBlogPostPage from './CreateBlogPostPage';
 export BlogPost from './BlogPost';
 export BlogPage from './BlogPage';
 export AdminDashboard from './AdminDashboard';
