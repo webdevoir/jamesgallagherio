@@ -82,11 +82,9 @@ class CommentComponent extends Component {
     const comments = this.state.comments
     return (
       <div>
-        <Section
-          primary
-          className={styles.container}
-        >
-          <Article className={styles.panel}>
+      <Section>
+        <Box className="container">
+          <Article className="panel" align="center">
             <Heading align="center" className="heading">
               Comments
             </Heading>
@@ -134,6 +132,7 @@ class CommentComponent extends Component {
             </Article>
           }
           </Article>
+          </Box>
         </Section>
         {this.state.commentCreated == true &&
           <Toast status='ok' onClose={() => this.toggleCommentCreated()}>

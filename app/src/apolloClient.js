@@ -4,15 +4,15 @@ import { createHttpLink, HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { BrowserRouter } from 'react-router-dom'
 import fetch from 'isomorphic-fetch'
-import { AUTH_TOKEN } from './constants'
 import { ApolloLink } from 'apollo-client-preset'
 import { onError } from "apollo-link-error";
+import AUTH_TOKEN from './constants'
 
 const baseUrl = process.env.API_URL || 'http://localhost:3000/graphql';
 const httpLink = new HttpLink({ uri: 'http://localhost:3000/graphql', fetch: fetch })
 
 const middlewareAuthLink = new ApolloLink((operation, forward) => {
-  const token = sessionStorage.getItem(AUTH_TOKEN)
+  const token = localStorage.getItem(AUTH_TOKEN)
   const authorizationHeader = token ? `Bearer ${token}` : "None"
   operation.setContext({
     headers: {
@@ -35,7 +35,7 @@ networkInterface.use([
         req.options.headers = {}; // Create the header object if needed.
       }
 
-      req.options.headers.authorization = sessionStorage.getItem(AUTH_TOKEN) ? `Bearer ${sessionStorage.getItem(AUTH_TOKEN)}` : "None";
+      req.options.headers.authorization = localStorage.getItem(AUTH_TOKEN) ? `Bearer ${localStorage.getItem(AUTH_TOKEN)}` : "None";
       req.options.headers['content-type'] = 'application/graphql';
       req.options.headers['accept-language'] = 'en_US';
       next();

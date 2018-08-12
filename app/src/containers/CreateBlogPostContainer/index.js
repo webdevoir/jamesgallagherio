@@ -105,21 +105,7 @@ class CreatePostContainer extends Component {
     if (qs.parse(location.search).slug) {
       if (this.props.getPost && this.props.getPost.loading) {
         return (<div>
-          <MainBox
-          alignContent="center"
-          fill="horizontal"
-          align="center"
-          >
-            <FullSection primary direction="row">
-              <Section
-              align="center"
-              justify="center"
-              className="loading__box"
-              >
-               <LoadingIndicator isLoading />
-             </Section>
-            </FullSection>
-          </MainBox>
+          <LoadingIndicator isLoading />
           </div> )
       }
 
@@ -205,7 +191,7 @@ class CreatePostContainer extends Component {
             {!qs.parse(location.search).slug &&
               <FormField
                 help="Enter the post slug"
-                label="Title *"
+                label="Slug *"
                 htmlFor="slugInput"
                 className={styles.formField}
                 error={this.state.slugfield ? this.state.slug_field : ""}
@@ -235,8 +221,35 @@ class CreatePostContainer extends Component {
               value={this.state.status}
               onChange={event => this.setState({ status: event.option })}/>
             </FormField>
+            <FormField label='Category *' help="What is the blog post's category?"
+            className={styles.formField}
+            error={this.state.category_field ? this.state.category_field : ""}>
+              <Select
+              required
+              options={['Front-End', 'Back-End', 'Full-Stack']}
+              value={this.state.category}
+              onChange={event => this.setState({ category: event.option })}/>
+            </FormField>
             <FormField
-              help="Enter the post body (supports markdown)."
+              help="Enter the post description"
+              label="Description *"
+              htmlFor="descriptionInput"
+              className={styles.formField}
+              error={this.state.description_field ? this.state.description_field : ""}
+            >
+              <input
+                required
+                id="descriptionInput"
+                name="description"
+                defaultValue={this.state.description}
+                placeholder={`This is an awesome post`}
+                type="text"
+                onChange={e => this.setState({ description: e.target.value })}
+                className={styles.input}
+              />
+            </FormField>
+            <FormField
+              help="Enter the post body for the blog post (supports markdown)."
               label="Body *"
               htmlFor="bodyInput"
               className={styles.formField}
@@ -269,7 +282,7 @@ class CreatePostContainer extends Component {
                   id="feature_imageInput"
                   name="feature_image"
                   defaultValue={this.state.feature_image}
-                  placeholder={`Awesome Post`}
+                  placeholder={`https://github.com`}
                   type="text"
                   onChange={e => this.setState({ feature_image: e.target.value })}
                   className={styles.input}
@@ -325,13 +338,17 @@ class CreatePostContainer extends Component {
       status,
       body,
       feature_image,
-      tags} = this.state
+      tags,
+      category,
+      description} = this.state
     this.setState({ title_field: "",
       slug_field: "",
       status_field: "",
       body_field: "",
       feature_image_field: "",
-      tags_field: "" })
+      tags_field: "",
+      category_field: "",
+      description_field: ""  })
     await this.props.createPost({
       variables: {
         title,
@@ -339,7 +356,9 @@ class CreatePostContainer extends Component {
         status,
         body,
         feature_image,
-        tags
+        tags,
+        category,
+        description
       }
     }).catch(res => {
       const errors = res.graphQLErrors.map(error => error);
@@ -349,23 +368,35 @@ class CreatePostContainer extends Component {
       {this.state.errors.map(error => this.setState({ [error.field]: error.message }))}
     }
     if (!this.state.errors) {
+      this.setState({ title_field: "",
+        slug_field: "",
+        status_field: "",
+        body_field: "",
+        feature_image_field: "",
+        tags_field: "",
+        category_field: "",
+        description_field: ""  })
       this.togglePostCreated();
     }
   }
 
-  _createPost = async function() {
+  _updatePost = async function() {
     const { title,
       status,
       body,
       feature_image,
-      tags} = this.state
+      tags,
+      category,
+      description} = this.state
     const slug = qs.parse(location.search).slug
     this.setState({ title_field: "",
       slug_field: "",
       status_field: "",
       body_field: "",
       feature_image_field: "",
-      tags_field: "" })
+      tags_field: "",
+      category_field: "",
+      description_field: ""  })
     await this.props.updatePost({
       variables: {
         title,
@@ -373,7 +404,9 @@ class CreatePostContainer extends Component {
         status,
         body,
         feature_image,
-        tags
+        tags,
+        category,
+        description
       }
     }).catch(res => {
       const errors = res.graphQLErrors.map(error => error);
@@ -383,22 +416,30 @@ class CreatePostContainer extends Component {
       {this.state.errors.map(error => this.setState({ [error.field]: error.message }))}
     }
     if (!this.state.errors) {
-      this.togglePostCreated();
+      this.setState({ title_field: "",
+        slug_field: "",
+        status_field: "",
+        body_field: "",
+        feature_image_field: "",
+        tags_field: "",
+        category_field: "",
+        description_field: ""  })
+      this.togglePostUpdated();
     }
   }
 }
 
 const CREATE_POST = gql`
-  mutation CreatePost($title: String, $status: String, $body: String, $feature_image: String, $tags: String) {
-    createPost(title: $title, slug: $slug, status: $status, body: $body, feature_image: $feature_image, tags: $tags) {
+  mutation CreatePost($title: String, $slug: String, $status: String, $category: String, $description: String, $body: String, $feature_image: String, $tags: String) {
+    createPost(title: $title, slug: $slug, status: $status, category: $category, description: $description, body: $body, feature_image: $feature_image, tags: $tags) {
       id
     }
   }
 `;
 
 const UPDATE_POST = gql`
-  mutation UpdatePost($title: String, $status: String, $body: String, $feature_image: String, $tags: String) {
-    updatePost(title: $title, slug: $slug, status: $status, body: $body, feature_image: $feature_image, tags: $tags) {
+  mutation UpdatePost($title: String, $slug: String, $status: String, $category: String, $description: String, $body: String, $feature_image: String, $tags: String) {
+    updatePost(title: $title, slug: $slug, status: $status, category: $category, description: $description, body: $body, feature_image: $feature_image, tags: $tags) {
       id
     }
   }

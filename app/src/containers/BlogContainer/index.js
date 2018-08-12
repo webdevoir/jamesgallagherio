@@ -50,41 +50,43 @@ class BlogContainer extends Component {
 
     return (
       <div>
-      <br />
-      <br />
-      <Heading align="center" tag="h2">
-        Blog
-      </Heading>
-      <Divider />
-      {projectsToRender && projectsToRender.length > 0 &&
-        <Tiles fill={true} basis="1/2">
-            {postsToRender.map(post =>
-              <Tile>
-                <Card thumbnail={post.feature_image}
-                label={post.user.name}
-                heading={post.title}
-                description={post.description}
-                link={<Anchor href={`/blog/${post.slug}`}
-                icon={<LinkNextIcon />}
-                label='Read more' />}
-                contentPad='small'
-                textSize='medium' />
-              </Tile>
-                )
+              <Headline className="heading" align="center">
+                Blog
+              </Headline>
+              <Divider />
+              {postsToRender && postsToRender.length > 0 ?
+                <Section primary className={styles.innerBox} align="center">
+                  <Columns
+                    className={styles.columns}
+                    masonry
+                    maxCount={2}
+                    align="center"
+                    justify="center"
+                    size="large"
+                  >
+                  {postsToRender.map((post) =>
+                    <Box pad="large">
+                      <Card thumbnail={post.feature_image}
+                      label={post.user.name}
+                      heading={post.title}
+                      description={post.description}
+                      link={<Anchor href={`/blog/${post.slug}`}
+                      icon={<LinkNextIcon />}
+                      label='Read more' />}
+                      contentPad='small'
+                      textSize='medium' />
+                    </Box>
+                      )
+                    }
+                  </Columns>
+                </Section>
+              :
+                <Section align="center" justify="center" pad="large">
+                  <Heading align="center">
+                    No posts found
+                  </Heading>
+                </Section>
               }
-        </Tiles>
-      }
-      {!projectsToRender &&
-        <Box className={styles.box} pad="medium">
-          <Heading align="center" tag="h2">
-            Blog
-          </Heading>
-          <Divider />
-          <Paragraph align="center" pad="medium" className={styles.main_text}>
-            No blog posts are available at this time.
-          </Paragraph>
-        </Box>
-      }
       </div>
     );
   }
@@ -102,6 +104,9 @@ const FEED_POSTS = gql`
       description
       category
       feature_image
+      user {
+        name
+      }
     }
   }
 `;

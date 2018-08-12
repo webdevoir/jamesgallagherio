@@ -51,7 +51,7 @@ class LandingPageSummary extends Component {
           </Label>
           <hr className={styles.seperator} />
         </Box>
-        <Box align="center" justify="center" className={styles.innerContainer}>
+        <Box align="center" justify="center">
           <Box className={styles.main_text}>
             <Markdown content={summary} />
           </Box>

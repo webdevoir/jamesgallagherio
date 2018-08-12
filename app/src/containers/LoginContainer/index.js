@@ -123,7 +123,7 @@ class LoginContainer extends Component {
     const randomEmail = getRandomInt(0, messageData.length);
 
     if (sessionStorage.getItem(AUTH_TOKEN)) {
-      window.location.replace('/dashboard');
+      window.location.replace('/admin/dashboard');
     }
 
     return (
@@ -247,7 +247,7 @@ class LoginContainer extends Component {
           </Toast>
         }
         {this.state.loggedInToast == true &&
-          <Toast status='ok' onClose={() => browserHistory.push(`/dashboard`)}>
+          <Toast status='ok' onClose={() => browserHistory.push(`/admin/dashboard`)}>
             You have been logged in. Redirecting you to the Dashboard.
           </Toast>
         }
@@ -289,14 +289,14 @@ class LoginContainer extends Component {
       }
     }
     if (!this.state.errors) {
-      var token = result.data.signinUser.token;
+      var token = result.data.signInUser.token;
       this._saveUserData(token)
       this.toggleLoggedInToast()
     }
   }
 
   _saveUserData = token => {
-    sessionStorage.setItem(AUTH_TOKEN, token)
+    localStorage.setItem(AUTH_TOKEN, token)
     console.log(token)
   }
 
@@ -327,7 +327,7 @@ LoginContainer.propTypes = {
 
 const LOGIN_MUTATION = gql`
   mutation LoginMutation($email: String!, $password: String!) {
-    signinUser(email: { email: $email, password: $password }) {
+    signInUser(email: { email: $email, password: $password }) {
       token
       user {
         id

@@ -3,9 +3,9 @@ import cssModules from 'react-css-modules';
 import { BlogPostContainer } from 'containers';
 import styles from './index.module.scss';
 
-const BlogPost = () => (
+const BlogPost = (props) => (
   <div className={styles.container}>
-    <BlogPostContainer />
+    <BlogPostContainer {...props} />
   </div>
 );
 

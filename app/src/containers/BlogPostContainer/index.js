@@ -19,6 +19,7 @@ import AccordionPanel from 'grommet/components/AccordionPanel';
 import Paragraph from 'grommet/components/Paragraph';
 import Card from 'grommet-udacity/components/Card';
 import Menu from 'grommet-udacity/components/Menu';
+import Tags from 'grommet-udacity/components/Tags';
 import Meter from 'grommet-udacity/components/Meter';
 import Value from 'grommet-udacity/components/Value';
 import Button from 'grommet-udacity/components/Button';
@@ -43,21 +44,7 @@ class BlogPostContainer extends Component {
   render() {
     if (this.props.getPost && this.props.getPost.loading) {
       return (<div>
-        <MainBox
-        alignContent="center"
-        fill="horizontal"
-        align="center"
-        >
-          <FullSection primary direction="row">
-            <Section
-            align="center"
-            justify="center"
-            className="loading__box"
-            >
-             <LoadingIndicator isLoading />
-           </Section>
-          </FullSection>
-        </MainBox>
+        <LoadingIndicator isLoading />
         </div> )
     }
 
@@ -67,21 +54,7 @@ class BlogPostContainer extends Component {
 
     if (this.props.getPostTags && this.props.getPostTags.loading) {
       return (<div>
-        <MainBox
-        alignContent="center"
-        fill="horizontal"
-        align="center"
-        >
-          <FullSection primary direction="row">
-            <Section
-            align="center"
-            justify="center"
-            className="loading__box"
-            >
-             <LoadingIndicator isLoading />
-           </Section>
-          </FullSection>
-        </MainBox>
+        <LoadingIndicator isLoading />
         </div> )
     }
 
@@ -92,52 +65,56 @@ class BlogPostContainer extends Component {
     const post = this.props.getPost.getPost[0]
     const tagsToRender = this.props.getPostTags.getPostTags
     return (
-      <div>
-      <Hero background={<Image src={post.feature_image}
-        fit='cover'
-        full={true} />}
-        backgroundColorIndex='dark'>
-        <Box direction='row'
-          justify='center'
-          align='center'>
-          <Box basis='1/2'
-            align='end'
-            pad='medium' />
-          <Box basis='1/2'
-            align='start'
-            pad='medium'>
-            <Box colorIndex='grey-2-a'>
-              <Card heading={post.title} />
-            </Box>
-          </Box>
+      <div className={styles.page}>
+      <Hero
+        backgroundImage={post.feature_image}
+        size='large'
+      >
+        <Box colorIndex="grey-1-a" pad="large" style={{ width: '100%' }}>
+          <Headline className={styles.headline}>
+            {post.title}
+            <Label>
+              <br /> By {post.user.name}
+             </Label>
+          </Headline>
         </Box>
       </Hero>
-      <Box align="center">
-        <Article align="center" className="panel" pad="large">
-          {typeof readme === 'string' &&
-            <Markdown content={post.body} />
-          }
-        </Article>
-      </Box>
       <Section
-        primary
-        className={styles.container}
+      className="container"
+      primary
       >
-        <Article className={styles.panel}>
-          <Heading align="center" className="heading">
-            Tags
-          </Heading>
-          <Divider />
-          <Box pad="medium" align="center" className="main-text markdown-body">
-          {tagsToRender.map(tag =>
-            <Button
-            label={tag.title}
-            href='#' />
-          )}
+          <Article align="center"
+            justify="center"
+            className="panel markdown-body">
+              <Markdown
+              components={{
+                h1: { props: { strong: true } },
+                h2: { props: { strong: true } },
+                p: { props: { size: 'large' } },
+                img: { props: { size: 'small' } },
+              }}
+              content={post.body}
+            />
+          </Article>
+        </Section>
+        <Section>
+          <Box className="container">
+            <Article className="panel markdown-body-blog" align="center">
+              <Heading align="center">
+                Tags
+              </Heading>
+              <Divider />
+              <Tags align="center" justify="center" style={{ maxWidth: '80%' }}>
+                {tagsToRender.map(tag =>
+                  <Button
+                  label={tag.title}
+                  href='#' />
+                )}
+              </Tags>
+            </Article>
           </Box>
-        </Article>
-      </Section>
-      <CommentComponent slug={this.props.params.slug} status={`Project`} />
+        </Section>
+        <CommentComponent slug={this.props.params.slug} status={`Project`} />
       </div>
     );
   }
@@ -159,6 +136,9 @@ const FEED_POST = gql`
       description
       category
       feature_image
+      user {
+        name
+      }
     }
   }
 `;
@@ -173,5 +153,5 @@ const FEED_POST_TAGS = gql`
 `;
 
 export default compose(
-  graphql(FEED_POST, { name: 'getProject', options: (props) => ( {variables: { slug: props.params.slug } })}),
-  graphql(FEED_POST_TAGS, { name: 'getProjectTags', options: (props) => ( {variables: { slug: props.params.slug } })}))(BlogPostContainer);
+  graphql(FEED_POST, { name: 'getPost', options: (props) => ( {variables: { slug: props.params.slug } })}),
+  graphql(FEED_POST_TAGS, { name: 'getPostTags', options: (props) => ( {variables: { slug: props.params.slug } })}))(BlogPostContainer);

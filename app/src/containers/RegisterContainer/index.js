@@ -34,7 +34,7 @@ import styles from './index.module.scss';
 import gql from 'graphql-tag'
 import regeneratorRuntime from "regenerator-runtime";
 import messageData from './messageData';
-import AUTH_TOKEN from '../../constants.js'
+import AUTH_TOKEN from '../../constants'
 
 // eslint-disable-next-line react/prefer-stateless-function
 class RegisterContainer extends Component {
@@ -100,7 +100,7 @@ class RegisterContainer extends Component {
           <FormFields className={styles.formFields}>
           <FormField
             help="Your full name"
-            label="Email *"
+            label="Name *"
             htmlFor="emailInput"
             className={styles.formField}
           >
@@ -186,7 +186,7 @@ class RegisterContainer extends Component {
 
   _confirm = async function() {
     const { name, email, password, password_confirmation } = this.state
-    this.setState({ email_field: "", password_field: "", password_confirmation_field: "" })
+    this.setState({ name_field: "", email_field: "", password_field: "", password_confirmation_field: "" })
     const result = await this.props.signupMutation({
       variables: {
         name,
@@ -200,6 +200,7 @@ class RegisterContainer extends Component {
     });
     {this.state.errors.map(error => this.setState({ [error.field]: error.message }))}
     if (!this.state.errors) {
+      this.setState({ name_field: "", email_field: "", password_field: "", password_confirmation_field: "" })
       this.toggleRegisterToast()
     }
   }

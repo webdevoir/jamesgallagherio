@@ -26,6 +26,20 @@
   }
 }
 
+.blog {
+  min-height: calc(100vh - 100px);
+}
+
+.innerBox {
+  max-width: 1400px;
+}
+
+.columns {
+  @media screen and (max-width: 1228px) {
+    flex-wrap: wrap;
+  }
+}
+
 .formFields {
   width: 100%;
   max-width: 480px;

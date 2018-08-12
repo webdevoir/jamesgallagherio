@@ -29,6 +29,7 @@ import { FullSection, MainContent, MainBox, ThumbnailImage, Wrapper } from './st
 import cssModules from 'react-css-modules';
 import { Divider, LoadingIndicator } from 'components';
 import regeneratorRuntime from "regenerator-runtime";
+import AUTH_TOKEN from '../../constants';
 
 class AdminDashboardContainer extends Component {
   state = {
@@ -92,21 +93,7 @@ class AdminDashboardContainer extends Component {
   render() {
     if (this.props.getUser && this.props.getUser.loading) {
       return (<div>
-        <MainBox
-        alignContent="center"
-        fill="horizontal"
-        align="center"
-        >
-          <FullSection primary direction="row">
-            <Section
-            align="center"
-            justify="center"
-            className="loading__box"
-            >
-             <LoadingIndicator isLoading />
-           </Section>
-          </FullSection>
-        </MainBox>
+        <LoadingIndicator isLoading />
         </div> )
     }
 
@@ -116,31 +103,17 @@ class AdminDashboardContainer extends Component {
 
     const currentUser = this.props.getUser.getCurrentUser[0]
 
-    // if (!currentUser) {
-    //   window.location.replace('/login');
-    // }
+    if (!currentUser) {
+      window.location.replace('/login');
+    }
 
-    // if (currentUser.admin == false) {
-    //   window.location.replace('/');
-    // }
+    if (currentUser.admin == false) {
+      window.location.replace('/');
+    }
 
     if (this.props.getAllUsers && this.props.getAllUsers.loading) {
       return (<div>
-        <MainBox
-        alignContent="center"
-        fill="horizontal"
-        align="center"
-        >
-          <FullSection primary direction="row">
-            <Section
-            align="center"
-            justify="center"
-            className="loading__box"
-            >
-             <LoadingIndicator isLoading />
-           </Section>
-          </FullSection>
-        </MainBox>
+        <LoadingIndicator isLoading />
         </div> )
     }
 
@@ -150,21 +123,7 @@ class AdminDashboardContainer extends Component {
 
     if (this.props.getProjects && this.props.getProjects.loading) {
       return (<div>
-        <MainBox
-        alignContent="center"
-        fill="horizontal"
-        align="center"
-        >
-          <FullSection primary direction="row">
-            <Section
-            align="center"
-            justify="center"
-            className="loading__box"
-            >
-             <LoadingIndicator isLoading />
-           </Section>
-          </FullSection>
-        </MainBox>
+        <LoadingIndicator isLoading />
         </div> )
     }
 
@@ -174,21 +133,7 @@ class AdminDashboardContainer extends Component {
 
     if (this.props.getUsers && this.props.getUsers.loading) {
       return (<div>
-        <MainBox
-        alignContent="center"
-        fill="horizontal"
-        align="center"
-        >
-          <FullSection primary direction="row">
-            <Section
-            align="center"
-            justify="center"
-            className="loading__box"
-            >
-             <LoadingIndicator isLoading />
-           </Section>
-          </FullSection>
-        </MainBox>
+        <LoadingIndicator isLoading />
         </div> )
     }
 
@@ -198,21 +143,7 @@ class AdminDashboardContainer extends Component {
 
     if (this.props.getReferences && this.props.getReferences.loading) {
       return (<div>
-        <MainBox
-        alignContent="center"
-        fill="horizontal"
-        align="center"
-        >
-          <FullSection primary direction="row">
-            <Section
-            align="center"
-            justify="center"
-            className="loading__box"
-            >
-             <LoadingIndicator isLoading />
-           </Section>
-          </FullSection>
-        </MainBox>
+        <LoadingIndicator isLoading />
         </div> )
     }
 
@@ -222,21 +153,7 @@ class AdminDashboardContainer extends Component {
 
     if (this.props.getInquiries && this.props.getInquiries.loading) {
       return (<div>
-        <MainBox
-        alignContent="center"
-        fill="horizontal"
-        align="center"
-        >
-          <FullSection primary direction="row">
-            <Section
-            align="center"
-            justify="center"
-            className="loading__box"
-            >
-             <LoadingIndicator isLoading />
-           </Section>
-          </FullSection>
-        </MainBox>
+        <LoadingIndicator isLoading />
         </div> )
     }
 
@@ -246,21 +163,7 @@ class AdminDashboardContainer extends Component {
 
     if (this.props.getAdminPosts && this.props.getAdminPosts.loading) {
       return (<div>
-        <MainBox
-        alignContent="center"
-        fill="horizontal"
-        align="center"
-        >
-          <FullSection primary direction="row">
-            <Section
-            align="center"
-            justify="center"
-            className="loading__box"
-            >
-             <LoadingIndicator isLoading />
-           </Section>
-          </FullSection>
-        </MainBox>
+        <LoadingIndicator isLoading />
         </div> )
     }
 

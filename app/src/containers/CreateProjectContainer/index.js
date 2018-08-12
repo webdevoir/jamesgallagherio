@@ -105,21 +105,7 @@ class CreateProjectContainer extends Component {
     if (qs.parse(location.search).slug) {
       if (this.props.getProject && this.props.getProject.loading) {
         return (<div>
-          <MainBox
-          alignContent="center"
-          fill="horizontal"
-          align="center"
-          >
-            <FullSection primary direction="row">
-              <Section
-              align="center"
-              justify="center"
-              className="loading__box"
-              >
-               <LoadingIndicator isLoading />
-             </Section>
-            </FullSection>
-          </MainBox>
+          <LoadingIndicator isLoading />
           </div> )
       }
 
