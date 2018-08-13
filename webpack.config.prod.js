@@ -176,7 +176,7 @@ module.exports = {
     }),
     new webpack.optimize.OccurrenceOrderPlugin(true),
     new webpack.optimize.UglifyJsPlugin({
-      sourceMap: false
+      sourceMap: true
     }),
   ]
 };

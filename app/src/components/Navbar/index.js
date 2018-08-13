@@ -62,18 +62,27 @@ class Navbar extends Component {
               </Anchor>
             </Menu>
           {currentUser &&
-            <Box
-            id="session-menu-toggle"
-            responsive={false}
-            direction="row"
-            justify="center"
-          >
-              <Menu
-                a11yTitle="Session"
-                inline={false}
-                className={styles.rightMenu}
-                label={currentUser.name}
-                >
+            <Menu
+              icon={<Box
+                responsive={false}
+                direction="row"
+                justify="center"
+              >
+                <img
+                  alt="avatar"
+                  src={currentUser.profile_picture || <Image height="20" "http://bit.ly/2dqCGdd" />}
+                  className={styles.userAvatar}
+                />
+                <Heading tag="h4" className={styles.profileName}>
+                  {currentUser.name}
+                </Heading>
+              </Box>}
+              inline={false}
+              colorIndex="neutral-2"
+              dropAlign={{ top: 'top', right: 'right' }}
+              a11yTitle="Session Menu"
+              className={styles.rightMenu}
+            >
                 <Anchor href="/account/profile">
                   Profile
                 </Anchor>
@@ -89,7 +98,6 @@ class Navbar extends Component {
                   Logout
                 </Anchor>
               </Menu>
-            </Box>
           }
           {!currentUser &&
             <div>
