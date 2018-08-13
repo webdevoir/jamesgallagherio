@@ -137,7 +137,7 @@ class ContactContainer extends Component {
               onChange={event => this.setState({ category: event.option })}/>
             </FormField>
             <FormField
-              help="What do you want to say?"
+              help="What do you want to say? Please be as specific as possible."
               label="Message *"
               htmlFor="emailInput"
               className={styles.formField}

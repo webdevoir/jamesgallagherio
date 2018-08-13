@@ -15,6 +15,7 @@ import Tile from 'grommet/components/Tile';
 import Article from 'grommet/components/Article';
 import Accordion from 'grommet/components/Accordion';
 import Footer from 'grommet/components/Footer';
+import Toast from 'grommet/components/Toast';
 import AccordionPanel from 'grommet/components/AccordionPanel';
 import Paragraph from 'grommet/components/Paragraph';
 import Card from 'grommet-udacity/components/Card';
@@ -25,6 +26,7 @@ import Value from 'grommet-udacity/components/Value';
 import Button from 'grommet-udacity/components/Button';
 import Carousel from 'grommet-udacity/components/Carousel';
 import OverviewIcon from 'grommet/components/icons/base/Overview';
+import LikeIcon from 'grommet/components/icons/base/Like';
 import SocialGithubIcon from 'grommet/components/icons/base/SocialGithub';
 import { createHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
@@ -41,6 +43,15 @@ import RichTextEditor from 'react-rte';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class BlogPostContainer extends Component {
+  state = {
+    upvoteCreatedToast: false
+  }
+
+  toggleUpvoteCreated () {
+    this.setState({
+      upvoteCreatedToast: !this.state.upvoteCreatedToast
+    })
+  }
   render() {
     if (this.props.getPost && this.props.getPost.loading) {
       return (<div>
@@ -62,8 +73,19 @@ class BlogPostContainer extends Component {
       return <div>Error</div>
     }
 
+    if (this.props.getMainPostUpvotes && this.props.getMainPostUpvotes.loading) {
+      return (<div>
+        <LoadingIndicator isLoading />
+        </div> )
+    }
+
+    if (this.props.getMainPostUpvotes && this.props.getMainPostUpvotes.error) {
+      return <div>Error</div>
+    }
+
     const post = this.props.getPost.getPost[0]
     const tagsToRender = this.props.getPostTags.getPostTags
+    const upvotesToRender = this.props.getMainPostUpvotes.getMainPostUpvotes
     return (
       <div className={styles.page}>
       <Hero
@@ -95,6 +117,16 @@ class BlogPostContainer extends Component {
               }}
               content={post.body}
             />
+            <Menu direction="row" inline responsive={false}>
+              <Box align="center" justify="end" style={{ width: '100%' }} direction="row">
+                <Value size="small" value={upvotesToRender.length || 0} />
+                <Button
+                  plain
+                  icon={<LikeIcon />}
+                  onClick={() => {this.setState({ slug: post.slug }); this._createUpvote()}}
+                />
+              </Box>
+            </Menu>
           </Article>
         </Section>
         <Section>
@@ -123,20 +155,21 @@ class BlogPostContainer extends Component {
         >
           <CommentComponent slug={this.props.params.slug} status="Post" />
         </Section>
+        {this.state.upvoteCreatedToast == true &&
+          <Toast status='ok' onClose={() => this.toggleUpvoteCreated()}>
+            You have liked the post.
+          </Toast>
+        }
       </div>
     );
   }
 
-  _createComment = async function() {
-    const body = this.state.value
-    const slug = this.state.slug
-    const status = this.state.status
-    this.setState({ body_field: "" })
-    await this.props.createComment({
+  _createUpvote = async function() {
+    const { slug } = this.state
+    this.setState({ body_field: "", errors: false })
+    await this.props.createUpvote({
       variables: {
-        body,
-        slug,
-        status
+        slug
       }
     }).catch(res => {
       const errors = res.graphQLErrors.map(error => error);
@@ -146,11 +179,9 @@ class BlogPostContainer extends Component {
       {this.state.errors.map(error => this.setState({ [error.field]: error.message }))}
     }
     if (!this.state.errors) {
-      this.setState({ body_field: "" })
-      this.toggleCommentCreated();
+      this.toggleUpvoteCreated();
     }
   }
-
 
 }
 
@@ -186,6 +217,24 @@ const FEED_POST_TAGS = gql`
   }
 `;
 
+const FEED_POST_UPVOTES = gql`
+  query GetMainPostUpvotes($slug: String!) {
+    getMainPostUpvotes(slug: $slug) {
+      id
+    }
+  }
+`;
+
+const CREATE_UPVOTE = gql`
+  mutation CreateUpvote($slug: String!) {
+    createPostUpvote(slug: $slug) {
+      id
+    }
+  }
+`;
+
 export default compose(
   graphql(FEED_POST, { name: 'getPost', options: (props) => ( {variables: { slug: props.params.slug } })}),
-  graphql(FEED_POST_TAGS, { name: 'getPostTags', options: (props) => ( {variables: { slug: props.params.slug } })}))(BlogPostContainer);
+  graphql(FEED_POST_TAGS, { name: 'getPostTags', options: (props) => ( {variables: { slug: props.params.slug } })}),
+  graphql(CREATE_UPVOTE, { name: 'createUpvote' }),
+  graphql(FEED_POST_UPVOTES, { name: 'getMainPostUpvotes', options: (props) => ( {variables: { slug: props.params.slug } })}))(BlogPostContainer);
