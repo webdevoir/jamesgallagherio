@@ -83,18 +83,16 @@ class ProjectOverviewContainer extends Component {
         justify="center"
         className={styles.login}
       >
-        <br />
-        <br />
-        <Heading align="center">
-          {project.title}
-        </Heading>
-        <Heading align="center" tag="h4">
-          {project.caption}
-        </Heading>
-        <Divider />
-        <Image src={project.feature_image}
+      <Hero
+        backgroundImage={project.feature_image}
         size='large'
-        align="center"/>
+      >
+        <Box colorIndex="grey-1-a" pad="large" style={{ width: '100%' }}>
+          <Headline className={styles.headline}>
+            {project.title}
+          </Headline>
+        </Box>
+      </Hero>
         <Section
           primary
           className={styles.container}

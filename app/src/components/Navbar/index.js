@@ -74,7 +74,7 @@ class Navbar extends Component {
                 className={styles.rightMenu}
                 label={currentUser.name}
                 >
-                <Anchor href="/profile">
+                <Anchor href="/account/profile">
                   Profile
                 </Anchor>
                 {currentUser.admin == true &&

@@ -23,11 +23,12 @@ import Button from "grommet-udacity/components/Button";
 import Carousel from "grommet-udacity/components/Carousel";
 import Anchor from "grommet-udacity/components/Anchor";
 import { createHistory } from "history";
+import { Pagination } from 'antd';
 import { syncHistoryWithStore } from "react-router-redux";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
 import styles from "./index.module.scss";
-import { FullSection, MainContent, MainBox } from "./styles";
+import { FullSection, MainContent, MainBox, StyledFooter } from "./styles";
 import cssModules from "react-css-modules";
 import { Divider, LoadingIndicator } from "components";
 import regeneratorRuntime from "regenerator-runtime";
@@ -73,7 +74,7 @@ class BlogContainer extends Component {
                   <Card
                     thumbnail={
                       <Anchor path={`/blog/${post.slug}`}>
-                        <Image src={post.feature_image} matchHeight />
+                        <Image src={post.feature_image} matchHeight fit="contain" full="true" />
                       </Anchor>
                     }
                     label={post.user.name}

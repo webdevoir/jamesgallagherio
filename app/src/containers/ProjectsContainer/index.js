@@ -55,20 +55,20 @@ class ProjectsContainer extends Component {
         Portfolio
       </Heading>
       <Divider />
-      <Section className={styles.innerBox}>
           {projectsToRender && projectsToRender.length > 0 &&
+            <Section primary align="center">
             <Columns
-              className={styles.masonry}
+              className={styles.columns}
               masonry
               justify="center"
               size="small"
               maxCount={3}
             >
-            <Box className={styles.box} pad="medium" align="center">
                 {projectsToRender.map(project =>
+                  <Box pad="large">
                     <Box className={styles.wrapper} key={project.id}>
                       <Box className={styles.card}>
-                        <Anchor path={`/projects/${project.slug}`}>
+                        <Anchor href={`/projects/${project.slug}`}>
                           <Image
                             src={project.feature_image}
                             className={styles.image}
@@ -79,12 +79,12 @@ class ProjectsContainer extends Component {
                           </Anchor>
                         </Box>
                       </Box>
+                      </Box>
                     )
                   }
-            </Box>
         </Columns>
-      }
       </Section>
+      }
       {!projectsToRender &&
         <Box className={styles.box} pad="medium">
           <Heading align="center" tag="h2">

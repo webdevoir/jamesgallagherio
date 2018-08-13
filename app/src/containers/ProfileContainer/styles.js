@@ -21,7 +21,7 @@ export const MainContent = styled(Box)`
     box-sizing: border-box;
   }
   padding: 60px 0;
-  width: 75%;
+  width: 50%;
 `;
 
 export const MainBox = styled(Box)`

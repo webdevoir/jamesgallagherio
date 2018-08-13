@@ -85,7 +85,7 @@ class BlogPostContainer extends Component {
       >
           <Article align="center"
             justify="center"
-            className="panel markdown-body">
+            className="panel">
               <Markdown
               components={{
                 h1: { props: { strong: true } },
@@ -107,6 +107,7 @@ class BlogPostContainer extends Component {
               <Tags align="center" justify="center" style={{ maxWidth: '80%' }}>
                 {tagsToRender.map(tag =>
                   <Button
+                  className={styles.buttonComponent}
                   label={tag.title}
                   href={`/blog/archive?tag=${tag.title}`} />
                 )}

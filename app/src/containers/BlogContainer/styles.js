@@ -4,6 +4,7 @@ import Image from 'grommet/components/Image';
 import Box from 'grommet/components/Box';
 import Heading from 'grommet/components/Heading';
 import Section from 'grommet/components/Section';
+import Footer from 'grommet/components/Footer';
 
 export const FullSection = styled(Section)`
   width: 100% !important;
@@ -56,6 +57,10 @@ const sizeMap = (size) => {
 
 export const Wrapper = styled(Box)`
   width: 200px;
+`;
+
+export const StyledFooter = styled(Footer)`
+  max-width: calc(100vw - 48px)
 `;
 
 export const ThumbnailImage = styled(Image)`

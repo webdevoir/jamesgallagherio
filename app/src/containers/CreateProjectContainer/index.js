@@ -191,7 +191,7 @@ class CreateProjectContainer extends Component {
             {!qs.parse(location.search).slug &&
               <FormField
                 help="Enter the project slug"
-                label="Title *"
+                label="Slug *"
                 htmlFor="slugInput"
                 className={styles.formField}
                 error={this.state.slugfield ? this.state.slug_field : ""}

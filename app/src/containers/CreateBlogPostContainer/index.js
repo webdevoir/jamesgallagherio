@@ -118,14 +118,10 @@ class CreatePostContainer extends Component {
           title: post.title,
           slug: post.slug,
           status: post.status,
+          body: post.body,
           description: post.description,
-          caption: post.caption,
-          milestones: post.milestones,
-          repo_url: post.repo_url,
           category: post.category,
           feature_image: post.feature_image,
-          post_url: post.post_url,
-          technical_information: post.technical_information,
           tags: post.tags,
           infoLoaded: true
         })
@@ -181,7 +177,7 @@ class CreatePostContainer extends Component {
                   required
                   id="titleInput"
                   name="title"
-                  defaultValue={this.state.title}
+                  value={this.state.title}
                   placeholder={`Awesome Post`}
                   type="text"
                   onChange={e => this.setState({ title: e.target.value })}
@@ -200,7 +196,7 @@ class CreatePostContainer extends Component {
                   required
                   id="slugInput"
                   name="slug"
-                  defaultValue={this.state.slug}
+                  value={this.state.slug}
                   placeholder={`awesome-post`}
                   type="text"
                   onChange={e => this.setState({ slug: e.target.value })}
@@ -226,7 +222,7 @@ class CreatePostContainer extends Component {
             error={this.state.category_field ? this.state.category_field : ""}>
               <Select
               required
-              options={['Front-End', 'Back-End', 'Full-Stack']}
+              options={['Front-End', 'Back-End', 'Full-Stack', 'Startups']}
               value={this.state.category}
               onChange={event => this.setState({ category: event.option })}/>
             </FormField>
@@ -241,7 +237,7 @@ class CreatePostContainer extends Component {
                 required
                 id="descriptionInput"
                 name="description"
-                defaultValue={this.state.description}
+                value={this.state.description}
                 placeholder={`This is an awesome post`}
                 type="text"
                 onChange={e => this.setState({ description: e.target.value })}
@@ -259,7 +255,7 @@ class CreatePostContainer extends Component {
                 required
                 id="bodyInput"
                 name="body"
-                defaultValue={this.state.body}
+                value={this.state.body}
                 type="text"
                 onChange={e => this.setState({ body: e.target.value })}
                 className={styles.input}
@@ -281,7 +277,7 @@ class CreatePostContainer extends Component {
                   required
                   id="feature_imageInput"
                   name="feature_image"
-                  defaultValue={this.state.feature_image}
+                  value={this.state.feature_image}
                   placeholder={`https://github.com`}
                   type="text"
                   onChange={e => this.setState({ feature_image: e.target.value })}
@@ -463,4 +459,4 @@ const FEED_POST = gql`
 export default compose(
   graphql(CREATE_POST, { name: 'createPost' }),
   graphql(UPDATE_POST, { name: 'updatePost' }),
-  graphql(FEED_POST, { name: 'getPost', options: (props) => ( {variables: { slug: qs.parse(location.search).slug } })})) (CreatePostContainer);
+  graphql(FEED_POST, { name: 'getPost', options: () => ( {variables: { slug: qs.parse(location.search).slug } })})) (CreatePostContainer);

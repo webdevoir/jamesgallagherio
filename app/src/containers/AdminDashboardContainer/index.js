@@ -11,22 +11,29 @@ import ListItem from 'grommet-udacity/components/ListItem';
 import TableRow from 'grommet-udacity/components/TableRow';
 import Anchor from 'grommet-udacity/components/Anchor';
 import Table from 'grommet-udacity/components/Table';
+import Toast from 'grommet-udacity/components/Toast';
 import BookIcon from 'grommet-udacity/components/icons/base/Book';
 import EditIcon from 'grommet-udacity/components/icons/base/Edit';
 import DashboardIcon from 'grommet-udacity/components/icons/base/Dashboard';
 import ImageIcon from 'grommet-udacity/components/icons/base/Image';
 import UserSettingsIcon from 'grommet-udacity/components/icons/base/UserSettings';
+import ArticleIcon from 'grommet-udacity/components/icons/base/Article';
 import DocumentIcon from 'grommet-udacity/components/icons/base/Document';
 import TrashIcon from 'grommet-udacity/components/icons/base/Trash';
-import ArticleIcon from 'grommet-udacity/components/icons/base/Article';
 import AddIcon from 'grommet-udacity/components/icons/base/Add';
 import ViewIcon from 'grommet/components/icons/base/View';
 import Button from 'grommet-udacity/components/Button';
+import Layer from 'grommet-udacity/components/Layer';
+import FormFields from 'grommet-udacity/components/FormFields';
+import FormField from 'grommet-udacity/components/FormField';
+import Select from 'grommet-udacity/components/Select';
+import Footer from 'grommet-udacity/components/Footer';
 import Menu from 'grommet-udacity/components/Menu';
+import Label from 'grommet-udacity/components/Label';
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import styles from './index.module.scss';
-import { FullSection, MainContent, MainBox, ThumbnailImage, Wrapper } from './styles';
+import { FullSection, MainContent, MainBox, ThumbnailImage, Wrapper, BoxWrapper } from './styles';
 import cssModules from 'react-css-modules';
 import { Divider, LoadingIndicator } from 'components';
 import regeneratorRuntime from "regenerator-runtime";
@@ -61,12 +68,17 @@ class AdminDashboardContainer extends Component {
       updateReferenceToast: !this.state.updateReferenceToast
     })
   }
+  toggleCreateReference () {
+    this.setState({
+      createReferenceModal: !this.state.createReferenceModal
+    })
+  }
   toggleCreateReferenceToast () {
     this.setState({
       createReferenceToast: !this.state.createReferenceToast
     })
   }
-  toggleUpdateReferenceModal () {
+  toggleUpdateReference () {
     this.setState({
       updateReferenceModal: !this.state.updateReferenceModal
     })
@@ -196,15 +208,15 @@ class AdminDashboardContainer extends Component {
                 <Divider />
                 <Box>
                   <Box direction="row">
-                    <Button icon={<AddIcon />}
+                    <Button icon={<BookIcon />}
                     label="Create Reference"
                     className={styles.buttonComponent}
-                    onClick={() => {this._createReference(); this.setState({ project_id: project.id })}}/>
-                    <Button icon={<AddIcon />}
+                    onClick={() => {this.toggleCreateReference(); this.setState({ project_id: project.id })}}/>
+                    <Button icon={<ArticleIcon />}
                     label="Create Project"
                     className={styles.buttonComponent}
                     href="/admin/projects/new"/>
-                    <Button icon={<AddIcon />}
+                    <Button icon={<DocumentIcon />}
                     label="Create Post"
                     className={styles.buttonComponent}
                     href="/admin/posts/new"/>
@@ -249,7 +261,7 @@ class AdminDashboardContainer extends Component {
                           <Button icon={<EditIcon />}
                           href={`/admin/projects/new?slug=${project.slug}`}/>
                           <Button icon={<TrashIcon />}
-                          onClick={() => {this._deleteProject(); this.setState({ project_id: project.id })}}/>
+                          onClick={() => {this._deleteProject(); this.setState({ project_id: parseInt(project.id) })}}/>
                           <Button icon={<ViewIcon />}
                           href={`/projects/${project.slug}`}/>
                         </td>
@@ -298,7 +310,7 @@ class AdminDashboardContainer extends Component {
                           <Button icon={<EditIcon />}
                           href={`/admin/posts/new?slug=${post.slug}`}/>
                           <Button icon={<TrashIcon />}
-                          onClick={() => {this._deletePost(); this.setState({ post_id: post.id })}}/>
+                          onClick={() => {this._deletePost(); this.setState({ post_id: parseInt(post.id) })}}/>
                           <Button icon={<ViewIcon />}
                           href={`/blog/${post.slug}`}/>
                         </td>
@@ -352,7 +364,7 @@ class AdminDashboardContainer extends Component {
                             }
                             <td>
                               <Button icon={<TrashIcon />}
-                              onClick={() => {this._deleteUser(); this.setState({ user_id: user.id })}}/>
+                              onClick={() => {this._deleteUser(); this.setState({ user_id: parseInt(user.id) })}}/>
                               <Button icon={<ViewIcon />}
                               onClick={() => {this.toggleShowUser(); this.setState({ user: user })}}/>
                             </td>
@@ -407,7 +419,7 @@ class AdminDashboardContainer extends Component {
                             <Button icon={<EditIcon />}
                             onClick={() => {this.toggleUpdateReference(); this.setState({ reference: reference })}}/>
                             <Button icon={<TrashIcon />}
-                            onClick={() => {this._deleteReference(); this.setState({ reference_id: reference.id })}}/>
+                            onClick={() => {this._deleteReference(); this.setState({ reference_id: parseInt(reference.id) })}}/>
                             <Button icon={<ViewIcon />}
                             onClick={() => {this.toggleShowReference(); this.setState({ reference: reference })}}/>
                           </td>
@@ -565,7 +577,7 @@ class AdminDashboardContainer extends Component {
                         Avatar:
                       </Label>
                       <Heading align="center" tag="h4">
-                        {this.state.user.avatar}
+                        {this.state.user.profile_image}
                       </Heading>
                     </BoxWrapper>
                   </Box>
@@ -676,7 +688,7 @@ class AdminDashboardContainer extends Component {
                   closer={true} onClose={() => {this.toggleUpdateReference()}}>
 
                   <Heading>
-                    Create Reference
+                    Update Reference
                   </Heading>
                     <FormFields>
                     <FormField
@@ -817,7 +829,8 @@ class AdminDashboardContainer extends Component {
       name_field: "",
       avatar_field: "",
       body_field: "",
-      company_field: "" })
+      company_field: "",
+      errors: null })
     await this.props.createReference({
       variables: {
         title,
@@ -840,6 +853,7 @@ class AdminDashboardContainer extends Component {
       avatar_field: "",
       body_field: "",
       company_field: "" })
+      this.toggleCreateReference();
       this.toggleCreateReferenceToast();
     }
   }
@@ -886,7 +900,7 @@ class AdminDashboardContainer extends Component {
 
   _deleteReference = async function() {
     const { reference_id } = this.state
-    this.setState({ reference_id_field: "" })
+    this.setState({ reference_id_field: "", errors: false })
     await this.props.deleteReference({
       variables: {
         reference_id
@@ -899,14 +913,14 @@ class AdminDashboardContainer extends Component {
       {this.state.errors.map(error => this.setState({ [error.field]: error.message }))}
     }
     if (!this.state.errors) {
-      this.setState({ reference_id_field: "" })
+      this.setState({ reference_id_field: "", errors: false })
       this.toggleDeleteReferenceToast();
     }
   }
 
   _deleteProject = async function() {
     const { project_id } = this.state
-    this.setState({ project_id_field: "" })
+    this.setState({ project_id_field: "", errors: null })
     await this.props.deleteProject({
       variables: {
         project_id
@@ -926,7 +940,7 @@ class AdminDashboardContainer extends Component {
 
   _deletePost = async function() {
     const { post_id } = this.state
-    this.setState({ post_id_field: "" })
+    this.setState({ post_id_field: "", errors: null })
     await this.props.deletePost({
       variables: {
         post_id
@@ -946,7 +960,7 @@ class AdminDashboardContainer extends Component {
 
   _deleteUser = async function() {
     const { user_id } = this.state
-    this.setState({ user_id_field: "" })
+    this.setState({ user_id_field: "", errors: null })
     await this.props.deleteUser({
       variables: {
         user_id
@@ -967,8 +981,8 @@ class AdminDashboardContainer extends Component {
 }
 
 const DELETE_USER = gql`
-  mutation DeleteUser($user_id: Int!) {
-    deleteUser(user_id: $user_id) {
+  mutation AdminDeleteUser($user_id: Int!) {
+    adminDeleteUser(user_id: $user_id) {
       id
     }
   }
@@ -977,6 +991,14 @@ const DELETE_USER = gql`
 const DELETE_PROJECT = gql`
   mutation DeleteProject($project_id: Int!) {
     deleteProject(project_id: $project_id) {
+      id
+    }
+  }
+`;
+
+const DELETE_POST = gql`
+  mutation DeletePost($post_id: Int!) {
+    deletePost(post_id: $post_id) {
       id
     }
   }
@@ -1037,6 +1059,7 @@ const FEED_QUERY_REFERENCES = gql`
       name
       body
       company
+      avatar
     }
   }
 `;
@@ -1110,6 +1133,7 @@ export default compose(
   graphql(FEED_QUERY_POSTS, { name: 'getAdminPosts' }),
   graphql(FEED_QUERY_INQUIRIES, { name: 'getInquiries' }),
   graphql(DELETE_PROJECT, { name: 'deleteProject' }),
+  graphql(DELETE_POST, { name: 'deletePost' }),
   graphql(DELETE_USER, { name: 'deleteUser' }),
   graphql(CREATE_REFERENCE, { name: 'createReference' }),
   graphql(DELETE_REFERENCE, { name: 'deleteReference' }),
