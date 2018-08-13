@@ -12,11 +12,13 @@ import Image from 'grommet/components/Image';
 import Headline from 'grommet/components/Headline';
 import Tiles from 'grommet/components/Tiles';
 import Tile from 'grommet/components/Tile';
+import Menu from 'grommet/components/Menu';
 import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
 import Paragraph from 'grommet/components/Paragraph';
 import Card from 'grommet-udacity/components/Card';
 import Footer from 'grommet-udacity/components/Footer';
+import Toast from 'grommet-udacity/components/Toast';
 import Meter from 'grommet-udacity/components/Meter';
 import Value from 'grommet-udacity/components/Value';
 import Button from 'grommet-udacity/components/Button';
@@ -34,11 +36,18 @@ import regeneratorRuntime from "regenerator-runtime";
 import axios from 'axios';
 import styles from './index.module.scss'
 import fetch from "unfetch";
+import moment from 'moment';
 
 class Comment extends Component {
+  state = {
+    upvoteCreatedToast: false,
+    upvoteDeleted: false,
+    comment_id: ""
+  }
+
   toggleUpvoteCreated () {
     this.setState({
-      upvoteCreated: !this.state.upvoteCreated
+      upvoteCreatedToast: !this.state.upvoteCreatedToast
     })
   }
 
@@ -49,6 +58,18 @@ class Comment extends Component {
   }
 
   render() {
+    if (this.props.getUpvotes && this.props.getUpvotes.loading) {
+      return (<div>
+        <LoadingIndicator isLoading />
+        </div> )
+    }
+
+    if (this.props.getUpvotes && this.props.getUpvotes.error) {
+      return <div>Error</div>
+    }
+
+    const comment = this.props.comment
+    const upvotesToRender = this.props.getUpvotes.getUpvotes
     return (
       <div>
       <Box direction="column" style={{ width: '100%' }}>
@@ -56,8 +77,8 @@ class Comment extends Component {
           <Box align="center" justify="center" className="avatar-box">
             <img
               alt="user avatar"
-              className="avatar avatar__small"
-              src={comment.user.avatar}
+              className={styles.userAvatar}
+              src={comment.user.profile_picture}
             />
             <Label uppercase>
               {comment.user.name}
@@ -72,81 +93,53 @@ class Comment extends Component {
         </Box>
         <Menu direction="row" inline responsive={false}>
           <Box align="center" justify="end" style={{ width: '100%' }} direction="row">
-            <Value size="small" value={comment.total_votes} />
+            <Value size="small" value={upvotesToRender.length || 0} />
             <Button
               plain
               icon={<LinkUpIcon />}
-              onClick={() => {this._createUpvote(); this.setState({ comment_id: comment.id })}}
+              onClick={() => {this.setState({ comment_id: parseInt(comment.id) }); this._createUpvote()}}
             />
           </Box>
         </Menu>
       </Box>
-        {this.state.upvoteCreated == true &&
+        {this.state.upvoteCreatedToast == true &&
           <Toast status='ok' onClose={() => this.toggleUpvoteCreated()}>
-            Your upvote has been created.
-          </Toast>
-        }
-        {this.state.upvoteDeleted == true &&
-          <Toast status='ok' onClose={() => this.toggleUpvoteDeleted()}>
-            Your upvote has been deleted.
+            Your upvote has been posted.
           </Toast>
         }
       </div>
     );
+  }
 
-    _createUpvote = async function() {
-      const comment_id = this.state.comment_id
-      const slug = this.state.slug
-      this.setState({ body_field: "" })
-      await this.props.createUpvote({
-        variables: {
-          comment_id,
-          slug,
-          status
-        }
-      }).catch(res => {
-        const errors = res.graphQLErrors.map(error => error);
-        this.setState({ errors });
-      });
-      if (this.state.errors) {
-        {this.state.errors.map(error => this.setState({ [error.field]: error.message }))}
+  _createUpvote = async function() {
+    const comment_id = this.state.comment_id
+    const { slug, status } = this.props
+    this.setState({ body_field: "", errors: false })
+    await this.props.createUpvote({
+      variables: {
+        comment_id,
+        slug,
+        status
       }
-      if (!this.state.errors) {
-        this.toggleUpvoteCreated();
-      }
+    }).catch(res => {
+      const errors = res.graphQLErrors.map(error => error);
+      this.setState({ errors });
+    });
+    if (this.state.errors) {
+      {this.state.errors.map(error => this.setState({ [error.field]: error.message }))}
     }
-
-    _deleteUpvote = async function() {
-      const comment_id = this.state.comment_id
-      const slug = this.state.slug
-      const status = this.state.status
-      this.setState({ body_field: "" })
-      await this.props.deleteUpvote({
-        variables: {
-          comment_id,
-          slug,
-          status
-        }
-      }).catch(res => {
-        const errors = res.graphQLErrors.map(error => error);
-        this.setState({ errors });
-      });
-      if (this.state.errors) {
-        {this.state.errors.map(error => this.setState({ [error.field]: error.message }))}
-      }
-      if (!this.state.errors) {
-        this.toggleUpvoteDeleted();
-      }
+    if (!this.state.errors) {
+      this.toggleUpvoteCreated();
     }
+  }
 
-    _updateCacheAfterComments = (store, createComment, commentId) => {
-      const data = store.readQuery({ query: FEED_PROJECT })
+  _updateCacheAfterComments = (store, createComment, commentId) => {
+    const data = store.readQuery({ query: FEED_PROJECT })
 
-      const votedLink = data.feed.links.find(link => link.id === commentId)
-      votedLink.votes = createVote.link.votes
+    const votedLink = data.feed.links.find(link => link.id === commentId)
+    votedLink.votes = createVote.link.votes
 
-      store.writeQuery({ query: FEED_PROJECT, data })
-    }
+    store.writeQuery({ query: FEED_PROJECT, data })
   }
 }
 
@@ -158,9 +151,10 @@ const CREATE_UPVOTE = gql`
   }
 `;
 
-const DELETE_UPVOTE = gql`
-  mutation DeleteUpvote($slug: String!, $comment_id: Int!, $status: String!) {
-    deleteUpvote(slug: $slug, comment_id: $comment_id, status: $status) {
+
+const FEED_UPVOTES = gql`
+  query GetUpvotes($slug: String!, $status: String!, $comment_id: Int!) {
+    getUpvotes(slug: $slug, status: $status, comment_id: $comment_id) {
       id
     }
   }
@@ -168,4 +162,5 @@ const DELETE_UPVOTE = gql`
 
 export default compose(
 graphql(CREATE_UPVOTE, { name: 'createUpvote' }),
-graphql(DELETE_UPVOTE, { name: 'deleteUpvote' })) (Comment);
+graphql(FEED_UPVOTES, { name: 'getUpvotes', options: (props) => ( {variables: { slug: props.slug, status: props.status, comment_id: parseInt(props.comment_id) } })}),
+)(Comment);

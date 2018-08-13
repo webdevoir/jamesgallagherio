@@ -12,6 +12,7 @@ import Image from 'grommet/components/Image';
 import Headline from 'grommet/components/Headline';
 import Tiles from 'grommet/components/Tiles';
 import Tile from 'grommet/components/Tile';
+import Toast from 'grommet/components/Toast';
 import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
 import Paragraph from 'grommet/components/Paragraph';
@@ -23,6 +24,8 @@ import Button from 'grommet-udacity/components/Button';
 import Carousel from 'grommet-udacity/components/Carousel';
 import Anchor from 'grommet-udacity/components/Anchor';
 import Article from 'grommet-udacity/components/Article';
+import List from 'grommet-udacity/components/List';
+import ListItem from 'grommet-udacity/components/ListItem';
 import OverviewIcon from 'grommet/components/icons/base/Overview';
 import SocialGithubIcon from 'grommet/components/icons/base/SocialGithub';
 import { createHistory } from 'history';
@@ -30,7 +33,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import cssModules from 'react-css-modules';
-import { Divider, LoadingIndicator, CommentContainer } from 'components';
+import { Divider, LoadingIndicator, Comment } from 'components';
 import regeneratorRuntime from "regenerator-runtime";
 import axios from 'axios';
 import fetch from "unfetch";
@@ -48,6 +51,7 @@ class CommentComponent extends Component {
   }
 
   onChange = (value) => {
+    this.setState({parsed_value: value.toString('html')});
     this.setState({value});
     if (this.props.onChange) {
       // Send the changes up to the parent component as an HTML string.
@@ -78,12 +82,23 @@ class CommentComponent extends Component {
   }
 
   render() {
+
+    if (this.props.getComments && this.props.getComments.loading) {
+      return (<div>
+        <LoadingIndicator isLoading />
+        </div> )
+    }
+
+    if (this.props.getComments && this.props.getComments.error) {
+      return <div>Error</div>
+    }
+
+    const comments = this.props.getComments.getComments
     const currentUser = sessionStorage.getItem(AUTH_TOKEN)
-    const comments = this.state.comments
     return (
       <div>
       <Section>
-        <Box className="container">
+        <Box>
           <Article className="panel" align="center">
             <Heading align="center" className="heading">
               Comments
@@ -101,7 +116,7 @@ class CommentComponent extends Component {
           >
             <Button
               label="Submit Comment"
-              onClick={() => this._createComment()}
+              onClick={() => {this._createComment()}}
             />
             {!currentUser &&
               <Label>
@@ -112,7 +127,6 @@ class CommentComponent extends Component {
             }
           </Footer>
             {comments && comments.length > 0 &&
-            <Article className="panel">
               <Columns size="large" justify="center">
                 <List>
                   {comments && comments
@@ -120,23 +134,22 @@ class CommentComponent extends Component {
                     .map((comment, i) =>
                       <ListItem key={i}>
                         <Comment
-                          onUpvote={onUpvote}
                           comment={comment}
                           slug={comment.slug}
-                          status={comment.status}
+                          comment_id={comment.id}
+                          status={this.props.status}
                         />
                       </ListItem>,
                   )}
                 </List>
               </Columns>
-            </Article>
           }
           </Article>
           </Box>
         </Section>
         {this.state.commentCreated == true &&
           <Toast status='ok' onClose={() => this.toggleCommentCreated()}>
-            Your comment has been created.
+            Your comment has been posted.
           </Toast>
         }
         {this.state.commentUpdated == true &&
@@ -151,11 +164,11 @@ class CommentComponent extends Component {
         }
       </div>
     );
-
+ }
     _createComment = async function() {
-      const body = this.state.value
-      const slug = this.state.slug
-      const status = this.state.status
+      const body = this.state.parsed_value
+      const slug = this.props.slug
+      const status = this.props.status
       this.setState({ body_field: "" })
       await this.props.createComment({
         variables: {
@@ -172,20 +185,20 @@ class CommentComponent extends Component {
       }
       if (!this.state.errors) {
         this.setState({ body_field: "" })
-        this.toggleCommentDeleted();
+        this.toggleCommentCreated();
       }
     }
 
     _updateComment = async function() {
-      const body = this.state.value
+      const body = this.state.parsed_value
       const comment_id = this.state.comment_id
-      const slug = this.state.slug
-      const status = this.state.status
+      const slug = this.props.slug
+      const status = this.props.status
       this.setState({ body_field: "" })
       await this.props.updateComment({
         variables: {
           body,
-          project_id,
+          slug,
           comment_id,
           status
         }
@@ -204,8 +217,8 @@ class CommentComponent extends Component {
 
     _deleteComment = async function() {
       const comment_id = this.state.comment_id
-      const slug = this.state.slug
-      const status = this.state.status
+      const slug = this.props.slug
+      const status = this.props.status
       this.setState({ body_field: "" })
       await this.props.deleteComment({
         variables: {
@@ -225,16 +238,6 @@ class CommentComponent extends Component {
         this.toggleCommentDeleted();
       }
     }
-
-    _updateCacheAfterComments = (store, createComment, commentId) => {
-      const data = store.readQuery({ query: FEED_PROJECT })
-
-      const votedLink = data.feed.links.find(link => link.id === commentId)
-      votedLink.votes = createVote.link.votes
-
-      store.writeQuery({ query: FEED_PROJECT, data })
-    }
-  }
 }
 
 const CREATE_COMMENT = gql`
@@ -242,7 +245,7 @@ const CREATE_COMMENT = gql`
     createComment(body: $body, slug: $slug, status: $status) {
       id
       body
-      project_id
+      slug
       user {
         name
         profile_picture
@@ -256,7 +259,7 @@ const UPDATE_COMMENT = gql`
     updateComment(body: $body, slug: $slug, comment_id: $comment_id, status: $status) {
       id
       body
-      project_id
+      slug
       user {
         name
         profile_picture
@@ -273,7 +276,24 @@ const DELETE_COMMENT = gql`
   }
 `;
 
+const FEED_COMMENTS = gql`
+  query GetComments($slug: String, $status: String) {
+    getComments(slug: $slug, status: $status) {
+      id
+      body
+      slug
+      status
+      created_at
+      user {
+        name
+        profile_picture
+      }
+    }
+  }
+`;
+
 export default compose(
 graphql(CREATE_COMMENT, { name: 'createComment' }),
 graphql(UPDATE_COMMENT, { name: 'updateComment' }),
-graphql(DELETE_COMMENT, { name: 'deleteComment' })) (CommentComponent);
+graphql(DELETE_COMMENT, { name: 'deleteComment' }),
+graphql(FEED_COMMENTS, { name: 'getComments', options: (props) => ( {variables: { slug: props.slug, status: props.status } })})) (CommentComponent);

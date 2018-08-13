@@ -115,10 +115,43 @@ class BlogPostContainer extends Component {
             </Article>
           </Box>
         </Section>
-        <CommentComponent slug={this.props.params.slug} status={`Project`} />
+        <Section
+          primary
+          pad={{ horizontal: 'large' }}
+          align="center"
+          justify="center"
+        >
+          <CommentComponent slug={this.props.params.slug} status="Post" />
+        </Section>
       </div>
     );
   }
+
+  _createComment = async function() {
+    const body = this.state.value
+    const slug = this.state.slug
+    const status = this.state.status
+    this.setState({ body_field: "" })
+    await this.props.createComment({
+      variables: {
+        body,
+        slug,
+        status
+      }
+    }).catch(res => {
+      const errors = res.graphQLErrors.map(error => error);
+      this.setState({ errors });
+    });
+    if (this.state.errors) {
+      {this.state.errors.map(error => this.setState({ [error.field]: error.message }))}
+    }
+    if (!this.state.errors) {
+      this.setState({ body_field: "" })
+      this.toggleCommentCreated();
+    }
+  }
+
+
 }
 
 BlogPostContainer.propTypes = {
