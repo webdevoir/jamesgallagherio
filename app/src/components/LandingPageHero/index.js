@@ -16,6 +16,7 @@ import Paragraph from 'grommet/components/Paragraph';
 import Card from 'grommet-udacity/components/Card';
 import Meter from 'grommet-udacity/components/Meter';
 import Value from 'grommet-udacity/components/Value';
+import Footer from 'grommet-udacity/components/Footer';
 import Button from 'grommet-udacity/components/Button';
 import styles from './index.module.scss';
 import { FullSection, MainContent, MainBox } from './styles';
@@ -25,28 +26,32 @@ import regeneratorRuntime from "regenerator-runtime";
 
 function LandingPageHero() {
   return (
-    <Hero background={<Image src='https://github.com/RyanCCollins/cdn/blob/master/misc/pattern-2.png?raw=true'
-      fit='cover'
-      full={true} />}
+    <Hero backgroundImage='https://github.com/jamesgallagher432/cdn/blob/master/brand/texture-5.jpg?raw=true'
       size="large"
+      justify="center"
       backgroundColorIndex='dark'>
-      <Box direction='row'
-        justify='center'
-        align='center'>
-        <Box
-          align='center'
-          pad='medium'>
-          <Heading margin='small'>
+      <Box
+        id="hero"
+        align="center"
+        justify="center"
+        className={styles.heroBox}
+      >
+          <Heading margin='small'
+          align="center">
             James Gallagher
           </Heading>
-          <Heading tag="h2" margin='xsmall'>
+          <Heading tag="h2" margin='xsmall'
+          align="center">
             React Web Developer
           </Heading>
-          <Button
-          label='Reach Out'
-          href='/contact' />
+          <Footer className={styles.footer}
+          justify="center">
+            <Button
+            label='Reach Out'
+            href='/contact'
+            align="center"/>
+          </Footer>
         </Box>
-      </Box>
     </Hero>
   );
 }

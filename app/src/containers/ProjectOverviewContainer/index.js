@@ -146,23 +146,21 @@ class ProjectOverviewContainer extends Component {
             </Heading>
             <Divider />
             <Box pad="medium" align="center" className="main-text markdown-body">
-              <Markdown content={project.description} />
+              <Markdown content={project.technical_information} />
             </Box>
           </Article>
         </Section>
-        <Section
-          primary
-          className={styles.container}
-        >
+        <Section>
           <Article className={styles.panel}>
             <Heading align="center" className="heading">
               Tags
             </Heading>
             <Divider />
-            <Box pad="medium" align="center" className="main-text markdown-body">
+            <Box pad="medium" direction="row" align="center" className="main-text markdown-body">
             {tagsToRender.map(tag =>
               <Button
               label={tag.title}
+              className={styles.buttonComponent}
               href='#' />
             )}
             </Box>

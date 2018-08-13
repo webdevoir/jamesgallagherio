@@ -72,6 +72,8 @@ class ProjectsContainer extends Component {
                           <Image
                             src={project.feature_image}
                             className={styles.image}
+                            full="true"
+                            fit="contain"
                           />
                           <div className={styles.overlay}>
                             <p>{project.title}</p>
