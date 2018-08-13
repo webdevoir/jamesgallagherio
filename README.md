@@ -143,7 +143,7 @@ Some files left out for brevity.  Please reference the files in the [Scalable Re
 
 ## License
 
-This project is licensed under the GNU Affero General Public License v3.0 - see the [LICENSE.md](https://github.com/jamesgallagher432/opencommit-client/blob/master/LICENSE.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/jamesgallagher432/opencommit-client/blob/master/LICENSE.md) file for details.
 
 ## Acknowledgments
 
