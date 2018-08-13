@@ -70,7 +70,7 @@ class Navbar extends Component {
               >
                 <img
                   alt="avatar"
-                  src={currentUser.profile_picture || <Image height="20" "http://bit.ly/2dqCGdd" />}
+                  src={currentUser.profile_picture || "http://bit.ly/2dqCGdd"}
                   className={styles.userAvatar}
                 />
                 <Heading tag="h4" className={styles.profileName}>
