@@ -14,7 +14,7 @@ class AppContainer extends Component { // eslint-disable-line react/prefer-state
     return (
       <ReactHotLoader>
         <App centered={false} inline>
-          <Navbar pathname={location.pathname} />
+          <Navbar props={this.props} />
           {React.cloneElement(this.props.children, this.props)}
           <AppFooter />
         </App>

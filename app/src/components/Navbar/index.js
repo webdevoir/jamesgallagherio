@@ -48,16 +48,16 @@ class Navbar extends Component {
               responsive
               className={styles.leftMenu}
               >
-              <Anchor href="/">
+              <Anchor href="/" className={this.props.props.location.pathname === "/" ? "navLink active" : "navLink"}>
                 Home
               </Anchor>
-              <Anchor href="/projects">
+              <Anchor href="/projects" className={this.props.props.location.pathname === "/projects" ? "navLink active" : "navLink"}>
                 Portfolio
               </Anchor>
-              <Anchor href="/blog">
+              <Anchor href="/blog" className={this.props.props.location.pathname === "/blog" ? "navLink active" : "navLink"}>
                 Blog
               </Anchor>
-              <Anchor href="/about">
+              <Anchor href="/about" className={this.props.props.location.pathname === "/about" ? "navLink active" : "navLink"}>
                 About
               </Anchor>
             </Menu>
