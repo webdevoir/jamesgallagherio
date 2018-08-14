@@ -33,12 +33,12 @@ import { Divider, LoadingIndicator } from "components";
 import regeneratorRuntime from "regenerator-runtime";
 import axios from "axios";
 import fetch from "unfetch";
-const qs = require('query-string');
+const qs = require("query-string");
 
 class BlogPostArchiveContainer extends Component {
   render() {
     if (!qs.parse(location.search).tag) {
-      window.location.replace('/blog');
+      window.location.replace("/blog");
     }
 
     if (this.props.getPosts && this.props.getPosts.loading) {
@@ -61,9 +61,7 @@ class BlogPostArchiveContainer extends Component {
         <Headline className="heading" align="center">
           Blog Archive
         </Headline>
-        <Heading>
-          Tag: {qs.parse(location.search).tag}
-        </Heading>
+        <Heading>Tag: {qs.parse(location.search).tag}</Heading>
         <Divider />
         {postsToRender && postsToRender.length > 0 ? (
           <Section primary align="center">
@@ -108,7 +106,9 @@ class BlogPostArchiveContainer extends Component {
           </Section>
         ) : (
           <Section align="center" justify="center" pad="large">
-            <Heading align="center">There are no posts available yet. Check back later.</Heading>
+            <Heading align="center">
+              There are no posts available yet. Check back later.
+            </Heading>
           </Section>
         )}
       </div>
@@ -135,5 +135,10 @@ const FEED_POSTS = gql`
 `;
 
 export default withRouter(
-  compose(graphql(FEED_POSTS, { name: "getPosts" , options: () => ( {variables: { tag: qs.parse(location.search).tag } })}))(BlogPostArchiveContainer)
+  compose(
+    graphql(FEED_POSTS, {
+      name: "getPosts",
+      options: () => ({ variables: { tag: qs.parse(location.search).tag } })
+    })
+  )(BlogPostArchiveContainer)
 );

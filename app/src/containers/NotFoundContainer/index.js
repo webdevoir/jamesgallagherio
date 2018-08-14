@@ -1,16 +1,23 @@
-import React, { Component, PropTypes } from 'react';
-import { BrowserRouter, Router, Route, Link, RouteHandler, browserHistory } from 'react-router';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import Heading from 'grommet-udacity/components/Heading';
-import Button from 'grommet-udacity/components/Button';
-import LinkPreviousIcon from 'grommet/components/icons/base/LinkPrevious';
-import Footer from 'grommet-udacity/components/Footer';
-import { Divider } from 'components';
-import { graphql, compose } from 'react-apollo'
-import styles from './index.module.scss';
+import React, { Component, PropTypes } from "react";
+import {
+  BrowserRouter,
+  Router,
+  Route,
+  Link,
+  RouteHandler,
+  browserHistory
+} from "react-router";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import Heading from "grommet-udacity/components/Heading";
+import Button from "grommet-udacity/components/Button";
+import LinkPreviousIcon from "grommet/components/icons/base/LinkPrevious";
+import Footer from "grommet-udacity/components/Footer";
+import { Divider } from "components";
+import { graphql, compose } from "react-apollo";
+import styles from "./index.module.scss";
 import regeneratorRuntime from "regenerator-runtime";
-import createHistory from "history"
+import createHistory from "history";
 
 // eslint-disable-next-line react/prefer-stateless-function
 class NotFoundContainer extends Component {
@@ -29,7 +36,10 @@ class NotFoundContainer extends Component {
         <Footer align="center" justify="center" pad="large">
           <Button
             icon={<LinkPreviousIcon />}
-            onClick={() => {window.history.go(-1); return false;}}
+            onClick={() => {
+              window.history.go(-1);
+              return false;
+            }}
             label="Go Back"
           />
         </Footer>
@@ -41,6 +51,5 @@ class NotFoundContainer extends Component {
 NotFoundContainer.propTypes = {
   // isLoading: PropTypes.bool.isRequired,
 };
-
 
 export default NotFoundContainer;

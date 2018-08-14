@@ -23,7 +23,7 @@ import Button from "grommet-udacity/components/Button";
 import Carousel from "grommet-udacity/components/Carousel";
 import Anchor from "grommet-udacity/components/Anchor";
 import { createHistory } from "history";
-import { Pagination } from 'antd';
+import { Pagination } from "antd";
 import { syncHistoryWithStore } from "react-router-redux";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
@@ -34,7 +34,7 @@ import { Divider, LoadingIndicator } from "components";
 import regeneratorRuntime from "regenerator-runtime";
 import axios from "axios";
 import fetch from "unfetch";
-import AUTH_TOKEN from '../../constants'
+import AUTH_TOKEN from "../../constants";
 
 class BlogContainer extends Component {
   render() {
@@ -74,7 +74,12 @@ class BlogContainer extends Component {
                   <Card
                     thumbnail={
                       <Anchor path={`/blog/${post.slug}`}>
-                        <Image src={post.feature_image} matchHeight fit="contain" full="true" />
+                        <Image
+                          src={post.feature_image}
+                          matchHeight
+                          fit="contain"
+                          full="true"
+                        />
                       </Anchor>
                     }
                     label={post.user.name}
@@ -102,7 +107,9 @@ class BlogContainer extends Component {
           </Section>
         ) : (
           <Section align="center" justify="center" pad="large">
-            <Heading align="center">There are no posts available yet. Check back later.</Heading>
+            <Heading align="center">
+              There are no posts available yet. Check back later.
+            </Heading>
           </Section>
         )}
       </div>
