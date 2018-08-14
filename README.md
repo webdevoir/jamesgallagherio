@@ -36,7 +36,7 @@ There are two options for installation:
 
 1. **Clone repo**
 
-   `git clone https://github.com/jamesgallagher432/opencommit-client.git`
+   `git clone https://github.com/jamesgallagher432/jamesgallagherio.git`
 
 2. **Install dependencies**
 
