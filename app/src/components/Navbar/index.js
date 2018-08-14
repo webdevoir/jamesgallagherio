@@ -34,6 +34,8 @@ class Navbar extends Component {
       var currentUser = null
     }
 
+    console.log(this.props)
+
     return (
       <div>
       <div className={styles.navbar}>
@@ -62,10 +64,10 @@ class Navbar extends Component {
               <Anchor href="/" className={this.props.props.location.pathname === "/" ? "navLink active" : "navLink"}>
                 Home
               </Anchor>
-              <Anchor href="/projects" className={this.props.props.location.pathname === "/projects" ? "navLink active" : "navLink"}>
+              <Anchor href="/projects" className={this.props.props.location.pathname === "/projects" || this.props.props.routes[1].path == "/projects/:slug" ? "navLink active" : "navLink"}>
                 Portfolio
               </Anchor>
-              <Anchor href="/blog" className={this.props.props.location.pathname === "/blog" ? "navLink active" : "navLink"}>
+              <Anchor href="/blog" className={this.props.props.location.pathname === "/blog" || this.props.props.routes[1].path == "/blog/:slug" ? "navLink active" : "navLink"}>
                 Blog
               </Anchor>
               <Anchor href="/about" className={this.props.props.location.pathname === "/about" ? "navLink active" : "navLink"}>
