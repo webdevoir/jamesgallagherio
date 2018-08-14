@@ -175,9 +175,6 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')
     }),
-    new webpack.optimize.OccurrenceOrderPlugin(true),
-    new UglifyJsPlugin({
-      sourceMap: true
-    }),
+    new webpack.optimize.OccurrenceOrderPlugin(true)
   ]
 };
