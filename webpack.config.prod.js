@@ -5,7 +5,6 @@ const OfflinePlugin = require('offline-plugin');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const ROOT_PATH = path.resolve(__dirname);
 const PORT = process.env.PORT || 1337;
