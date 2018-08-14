@@ -152,16 +152,16 @@ class ProjectsContainer extends Component {
                   </Box>
                 }
               </Section>
+              <Box align="center" justify="center" className={styles.centerBox}>
+                <Anchor
+                  icon={<LinkPreviousIcon size="small" />}
+                  href="/"
+                  label="Go Back Home"
+                />
+              </Box>
               </div>
             </Box>
           )}
-          <Box align="center" justify="center" className={styles.centerBox}>
-            <Anchor
-              icon={<LinkPreviousIcon size="small" />}
-              href="/"
-              label="Go Back Home"
-            />
-          </Box>
       </div>
     );
   }

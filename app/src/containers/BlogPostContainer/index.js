@@ -40,6 +40,7 @@ import regeneratorRuntime from "regenerator-runtime";
 import axios from 'axios';
 import fetch from "unfetch";
 import RichTextEditor from 'react-rte';
+import moment from 'moment'
 
 // eslint-disable-next-line react/prefer-stateless-function
 class BlogPostContainer extends Component {
@@ -108,6 +109,21 @@ class BlogPostContainer extends Component {
           <Article align="center"
             justify="center"
             className="panel">
+            <div className={styles.articleDate}>
+            <div className={styles.articleCalendar}>
+              <div className={styles.header}>
+                {moment(post.created_at, 'YYYY.MM.DD').utc().format('MMM')}
+              </div>
+              <div className={styles.body}>
+                <div className={styles.date}>
+                  {moment(post.created_at, 'YYYY.MM.DD').utc().format('DD')}
+                </div>
+                <div className={styles.year}>
+                  {moment(post.created_at, 'YYYY.MM.DD').utc().format('YYYY')}
+                </div>
+              </div>
+            </div>
+            </div>
               <Markdown
               components={{
                 h1: { props: { strong: true } },
@@ -200,6 +216,7 @@ const FEED_POST = gql`
       body
       description
       category
+      created_at
       feature_image
       user {
         name
