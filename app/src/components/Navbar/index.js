@@ -41,7 +41,7 @@ class Navbar extends Component {
     });
   }
 
-  toggleCreateFeedbackToast() {
+  toggleSubmitFeedbackToast() {
     this.setState({
       createFeedbackToast: !this.state.createFeedbackToast
     });
