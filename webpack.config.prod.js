@@ -61,7 +61,7 @@ module.exports = {
             options: {
               plugins: function() {
                 return [
-                  require('precess'),
+                  require('precss'),
                   require('autoprefixer'),
                   autoprefixer({browsers: []})
                 ]
