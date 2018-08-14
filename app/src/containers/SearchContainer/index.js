@@ -78,6 +78,7 @@ class ProjectsContainer extends Component {
     const postResults = postsToRender.filter(post => {
       return post.title.toLowerCase().includes(searchTerm) === true;
     });
+    const results = projectResults.length + postsToRender.length
 
     return (
       <div>
@@ -88,7 +89,7 @@ class ProjectsContainer extends Component {
                 <br />
                 <Title tag="h2" align="center" justify="center">
                   {`Found ${
-                    projectResults.length
+                    results
                   } results for the term "${searchTerm}"`}
                 </Title>
                 <Section direction="row" className={styles.sectionMain}>
@@ -137,9 +138,14 @@ class ProjectsContainer extends Component {
                           </div>
                         ))}
                       {projectResults.length < 1 && (
-                        <Title tag="h3">
-                          There are currently no projects matching your query
-                        </Title>
+                        <div>
+                          <Title tag="h1" align="center" justify="center">
+                            😰
+                          </Title>
+                          <Title tag="h3" align="center" justify="center">
+                            There are currently no projects matching your query
+                          </Title>
+                        </div>
                       )}
                     </Box>
                   )}
@@ -164,14 +170,18 @@ class ProjectsContainer extends Component {
                           </div>
                         ))}
                       {postResults.length < 1 && (
-                        <Title tag="h3">
-                          There are currently no blog posts matching your query
-                        </Title>
+                        <div>
+                          <Title tag="h1" align="center" justify="center">
+                            😰
+                          </Title>
+                          <Title tag="h3" align="center" justify="center">
+                            There are currently no blog posts matching your query
+                          </Title>
+                        </div>
                       )}
                     </Box>
                   )}
                 </Section>
-                }
                 <Box
                   align="center"
                   justify="center"
