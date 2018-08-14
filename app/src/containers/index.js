@@ -1,4 +1,5 @@
 /* GENERATOR: Assemble all containers for export */
+export SearchContainer from './SearchContainer';
 export BlogPostArchiveContainer from './BlogPostArchiveContainer';
 export ProfileContainer from './ProfileContainer';
 export NotFoundContainer from './NotFoundContainer';

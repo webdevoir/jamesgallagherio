@@ -1,6 +1,7 @@
 // @flow
 /* eslint-disable no-alert, no-console */
 import React, { Component } from 'react'
+import { withRouter, browserHistory } from "react-router";
 import Header from 'grommet-udacity/components/Header';
 import Title from 'grommet-udacity/components/Title';
 import Anchor from 'grommet-udacity/components/Anchor';
@@ -15,14 +16,24 @@ import gql from 'graphql-tag'
 import styles from './index.module.scss';
 import { StyledLogo, LogoPlaceholder, Logo } from './styles';
 import AUTH_TOKEN from '../../constants'
+const qs = require("query-string");
 
 class Navbar extends Component {
+  state = {
+    search: qs.parse(location.search).query
+  }
+
+  updateSearch(e) {
+    this.setState({ search: e.target.value });
+    browserHistory.push(`/search?query=${e.target.value}`)
+  }
   render() {
     if (this.props.getUser.getCurrentUser) {
       var currentUser = this.props.getUser.getCurrentUser[0]
     } else {
       var currentUser = null
     }
+
     return (
       <div>
       <div className={styles.navbar}>
@@ -60,6 +71,9 @@ class Navbar extends Component {
               <Anchor href="/about" className={this.props.props.location.pathname === "/about" ? "navLink active" : "navLink"}>
                 About
               </Anchor>
+              <Search placeHolder='Search'
+              value={this.state.search}
+              onDOMChange={(e) => {this.updateSearch(e)}} />
             </Menu>
           {currentUser &&
             <Menu
@@ -107,10 +121,10 @@ class Navbar extends Component {
               responsive
               className={styles.rightMenu}
               >
-              <Anchor href="/register">
+              <Anchor href="/register" className={this.props.props.location.pathname === "/register" ? "navLink active" : "navLink"}>
                 Register
               </Anchor>
-              <Anchor href="/login">
+              <Anchor href="/login" className={this.props.props.location.pathname === "/login" ? "navLink active" : "navLink"}>
                 Login
               </Anchor>
               </Menu>
