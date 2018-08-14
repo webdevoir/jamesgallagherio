@@ -241,16 +241,16 @@ class Navbar extends Component {
               <FormField
                 help="Describe the feedback or feature request you have for the site, or the issue you have experienced."
                 label="Description *"
-                htmlFor="title"
+                htmlFor="body"
                 className={styles.formField}
-                error={this.state.title_field ? this.state.title_field : ""}
+                error={this.state.body_field ? this.state.body_field : ""}
               >
                 <textarea
                   required
-                  id="title"
-                  name="title"
+                  id="body"
+                  name="body"
                   type="text"
-                  onChange={e => this.setState({ title: e.target.value })}
+                  onChange={e => this.setState({ body: e.target.value })}
                   className={styles.input}
                 />
               </FormField>
@@ -276,8 +276,7 @@ class Navbar extends Component {
   _createFeedback = async function() {
     const { title, body } = this.state;
     this.setState({ title_field: "", body_field: "", errors: false });
-    await this.props
-      .createFeedback({
+    await this.props.createFeedback({
         variables: {
           title,
           body
@@ -313,7 +312,7 @@ const CURRENT_USER = gql`
 `;
 
 const CREATE_FEEDBACK = gql`
-  mutation CreateFeedback($title: String, $body: String) {
+  mutation CreateFeedback($title: String!, $body: String!) {
     createFeedback(title: $title, body: $body) {
       id
       title
@@ -325,7 +324,7 @@ const CREATE_FEEDBACK = gql`
 export default compose(
   graphql(
     CURRENT_USER,
-    { name: "getUser" },
-    graphql(CREATE_FEEDBACK, { name: "createFeedback" })
-  )
+    { name: "getUser" }
+  ),
+  graphql(CREATE_FEEDBACK, { name: "createFeedback" })
 )(Navbar);
