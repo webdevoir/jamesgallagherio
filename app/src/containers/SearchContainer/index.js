@@ -25,7 +25,14 @@ import { syncHistoryWithStore } from "react-router-redux";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
 import styles from "./index.module.scss";
-import { FullSection, MainContent, MainBox, StyledTitle, SectionLast, NavigationItem } from "./styles";
+import {
+  FullSection,
+  MainContent,
+  MainBox,
+  StyledTitle,
+  SectionLast,
+  NavigationItem
+} from "./styles";
 import cssModules from "react-css-modules";
 import { Divider, LoadingIndicator } from "components";
 import regeneratorRuntime from "regenerator-runtime";
@@ -36,7 +43,7 @@ const qs = require("query-string");
 class ProjectsContainer extends Component {
   state = {
     showing: "projects"
-  }
+  };
   render() {
     if (this.props.getProjects && this.props.getProjects.loading) {
       return (
@@ -65,10 +72,10 @@ class ProjectsContainer extends Component {
     const projectsToRender = this.props.getProjects.getProjects;
     const postsToRender = this.props.getPosts.getPosts;
     const searchTerm = qs.parse(location.search).query;
-    const projectResults = projectsToRender.filter((project) => {
+    const projectResults = projectsToRender.filter(project => {
       return project.title.toLowerCase().includes(searchTerm) === true;
     });
-    const postResults = postsToRender.filter((post) => {
+    const postResults = postsToRender.filter(post => {
       return post.title.toLowerCase().includes(searchTerm) === true;
     });
 
@@ -84,81 +91,98 @@ class ProjectsContainer extends Component {
                     projectResults.length
                   } results for the term "${searchTerm}"`}
                 </Title>
-              <Section direction="row" className={styles.sectionMain}>
-                <Box basis="1/4" className={styles.leftColumn}>
-                  <Menu responsive={false} direction="column">
-                    <NavigationItem
-                      active={this.state.showing === "projects"}
-                      onClick={() => this.setState({ showing: "projects" })}
-                    >
-                      Projects
-                      <span className={styles.numberIndicator}>
-                        {(projectResults && projectResults.length) || 0}
-                      </span>
-                    </NavigationItem>
-                    <NavigationItem
-                      active={this.state.showing === "posts"}
-                      onClick={() => this.setState({ showing: "posts" })}
-                    >
-                      Blog Posts
-                      <span className={styles.numberIndicator}>
-                        {(postResults && postResults.length) || 0}
-                      </span>
-                    </NavigationItem>
-                  </Menu>
+                <Section direction="row" className={styles.sectionMain}>
+                  <Box basis="1/4" className={styles.leftColumn}>
+                    <Menu responsive={false} direction="column">
+                      <NavigationItem
+                        active={this.state.showing === "projects"}
+                        onClick={() => this.setState({ showing: "projects" })}
+                      >
+                        Projects
+                        <span className={styles.numberIndicator}>
+                          {(projectResults && projectResults.length) || 0}
+                        </span>
+                      </NavigationItem>
+                      <NavigationItem
+                        active={this.state.showing === "posts"}
+                        onClick={() => this.setState({ showing: "posts" })}
+                      >
+                        Blog Posts
+                        <span className={styles.numberIndicator}>
+                          {(postResults && postResults.length) || 0}
+                        </span>
+                      </NavigationItem>
+                    </Menu>
+                  </Box>
+                  {this.state.showing == "projects" && (
+                    <Box basis="3/4" flex="grow" className={styles.rightColumn}>
+                      {projectResults &&
+                        projectResults.length > 0 &&
+                        projectResults.map((item, i) => (
+                          <div className={styles.card} key={i}>
+                            <div className={styles.textContent}>
+                              <Heading tag="h3" strong>
+                                {item.title}
+                              </Heading>
+                              <Markdown
+                                content={item.description.slice(0, 100)}
+                              />
+                              <Anchor primary href={`/projects/${item.slug}`}>
+                                Read More
+                              </Anchor>
+                            </div>
+                            <div className={styles.itemImage}>
+                              <Image src={item.feature_image} />
+                            </div>
+                          </div>
+                        ))}
+                      {projectResults.length < 1 && (
+                        <Title tag="h3">
+                          There are currently no projects matching your query
+                        </Title>
+                      )}
+                    </Box>
+                  )}
+                  {this.state.showing == "posts" && (
+                    <Box basis="3/4" flex="grow" className={styles.rightColumn}>
+                      {postResults &&
+                        postResults.length > 0 &&
+                        postResults.map((post, i) => (
+                          <div className={styles.card} key={i}>
+                            <div className={styles.textContent}>
+                              <Heading tag="h3" strong>
+                                {post.title}
+                              </Heading>
+                              <Markdown content={post.body.slice(0, 100)} />
+                              <Anchor primary href={`/blog/${post.slug}`}>
+                                Read More
+                              </Anchor>
+                            </div>
+                            <div className={styles.itemImage}>
+                              <Image src={post.feature_image} />
+                            </div>
+                          </div>
+                        ))}
+                      {postResults.length < 1 && (
+                        <Title tag="h3">
+                          There are currently no blog posts matching your query
+                        </Title>
+                      )}
+                    </Box>
+                  )}
+                </Section>
+                }
+                <Box
+                  align="center"
+                  justify="center"
+                  className={styles.centerBox}
+                >
+                  <Anchor
+                    icon={<LinkPreviousIcon size="small" />}
+                    href="/"
+                    label="Go Back Home"
+                  />
                 </Box>
-                {this.state.showing == "projects" &&
-                  <Box basis="3/4" flex="grow" className={styles.rightColumn}>
-                    {projectResults &&
-                      projectResults.length > 0 &&
-                      projectResults.map((item, i) => (
-                        <div className={styles.card} key={i}>
-                          <div className={styles.textContent}>
-                            <Heading tag="h3" strong>
-                              {item.title}
-                            </Heading>
-                            <Markdown content={item.description.slice(0, 100)} />
-                            <Anchor primary href={`/projects/${item.slug}`}>
-                              Read More
-                            </Anchor>
-                          </div>
-                          <div className={styles.itemImage}>
-                            <Image src={item.feature_image} />
-                          </div>
-                        </div>
-                      ))}
-                  </Box>
-                }
-                {this.state.showing == "posts" &&
-                  <Box basis="3/4" flex="grow" className={styles.rightColumn}>
-                    {postResults &&
-                      postResults.length > 0 &&
-                      postResults.map((post, i) => (
-                        <div className={styles.card} key={i}>
-                          <div className={styles.textContent}>
-                            <Heading tag="h3" strong>
-                              {post.title}
-                            </Heading>
-                            <Markdown content={post.body.slice(0, 100)} />
-                            <Anchor primary href={`/blog/${post.slug}`}>
-                              Read More
-                            </Anchor>
-                          </div>
-                          <div className={styles.itemImage}>
-                            <Image src={post.feature_image} />
-                          </div>
-                        </div>
-                      ))}
-                  </Box>
-                }
-              </Section>
-              <Box align="center" justify="center" className={styles.centerBox}>
-                <Anchor
-                  icon={<LinkPreviousIcon size="small" />}
-                  href="/"
-                  label="Go Back Home"
-                />
-              </Box>
               </div>
             </Box>
           )}

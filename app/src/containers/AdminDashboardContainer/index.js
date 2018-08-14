@@ -103,6 +103,11 @@ class AdminDashboardContainer extends Component {
       showUser: !this.state.showUser
     })
   }
+  toggleShowFeedback () {
+    this.setState({
+      showFeedback: !this.state.showFeedback
+    })
+  }
   render() {
     if (this.props.getUser && this.props.getUser.loading) {
       return (<div>
@@ -184,11 +189,22 @@ class AdminDashboardContainer extends Component {
       return <div>Error</div>
     }
 
+    if (this.props.getFeedback && this.props.getFeedback.loading) {
+      return (<div>
+        <LoadingIndicator isLoading />
+        </div> )
+    }
+
+    if (this.props.getFeedback && this.props.getFeedback.error) {
+      return <div>Error</div>
+    }
+
     const projectsToRender = this.props.getProjects.getProjects
     const usersToRender = this.props.getUsers.getUsers
     const inquiriesToRender = this.props.getInquiries.getInquiries
     const referencesToRender = this.props.getReferences.getReferences
     const postsToRender = this.props.getAdminPosts.getAdminPosts
+    const feedbackToRender = this.props.getFeedback.getFeedback
 
     return (
       <MainBox
@@ -474,6 +490,42 @@ class AdminDashboardContainer extends Component {
                       </Table>
                       </Box>
                     </Tab>
+                    <Tab title='Feedback'>
+                    <Box
+                      pad="large"
+                      className={styles.listWrapper}
+                      color="light-2"
+                    >
+                      <Table>
+                        <thead>
+                        <tr>
+                          <th>
+                            Title
+                          </th>
+                          <th>
+                            Body
+                          </th>
+                        </tr>
+                    </thead>
+                      <tbody>
+                      {inquiriesToRender.map(inquiry =>
+                        <TableRow>
+                          <td>
+                            {inquiry.title}
+                          </td>
+                          <td>
+                            {inquiry.body}
+                          </td>
+                          <td>
+                            <Button icon={<ViewIcon />}
+                            onClick={() => this.toggleShowFeedback()}/>
+                          </td>
+                          </TableRow>
+                          )}
+                        </tbody>
+                      </Table>
+                      </Box>
+                    </Tab>
                   </Tabs>
                 </Box>
               </MainContent>
@@ -583,10 +635,38 @@ class AdminDashboardContainer extends Component {
                   </Box>
                 </Layer>
               }
+              {this.state.showFeedback == true &&
+                <Layer overlayClose={true}
+                  closer={true} onClose={() => {this.toggleShowFeedback()}}>
+                  <Box
+                    size="large"
+                    pad="large"
+                  >
+                    <Heading align="center">
+                      {this.state.feedback.name} - Feedback
+                    </Heading>
+                    <BoxWrapper>
+                      <Label style={{ flex: 1 }}>
+                        Title:
+                      </Label>
+                      <Heading align="center" tag="h4">
+                        {this.state.feedback.title}
+                      </Heading>
+                    </BoxWrapper>
+                    <BoxWrapper>
+                      <Label style={{ flex: 1 }}>
+                        Body:
+                      </Label>
+                      <Heading align="center" tag="h4">
+                        {this.state.feedback.body}
+                      </Heading>
+                    </BoxWrapper>
+                  </Box>
+                </Layer>
+              }
               {this.state.createReferenceModal == true &&
                 <Layer overlayClose={true}
                   closer={true} onClose={() => {this.toggleCreateReference()}}>
-
                   <Heading>
                     Create Reference
                   </Heading>
@@ -1126,11 +1206,22 @@ const CURRENT_USER = gql`
   }
 `;
 
+const FEED_FEEDBACK = gql`
+  query GetFeedback {
+    getFeedback {
+      id
+      title
+      body
+    }
+  }
+`;
+
 export default compose(
   graphql(FEED_QUERY_USERS, { name: 'getUsers' }),
   graphql(FEED_QUERY_REFERENCES, { name: 'getReferences' }),
   graphql(FEED_QUERY_PROJECTS, { name: 'getProjects' }),
   graphql(FEED_QUERY_POSTS, { name: 'getAdminPosts' }),
+  graphql(FEED_FEEDBACK, { name: 'getFeedback' }),
   graphql(FEED_QUERY_INQUIRIES, { name: 'getInquiries' }),
   graphql(DELETE_PROJECT, { name: 'deleteProject' }),
   graphql(DELETE_POST, { name: 'deletePost' }),
