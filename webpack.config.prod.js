@@ -7,7 +7,7 @@ const precss = require('precss');
 const ManifestPlugin = require('webpack-manifest-plugin');
 
 const ROOT_PATH = path.resolve(__dirname);
-const PORT = process.env.PORT || 1337;
+const PORT = process.env.PORT;
 const HOST = '0.0.0.0'; // Set to localhost if need be.
 
 module.exports = {
