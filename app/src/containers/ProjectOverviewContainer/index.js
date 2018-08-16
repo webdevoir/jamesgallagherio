@@ -36,7 +36,6 @@ import { Divider, LoadingIndicator, CommentComponent } from "components";
 import regeneratorRuntime from "regenerator-runtime";
 import axios from "axios";
 import fetch from "unfetch";
-import RichTextEditor from "react-rte";
 
 // eslint-disable-next-line react/prefer-stateless-function
 class ProjectOverviewContainer extends Component {
