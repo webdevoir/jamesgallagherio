@@ -29,6 +29,11 @@ const debug = process.env.DEBUG === 'true';
 if (debug) { app.use(morgan('combined')); }
 app.use(express.static(path.join(__dirname, '/public')));
 
+process.on('unhandledRejection', error => {
+  // Will print "unhandledRejection err is not defined"
+  console.log('unhandledRejection', error.message);
+});
+
 app.use((req, res) => {
   match({ routes, location: req.url },
     (error, redirectLocation, renderProps) => {
@@ -67,7 +72,7 @@ app.use((req, res) => {
             />
           );
           res.status(200).send(`<!doctype html>\n${renderToStaticMarkup(html)}`);
-        }).catch(e => console.error('RENDERING ERROR:', e)); // eslint-disable-line no-console
+        }).catch(e => console.log('RENDERING ERROR:', e)); // eslint-disable-line no-console
       } else {
         res.status(404).send('Not found');
       }
