@@ -20,7 +20,7 @@ env(path.join(__dirname, '..', '.env'));
 
 const app = express();
 const serverUrl = process.env.BASE_URL || 'http://localhost:1337';
-const apiUrl = process.env.API_URL || 'http://localhost:3000';
+const apiUrl = 'https://jamesgallagherio-api.herokuapp.com/graphql' || 'http://localhost:3000';
 const PORT = process.env.PORT;
 const IP = '0.0.0.0';
 const graphqlUrl = `${apiUrl}graphql`;
