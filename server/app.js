@@ -7,7 +7,7 @@ import env from 'node-env-file';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import { ApolloProvider } from 'react-apollo';
-import { getDataFromTree } from 'react-apollo/server';
+import { getDataFromTree } from 'react-apollo/lib/index'
 import { createNetworkInterface } from 'apollo-client';
 import styleSheet from 'styled-components/lib/models/StyleSheet';
 import store from '../app/src/store';
