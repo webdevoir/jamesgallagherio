@@ -39,6 +39,7 @@ app.use((req, res) => {
         res.status(500);
       } else if (renderProps) {
         const styles = {}
+        const location = {}
 
         const client = createApolloClient({
           ssrMode: true,
@@ -64,6 +65,7 @@ app.use((req, res) => {
               cssHash={manifest['/main.css']}
               styles={styles}
               state={state}
+              location={location}
             />
           );
           res.status(200).send(`<!doctype html>\n${renderToStaticMarkup(html)}`);
