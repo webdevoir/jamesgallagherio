@@ -12,6 +12,7 @@ const HOST = '0.0.0.0'; // Set to localhost if need be.
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
+  target: 'node',
   entry: {
     main: [
       path.resolve(ROOT_PATH, 'app/src/index')
