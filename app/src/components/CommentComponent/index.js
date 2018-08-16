@@ -37,7 +37,6 @@ import { Divider, LoadingIndicator, Comment } from "components";
 import regeneratorRuntime from "regenerator-runtime";
 import axios from "axios";
 import fetch from "unfetch";
-import RichTextEditor from "react-rte";
 import styles from "./index.module.scss";
 import AUTH_TOKEN from "../../constants.js";
 
