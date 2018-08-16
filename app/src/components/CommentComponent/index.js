@@ -40,9 +40,7 @@ import fetch from "unfetch";
 import styles from "./index.module.scss";
 import AUTH_TOKEN from "../../constants.js";
 
-if (typeof window !== 'undefined') {
-  var RichTextEditor = require('react-rte'); // eslint-disable-line
-}
+RichTextEditor = require('react-rte'); // eslint-disable-line
 
 class CommentComponent extends Component {
   static propTypes = {
