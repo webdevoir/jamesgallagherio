@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import App from 'grommet/components/App';
+import { withRouter } from 'react-router'
 import { AppContainer as ReactHotLoader } from 'react-hot-loader';
 import { Navbar, AppFooter } from 'components';
 import * as AppContainerActionCreators from './actions';
@@ -43,7 +44,7 @@ const mapDispatchToProps = dispatch => ({
 
 const Container = AppContainer;
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Container);
+))(Container);
