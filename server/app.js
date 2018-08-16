@@ -19,10 +19,10 @@ import manifest from './public/manifest.json';
 env(path.join(__dirname, '..', '.env'));
 
 const app = express();
-const serverUrl = process.env.BASE_URL || 'http://0.0.0.0:1337';
-const apiUrl = process.env.API_URL || 'http://jamesgallagherio-api.herokuapp.com/';
-const PORT = process.env.PORT;
-const IP = '0.0.0.0';
+const serverUrl = process.env.BASE_URL || 'http://localhost:1337';
+const apiUrl = process.env.API_URL || 'http://localhost:3000';
+const PORT = serverUrl.match(/\d+/g)[0];
+const IP = serverUrl.match(/\w+/g)[1];
 const graphqlUrl = `${apiUrl}graphql`;
 const debug = process.env.DEBUG === 'true';
 
@@ -38,16 +38,16 @@ app.use((req, res) => {
         console.error('ROUTER ERROR:', error); // eslint-disable-line no-console
         res.status(500);
       } else if (renderProps) {
-        const styles = styleSheet.rules().map(rule => rule.cssText).join('\n');
+        const styles = {}
+
         const client = createApolloClient({
           ssrMode: true,
           networkInterface: createNetworkInterface({
-            uri: graphqlUrl,
+            uri: apiUrl,
             credentials: 'same-origin',
             headers: req.headers,
           }),
         });
-
         const component = (
           <ApolloProvider client={client} store={store}>
             <RouterContext {...renderProps} />
@@ -55,6 +55,7 @@ app.use((req, res) => {
         );
         getDataFromTree(component).then((ctx) => {
           const content = renderToString(component);
+          const state = { apollo: ctx.store.getState() };
           const html = (
             <Html
               content={content}
@@ -62,11 +63,11 @@ app.use((req, res) => {
               vendorHash={manifest['/vendor.js']}
               cssHash={manifest['/main.css']}
               styles={styles}
-              state={ctx.store.getState()}
+              state={state}
             />
           );
           res.status(200).send(`<!doctype html>\n${renderToStaticMarkup(html)}`);
-        }).catch(e => console.error('RENDERING ERROR:', e));
+        }).catch(e => console.error('RENDERING ERROR:', e)); // eslint-disable-line no-console
       } else {
         res.status(404).send('Not found');
       }

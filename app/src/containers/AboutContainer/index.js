@@ -21,4 +21,4 @@ class AboutContainer extends Component { // eslint-disable-line react/prefer-sta
   }
 }
 
-export default AboutContainer;
+export default cssModules(AboutContainer);

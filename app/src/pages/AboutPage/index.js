@@ -5,7 +5,6 @@ import styles from './index.module.scss';
 
 const AboutPage = () => (
   <div className={styles.container}>
-    <AboutContainer />
   </div>
 );
 

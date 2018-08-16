@@ -37,6 +37,7 @@ import { Divider, LoadingIndicator, Comment } from "components";
 import regeneratorRuntime from "regenerator-runtime";
 import axios from "axios";
 import fetch from "unfetch";
+import RichTextEditor from "react-rte";
 import styles from "./index.module.scss";
 import AUTH_TOKEN from "../../constants.js";
 
@@ -102,6 +103,10 @@ class CommentComponent extends Component {
                 Comments
               </Heading>
               <Divider />
+              <RichTextEditor
+                value={this.state.value}
+                onChange={val => this.onChange(val)}
+              />
               <Footer
                 align="center"
                 justify="center"
