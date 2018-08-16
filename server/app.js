@@ -19,8 +19,8 @@ import manifest from './public/manifest.json';
 env(path.join(__dirname, '..', '.env'));
 
 const app = express();
-const serverUrl = process.env.BASE_URL || 'http://localhost:1337';
-const apiUrl = process.env.API_URL || 'http://localhost:3000';
+const serverUrl = process.env.BASE_URL || 'http://0.0.0.0:1337';
+const apiUrl = process.env.API_URL || 'http://0.0.0.0:3000';
 const PORT = process.env.PORT;
 const IP = serverUrl.match(/\w+/g)[1];
 const graphqlUrl = `${apiUrl}graphql`;
