@@ -41,7 +41,7 @@ app.use((req, res) => {
         const styles = {}
 
         const client = createApolloClient({
-          ssrMode: true,
+          ssrMode: false,
           networkInterface: createNetworkInterface({
             uri: apiUrl,
             credentials: 'same-origin',
