@@ -56,6 +56,7 @@ const link = onError(({ graphQLErrors, networkError }) => {
 
 // 3
 const client = new ApolloClient({
+  ssrMode: false,
   link: httpLinkWithAuthToken,
   cache: new InMemoryCache(),
   networkInterface: networkInterface,
