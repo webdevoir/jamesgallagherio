@@ -2,12 +2,16 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import App from 'grommet/components/App';
-import { withRouter } from 'react-router'
 import { AppContainer as ReactHotLoader } from 'react-hot-loader';
 import { Navbar, AppFooter } from 'components';
 import * as AppContainerActionCreators from './actions';
 
 class AppContainer extends Component { // eslint-disable-line react/prefer-stateless-function
+  componentDidUpdate({ location }) {
+    if (location !== this.props.location) {
+      this.handleNavDocking();
+    }
+  }
   render() {
     const {
       location,
@@ -29,6 +33,10 @@ AppContainer.propTypes = {
   location: PropTypes.object.isRequired, // eslint-disable-line
 };
 
+AppContainer.contextTypes = {
+  router: PropTypes.object.isRequired,
+};
+
 // mapStateToProps :: {State} -> {Props}
 const mapStateToProps = state => ({
   isMobile: state.app.isMobile, // example / unused
@@ -44,7 +52,7 @@ const mapDispatchToProps = dispatch => ({
 
 const Container = AppContainer;
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
-))(Container);
+)(Container);
