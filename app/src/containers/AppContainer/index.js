@@ -7,11 +7,6 @@ import { Navbar, AppFooter } from 'components';
 import * as AppContainerActionCreators from './actions';
 
 class AppContainer extends Component { // eslint-disable-line react/prefer-stateless-function
-  componentDidUpdate({ location }) {
-    if (location !== this.props.location) {
-      this.handleNavDocking();
-    }
-  }
   render() {
     const {
       location,
